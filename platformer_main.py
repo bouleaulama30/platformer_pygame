@@ -35,3 +35,5 @@ while not end:
 	pygame.display.update() # Mise à jour de l'affichage 
 
 pygame.quit() # important
+
+#Lyla a réussi son push
