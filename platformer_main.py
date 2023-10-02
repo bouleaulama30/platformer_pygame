@@ -8,11 +8,12 @@ pygame.init() # important
 #création class player
 class Player: 
 
-	def __init__(self, posx, posy,w,h):
+	def __init__(self, posx, posy,w,h,dy):
 		self.posx= posx
 		self.posy= posy
 		self.w =w
 		self.h = h
+		self.dy= dy
 		self.image= pygame.draw.rect(display, (255,0,0), ((posx, posy), (w, h))) 
 
 	def move_right(self,facteur):
@@ -34,14 +35,13 @@ class Block:
 		self.image= pygame.draw.rect(display, (0,255,0), ((posx, posy), (w, h)))
 
 
-vel=100 #importation vitesse (selon y), (à mettre dans classe?)
 
 display = pygame.display.set_mode((1366, 768)) # crée une surface pour la fenêtre (largeur, hauteur) de la fenetre
 
 last_time = pygame.time.get_ticks() # Pour le comptage du temps (get_ticks() renvoie le temps actuel en millisecondes)
 
 
-player= Player(10,10,50,50) #initialisation du joueur
+player= Player(10,10,50,50,100) #initialisation du joueur
 block_test= Block(10,500,100,100,'n') #initialisation block test
 
 
@@ -71,16 +71,16 @@ while not end:
 	# Ici se fera le calcul de la physique du jeu
 	#condition de contact test 
 	if player.posy +player.w  >= block_test.posy and player.posx<=block_test.posx+100:
-		vel=0
-	else: vel=100	
+		player.dy=0
+	else: player.dy= 100	
 	
-	player.posy+= vel*dt #gravité
+	player.posy+= player.dy*dt #gravité
 	
 	
 
 	# Ici se fera le dessin de la scène
 	block_test= Block(10,500,100,100,'n') #maj block
-	player= Player(player.posx,player.posy,50,50) #maj du joueur
+	player= Player(player.posx,player.posy,50,50,player.dy) #maj du joueur
 	pygame.display.update() # Mise à jour de l'affichage 
 
 pygame.quit() # important
