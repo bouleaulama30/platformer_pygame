@@ -2,37 +2,52 @@ import pygame
 from pygame.locals import *
 
 
+##Attention, quadrillage = 40 blocs * 80 blocs
+hauteur_fenetre = 800
+largeur_fenetre = hauteur_fenetre*2
+len_bloc = hauteur_fenetre/40
+longueur_saut = 2*len_bloc
+#1 player = 2 blocs de haut
 
 pygame.init() # important
 
 #création class player
 class Player: 
 
-	def __init__(self, posx, posy,w,h,dy):
+	def __init__(self, posx, posy,dy):
 		self.posx= posx
 		self.posy= posy
-		self.w =w
-		self.h = h
+		self.w = 1*len_bloc
+		self.h = 2*len_bloc
 		self.dy= dy
-		self.image= pygame.draw.rect(display, (255,0,0), ((posx, posy), (w, h))) 
+#		self.image=  #à changer avec le sprite
 
 	def move_right(self,facteur):
 		if pressed_keys[K_RIGHT]:
-			player.posx += facteur*dt
+			self.posx += facteur*dt
 
 	def move_left(self,facteur):
 		if pressed_keys[K_LEFT]:
-			player.posx -= facteur*dt		
+			self.posx -= facteur*dt		
+		
+	def dessine(self) :
+		pygame.draw.rect(display, (255,0,0), ((self.posx, self.posy), (self.w, self.h)))
 
 class Block: 
 
-	def __init__(self, posx, posy,w,h,type):
+	def __init__(self, posx, posy,type, triangle, orientation):
 		self.posx= posx
 		self.posy= posy
-		self.w =w
-		self.h = h
+		self.w = 1*len_bloc
+		self.h = 1*len_bloc
 		self.type= type
-		self.image= pygame.draw.rect(display, (0,255,0), ((posx, posy), (w, h)))
+		self.isTriangle = triangle
+		self.orientation = orientation #le point cardinal definit le coin qui existe
+		self.image= pygame.draw.rect(display, (0,255,0), ((posx, posy), (self.w, self.h)))
+
+
+	def dessine(self) :
+		pygame.draw.rect(display, (255,0,0), ((self.posx, self.posy), (self.w, self.h)))
 
 
 
@@ -41,7 +56,7 @@ display = pygame.display.set_mode((1366, 768)) # crée une surface pour la fenê
 last_time = pygame.time.get_ticks() # Pour le comptage du temps (get_ticks() renvoie le temps actuel en millisecondes)
 
 
-player= Player(10,10,50,50,100) #initialisation du joueur
+player= Player(10,10,100) #initialisation du joueur
 block_test= Block(10,500,100,100,'n') #initialisation block test
 
 
@@ -80,7 +95,10 @@ while not end:
 
 	# Ici se fera le dessin de la scène
 	block_test= Block(10,500,100,100,'n') #maj block
-	player= Player(player.posx,player.posy,50,50,player.dy) #maj du joueur
+	block_test.dessine()
+	player.dessine()
+	#display.blit(player.image, (player.posx, player.posy))
+	#player= Player(player.posx,player.posy,50,50,player.dy) #maj du joueur
 	pygame.display.update() # Mise à jour de l'affichage 
 
 pygame.quit() # important
