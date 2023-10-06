@@ -28,8 +28,9 @@ class Player:
 
 	def move_left(self,facteur):
 		if pressed_keys[K_LEFT]:
-			self.posx -= facteur*dt		
-		
+			self.posx -= facteur*dt	
+						
+			
 	def dessine(self) :
 		pygame.draw.rect(display, (255,0,0), ((self.posx, self.posy), (self.w, self.h)))
 
@@ -43,7 +44,7 @@ class Block:
 		self.type= type
 		self.isTriangle = triangle
 		self.orientation = orientation #le point cardinal definit le coin qui existe
-		self.image= pygame.draw.rect(display, (0,255,0), ((posx, posy), (self.w, self.h)))
+		self.image= pygame.draw.rect(display, (255,0,0), ((posx, posy), (self.w, self.h)))
 
 
 	def dessine(self) :
@@ -56,11 +57,13 @@ display = pygame.display.set_mode((1366, 768)) # crée une surface pour la fenê
 last_time = pygame.time.get_ticks() # Pour le comptage du temps (get_ticks() renvoie le temps actuel en millisecondes)
 
 
-player= Player(10,10,100) #initialisation du joueur
-block_test= Block(10,500,100,100,'n') #initialisation block test
+player= Player(10,10,300) #initialisation du joueur
+block_test= Block(10,200,'n',False,'SE') #initialisation block test
 
 
-
+jump_count=0 #initialisation compteur de frame pour faire condition sur le jump
+vel=800 #vitesse pour le jump arbitraire
+contact=False #nécessaire pour jump (pour l'instant)
 
 # Boucle de rendu
 end = False
@@ -82,19 +85,41 @@ while not end:
 	player.move_left(100)
 	
 
-	
-	# Ici se fera le calcul de la physique du jeu
-	#condition de contact test 
+
+    #condition de contact test 
 	if player.posy +player.w  >= block_test.posy and player.posx<=block_test.posx+100:
 		player.dy=0
-	else: player.dy= 100	
+		contact= True
+	else: 
+		player.dy= 300
+		contact=False
+		
+
+
+	if pressed_keys[K_UP] :
+		player.posy-=vel*dt 
+		jump_count+=1
+		if jump_count>50: #condition sinon le jump est infini
+			vel= -player.dy #on remet la gravité
+			
+	else:
+		if contact:
+			#on reset jump_count et vel pour pouvoir re jumper
+			jump_count=0 
+			vel=800
+		player.posy+= player.dy*dt #gravité		
+
+
+
 	
-	player.posy+= player.dy*dt #gravité
+	# Ici se fera le calcul de la physique du jeu
+	
+	
+	
 	
 	
 
 	# Ici se fera le dessin de la scène
-	block_test= Block(10,500,100,100,'n') #maj block
 	block_test.dessine()
 	player.dessine()
 	#display.blit(player.image, (player.posx, player.posy))
