@@ -63,6 +63,7 @@ block_test= Block(10,200,'n',False,'SE') #initialisation block test
 
 jump_count=0 #initialisation compteur de frame pour faire condition sur le jump
 vel=800 #vitesse pour le jump arbitraire
+g=5 #pour rendre jump plus  réaliste
 contact=False #nécessaire pour jump (pour l'instant)
 
 # Boucle de rendu
@@ -98,6 +99,7 @@ while not end:
 
 	if pressed_keys[K_UP] :
 		player.posy-=vel*dt 
+		vel-=g
 		jump_count+=1
 		if jump_count>50: #condition sinon le jump est infini
 			vel= -player.dy #on remet la gravité
