@@ -48,7 +48,32 @@ class Block:
 
 
 	def dessine(self) :
-		pygame.draw.rect(display, (255,0,0), ((self.posx, self.posy), (self.w, self.h)))
+		if self.isTriangle :
+			x = self.posx
+			y = self.posy
+			cote = self.w 
+			no = (x, y)
+			ne = (x+cote, y)
+			se = (x+cote, y+cote)
+			so = (x, y+cote)
+			if self.orientation == "SO" :
+				pygame.draw.polygon(display, (255,0,0), (no, so, se))
+
+			elif self.orientation == "NO" :
+				pygame.draw.polygon(display, (255,0,0), (no, so, ne))
+
+			elif self.orientation == "NE" :
+				pygame.draw.polygon(display, (255,0,0), (no, se, ne))
+
+			elif self.orientation == "SE" :
+				pygame.draw.polygon(display, (255,0,0), (so, se, ne))
+				#print()
+
+			else :
+				print ("erreur definition triangle")
+
+		else :
+			pygame.draw.rect(display, (255,0,0), ((self.posx, self.posy), (self.w, self.h)))
 
 
 
@@ -60,6 +85,76 @@ last_time = pygame.time.get_ticks() # Pour le comptage du temps (get_ticks() ren
 player= Player(10,10,300) #initialisation du joueur
 block_test= Block(10,200,'n',False,'SE') #initialisation block test
 
+### Creation des blocs
+
+t_blocks = []
+
+def make_gros_bloc (x, y, nb_h, nb_w, type) :
+	# coin haut gauche, nb de bloc en hauteur, nb bloc en largeur, type
+	for i  in range (nb_h) :
+		for j in range (nb_w) :
+			x_b = x + j * len_bloc 
+			y_b = y + i * len_bloc
+			t_blocks.append(Block(x_b, y_b, type, False, ""))
+
+def make_gros_triangle (x, y, len_cote, type, orientation) :
+	if orientation == "SO" :
+		for i in range (1, len_cote) :
+			for j in range (i) :
+				x_b = x + j * len_bloc
+				y_b = y + i * len_bloc
+				t_blocks.append(Block(x_b, y_b, type, False, ""))
+		for k in range (len_cote) :
+			x_b = x + k * len_bloc
+			y_b = y + k * len_bloc
+			t_blocks.append(Block(x_b, y_b, type, True, orientation))
+
+	elif orientation == "NO" :
+		for i in range (len_cote - 1) :
+			for j in range (len_cote - i - 1) :
+				x_b = x + j * len_bloc
+				y_b = y + i * len_bloc
+				t_blocks.append(Block(x_b, y_b, type, False, ""))
+		for k in range (len_cote) :
+			x_b = x + (len_cote - k - 1) * len_bloc
+			y_b = y + k * len_bloc
+			t_blocks.append(Block(x_b, y_b, type, True, orientation))
+	
+	elif orientation == "NE" :
+		for i in range (len_cote - 1) :
+			for j in range (i + 1, len_cote) :
+				x_b = x + j * len_bloc
+				y_b = y + i * len_bloc
+				t_blocks.append(Block(x_b, y_b, type, False, ""))
+		for k in range (len_cote) :
+			x_b = x + k * len_bloc
+			y_b = y + k * len_bloc
+			t_blocks.append(Block(x_b, y_b, type, True, orientation))
+
+	elif orientation == "SE" :
+		for i in range (1, len_cote) : 
+			for j in range (len_cote - i, len_cote) :
+				x_b = x + j * len_bloc
+				y_b = y + i * len_bloc
+				t_blocks.append(Block(x_b, y_b, type, False, ""))
+		for k in range (len_cote) :
+			x_b = x + (len_cote - k - 1)  * len_bloc
+			y_b = y + k * len_bloc
+			t_blocks.append(Block(x_b, y_b, type, True, orientation))
+
+	else :
+		print ("erreur creation gros bloc triangle")
+
+def fill () :
+	for b in t_blocks :
+		b.dessine()
+
+
+make_gros_bloc(600, 530, 6, 4, "n")
+make_gros_triangle(100, 100, 3, "n", "SO")
+make_gros_triangle(200, 200, 4, "n", "NO")
+make_gros_triangle(300, 300, 5, "n", "SE")
+make_gros_triangle(400, 400, 7, "n", "NE")
 
 jump_count=0 #initialisation compteur de frame pour faire condition sur le jump
 vel=800 #vitesse pour le jump arbitraire
@@ -124,10 +219,12 @@ while not end:
 	# Ici se fera le dessin de la scène
 	block_test.dessine()
 	player.dessine()
+
+	#test fonction fill
+	fill()
+
 	#display.blit(player.image, (player.posx, player.posy))
 	#player= Player(player.posx,player.posy,50,50,player.dy) #maj du joueur
 	pygame.display.update() # Mise à jour de l'affichage 
 
 pygame.quit() # important
-
-#Lyla a réussi son push
