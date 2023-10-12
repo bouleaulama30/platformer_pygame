@@ -7,6 +7,26 @@ hauteur_fenetre = 800
 largeur_fenetre = hauteur_fenetre*2
 len_bloc = hauteur_fenetre/40
 longueur_saut = 2*len_bloc
+
+#définition des images blocs, histoire que le code soit lisible...
+blocSlip = pygame.transform.scale(pygame.image.load("SpritesBlocks/bloc_slip.png"), (len_bloc, len_bloc))
+blocSlip_NO = pygame.transform.scale(pygame.image.load("SpritesBlocks/bloc_slip_NO.png"), (len_bloc, len_bloc))
+blocSlip_NE = pygame.transform.scale(pygame.image.load("SpritesBlocks/bloc_slip_NE.png"), (len_bloc, len_bloc))
+blocSlip_SO = pygame.transform.scale(pygame.image.load("SpritesBlocks/bloc_slip_SO.png"), (len_bloc, len_bloc))
+blocSlip_SE = pygame.transform.scale(pygame.image.load("SpritesBlocks/bloc_slip_SE.png"), (len_bloc, len_bloc))
+
+blocNeutral = pygame.transform.scale(pygame.image.load("SpritesBlocks/bloc_neutral.png"), (len_bloc, len_bloc))
+blocNeutral_NO = pygame.transform.scale(pygame.image.load("SpritesBlocks/bloc_neutral_NO.png"), (len_bloc, len_bloc))
+blocNeutral_NE = pygame.transform.scale(pygame.image.load("SpritesBlocks/bloc_neutral_NE.png"), (len_bloc, len_bloc))
+blocNeutral_SO = pygame.transform.scale(pygame.image.load("SpritesBlocks/bloc_neutral_SO.png"), (len_bloc, len_bloc))
+blocNeutral_SE = pygame.transform.scale(pygame.image.load("SpritesBlocks/bloc_neutral_SE.png"), (len_bloc, len_bloc))
+
+blocJump = pygame.transform.scale(pygame.image.load("SpritesBlocks/bloc_jump.png"), (len_bloc, len_bloc))
+blocJump_NO = pygame.transform.scale(pygame.image.load("SpritesBlocks/bloc_jump_NO.png"), (len_bloc, len_bloc))
+blocJump_NE = pygame.transform.scale(pygame.image.load("SpritesBlocks/bloc_jump_NE.png"), (len_bloc, len_bloc))
+blocJump_SO = pygame.transform.scale(pygame.image.load("SpritesBlocks/bloc_jump_SO.png"), (len_bloc, len_bloc))
+blocJump_SE = pygame.transform.scale(pygame.image.load("SpritesBlocks/bloc_jump_SE.png"), (len_bloc, len_bloc))
+
 #1 player = 2 blocs de haut
 
 pygame.init() # important
@@ -20,19 +40,22 @@ class Player:
 		self.w = 1*len_bloc
 		self.h = 2*len_bloc
 		self.dy= dy
-#		self.image=  #à changer avec le sprite
+		self.image= pygame.transform.scale(pygame.image.load("SpritesPlayer/Alice/alice_still.png"), (1*len_bloc, 2*len_bloc))
 
 	def move_right(self,facteur):
 		if pressed_keys[K_RIGHT]:
 			self.posx += facteur*dt
+			self.image = pygame.transform.scale(pygame.image.load("SpritesPlayer/Alice/alice_run_right.png"), (1*len_bloc, 2*len_bloc))
+		else :
+			self.image = pygame.transform.scale(pygame.image.load("SpritesPlayer/Alice/alice_still.png"), (1*len_bloc, 2*len_bloc))
 
 	def move_left(self,facteur):
 		if pressed_keys[K_LEFT]:
-			self.posx -= facteur*dt	
-						
-			
+			self.posx -= facteur*dt
+			self.image = pygame.transform.scale(pygame.image.load("SpritesPlayer/Alice/alice_run_left.png"), (1*len_bloc, 2*len_bloc))
+		
 	def dessine(self) :
-		pygame.draw.rect(display, (0,255,0), ((self.posx, self.posy), (self.w, self.h)))
+		display.blit(self.image, (self.posx, self.posy))
 
 class Block: 
 
@@ -41,13 +64,20 @@ class Block:
 		self.posy= posy
 		self.w = 1*len_bloc
 		self.h = 1*len_bloc
-		self.type= type
+		self.type= type #should be 'n'(neutral), 's'(slip) or 'j'(jump)
 		self.isTriangle = triangle
 		self.orientation = orientation #le point cardinal definit le coin qui existe
 		self.image= pygame.draw.rect(display, (255,0,0), ((posx, posy), (self.w, self.h)))
 
+		if self.type == "n" : 
+			self.skin = {'rect' : blocNeutral, 'SO' : blocNeutral_SO, 'NO' : blocNeutral_NO, 'SE' : blocNeutral_SE, 'NE' : blocNeutral_NE}
+		if self.type == "s" : 
+			self.skin = {'rect' : blocSlip, 'SO' : blocSlip_SO, 'NO' : blocSlip_NO, 'SE' : blocSlip_SE, 'NE' : blocSlip_NE}
+		if self.type == "j" : 
+			self.skin = {'rect' : blocJump, 'SO' : blocJump_SO, 'NO' : blocJump_NO, 'SE' : blocJump_SE, 'NE' : blocJump_NE}
 
-	def dessine(self) :
+
+	def dessine(self) :		
 		if self.isTriangle :
 			x = self.posx
 			y = self.posy
@@ -56,6 +86,9 @@ class Block:
 			ne = (x+cote, y)
 			se = (x+cote, y+cote)
 			so = (x, y+cote)
+
+			display.blit(self.skin[self.orientation], no)
+			"""
 			if self.orientation == "SO" :
 				pygame.draw.polygon(display, (255,0,0), (no, so, se))
 
@@ -71,9 +104,11 @@ class Block:
 
 			else :
 				print ("erreur definition triangle")
+			"""
 
 		else :
-			pygame.draw.rect(display, (255,0,0), ((self.posx, self.posy), (self.w, self.h)))
+			display.blit(self.skin["rect"], (self.posx, self.posy))
+			#pygame.draw.rect(display, (255,0,0), ((self.posx, self.posy), (self.w, self.h)))
 
 
 
