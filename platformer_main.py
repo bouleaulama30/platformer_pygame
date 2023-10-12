@@ -20,19 +20,22 @@ class Player:
 		self.w = 1*len_bloc
 		self.h = 2*len_bloc
 		self.dy= dy
-#		self.image=  #à changer avec le sprite
+		self.image= pygame.transform.scale(pygame.image.load("SpritesPlayer/Alice/alice_still.png"), (1*len_bloc, 2*len_bloc))
 
 	def move_right(self,facteur):
 		if pressed_keys[K_RIGHT]:
 			self.posx += facteur*dt
+			self.image = pygame.transform.scale(pygame.image.load("SpritesPlayer/Alice/alice_run_right.png"), (1*len_bloc, 2*len_bloc))
+		else :
+			self.image = pygame.transform.scale(pygame.image.load("SpritesPlayer/Alice/alice_still.png"), (1*len_bloc, 2*len_bloc))
 
 	def move_left(self,facteur):
 		if pressed_keys[K_LEFT]:
-			self.posx -= facteur*dt	
-						
-			
+			self.posx -= facteur*dt
+			self.image = pygame.transform.scale(pygame.image.load("SpritesPlayer/Alice/alice_run_left.png"), (1*len_bloc, 2*len_bloc))
+		
 	def dessine(self) :
-		pygame.draw.rect(display, (255,0,0), ((self.posx, self.posy), (self.w, self.h)))
+		display.blit(self.image, (self.posx, self.posy))
 
 class Block: 
 
