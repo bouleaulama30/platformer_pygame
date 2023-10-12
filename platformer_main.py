@@ -32,6 +32,9 @@ blocJump_SE = pygame.transform.scale(pygame.image.load("SpritesBlocks/bloc_jump_
 pygame.init() # important
 
 #création class player
+jump_count=0 #initialisation compteur de frame pour faire condition sur le jump
+vel = 800 #vitesse pour le jump arbitraire
+contact=False #nécessaire pour jump (pour l'instant)
 class Player: 
 
 	def __init__(self, posx, posy,dy):
@@ -41,6 +44,8 @@ class Player:
 		self.h = 2*len_bloc
 		self.dy= dy
 		self.image= pygame.transform.scale(pygame.image.load("SpritesPlayer/Alice/alice_still.png"), (1*len_bloc, 2*len_bloc))
+		self.vel = 800 #vitesse pour le jump arbitraire
+		self.jump_count=0 #initialisation compteur de frame pour faire condition sur le jump
 
 	def move_right(self,facteur):
 		if pressed_keys[K_RIGHT]:
@@ -53,6 +58,22 @@ class Player:
 		if pressed_keys[K_LEFT]:
 			self.posx -= facteur*dt
 			self.image = pygame.transform.scale(pygame.image.load("SpritesPlayer/Alice/alice_run_left.png"), (1*len_bloc, 2*len_bloc))
+
+	def jump(self) :
+		""" if self.vel>0 :
+			self.posy -= self.vel*dt 
+			self.jump_count -=1 """
+		
+		if jump_count>0 or pressed_keys[K_UP] or pressed_keys[K_SPACE] :
+			self.posy -= self.vel*dt 
+			self.jump_count+=1
+			if self.jump_count>50: #condition sinon le jump est infini
+				self.vel = -self.dy #on remet la gravité
+			
+		if self.jump_count==0:
+		#on reset jump_count et vel pour pouvoir re jumper 
+			self.vel=800
+			self.posy += self.dy*dt #gravité
 		
 	def dessine(self) :
 		display.blit(self.image, (self.posx, self.posy))
@@ -89,6 +110,9 @@ class Block:
 
 			if self.orientation in ["SE", "SO", "NE", "NO"] :
 				display.blit(self.skin[self.orientation], no)
+			else :
+				print("erreur definition triangle")
+				exit()
 			"""
 			if self.orientation == "SO" :
 				pygame.draw.polygon(display, (255,0,0), (no, so, se))
@@ -103,8 +127,7 @@ class Block:
 				pygame.draw.polygon(display, (255,0,0), (so, se, ne))
 				#print()
 			"""
-			else :
-				print ("erreur definition triangle")
+			
 
 		else :
 			display.blit(self.skin["rect"], (self.posx, self.posy))
@@ -117,7 +140,7 @@ display = pygame.display.set_mode((1366, 768)) # crée une surface pour la fenê
 last_time = pygame.time.get_ticks() # Pour le comptage du temps (get_ticks() renvoie le temps actuel en millisecondes)
 
 
-player= Player(10,10,300) #initialisation du joueur
+player= Player(10,200,300) #initialisation du joueur
 block_test= Block(10,200,'n',False,'SE') #initialisation block test
 
 ### Creation des blocs
@@ -188,12 +211,9 @@ def fill () :
 make_gros_bloc(600, 530, 6, 4, "n")
 make_gros_triangle(100, 100, 3, "n", "SO")
 make_gros_triangle(200, 200, 4, "n", "NO")
-make_gros_triangle(300, 300, 5, "n", "SE")
-make_gros_triangle(400, 400, 7, "n", "NE")
+make_gros_triangle(300, 300, 5, "j", "SE")
+make_gros_triangle(400, 400, 7, "s", "NE")
 
-jump_count=0 #initialisation compteur de frame pour faire condition sur le jump
-vel=800 #vitesse pour le jump arbitraire
-contact=False #nécessaire pour jump (pour l'instant)
 
 # Boucle de rendu
 end = False
@@ -213,31 +233,19 @@ while not end:
 	pressed_keys = pygame.key.get_pressed()
 	player.move_right(100)
 	player.move_left(100)
-	
+	player.jump()
 
 
     #condition de contact test 
-	if player.posy +player.w  >= block_test.posy and player.posx<=block_test.posx+100:
-		player.dy=0
-		contact= True
-	else: 
-		player.dy= 300
-		contact=False
+	for surface in t_blocks :
+		if (player.posy +player.h  >= surface.posy ) and (player.posx<=surface.posx+len_bloc):
+			player.dy=0
+			contact= True
+		else: 
+			player.dy= 300
+			contact=False
 		
-
-
-	if pressed_keys[K_UP] :
-		player.posy-=vel*dt 
-		jump_count+=1
-		if jump_count>50: #condition sinon le jump est infini
-			vel= -player.dy #on remet la gravité
-			
-	else:
-		if contact:
-			#on reset jump_count et vel pour pouvoir re jumper
-			jump_count=0 
-			vel=800
-		player.posy+= player.dy*dt #gravité		
+		
 
 
 
