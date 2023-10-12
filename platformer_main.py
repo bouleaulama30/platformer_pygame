@@ -2,6 +2,7 @@ import pygame
 from pygame.locals import *
 
 
+
 ##Attention, quadrillage = 40 blocs * 80 blocs
 hauteur_fenetre = 800
 largeur_fenetre = hauteur_fenetre*2
@@ -30,8 +31,6 @@ blocJump_SE = pygame.transform.scale(pygame.image.load("SpritesBlocks/bloc_jump_
 #1 player = 2 blocs de haut
 
 pygame.init() # important
-
-#création class player
 class Player: 
 
 	def __init__(self, posx, posy,dy):
@@ -54,8 +53,11 @@ class Player:
 			self.posx -= facteur*dt
 			self.image = pygame.transform.scale(pygame.image.load("SpritesPlayer/Alice/alice_run_left.png"), (1*len_bloc, 2*len_bloc))
 		
+		
 	def dessine(self) :
 		display.blit(self.image, (self.posx, self.posy))
+
+
 
 class Block: 
 
@@ -191,7 +193,7 @@ def fill () :
 
 
 make_gros_bloc(50, 400, 1, 3, "n")
-make_gros_bloc(150, 400, 1, 3, "n")
+make_gros_bloc(150, 400, 1, 3, "s")
 
 def collision():
 	global contact
@@ -236,7 +238,7 @@ while not end:
 		player.posy-=vel*dt 
 		vel-=g
 		jump_count+=1
-		if jump_count>50: #condition sinon le jump est infini
+		if jump_count>20: #condition sinon le jump est infini
 			vel= -player.dy #on remet la gravité
 			
 	else:
