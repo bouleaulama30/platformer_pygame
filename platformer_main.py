@@ -32,7 +32,7 @@ class Player:
 						
 			
 	def dessine(self) :
-		pygame.draw.rect(display, (255,0,0), ((self.posx, self.posy), (self.w, self.h)))
+		pygame.draw.rect(display, (0,255,0), ((self.posx, self.posy), (self.w, self.h)))
 
 class Block: 
 
@@ -82,8 +82,12 @@ display = pygame.display.set_mode((1366, 768)) # crée une surface pour la fenê
 last_time = pygame.time.get_ticks() # Pour le comptage du temps (get_ticks() renvoie le temps actuel en millisecondes)
 
 
-player= Player(10,10,300) #initialisation du joueur
-block_test= Block(10,200,'n',False,'SE') #initialisation block test
+player= Player(50,10,300) #initialisation du joueur
+jump_count=0 #initialisation compteur de frame pour faire condition sur le jump
+vel=800 #vitesse pour le jump arbitraire
+g=5 #pour rendre jump plus  réaliste
+ #nécessaire pour jump (pour l'instant)
+
 
 ### Creation des blocs
 
@@ -150,16 +154,25 @@ def fill () :
 		b.dessine()
 
 
-make_gros_bloc(600, 530, 6, 4, "n")
-make_gros_triangle(100, 100, 3, "n", "SO")
-make_gros_triangle(200, 200, 4, "n", "NO")
-make_gros_triangle(300, 300, 5, "n", "SE")
-make_gros_triangle(400, 400, 7, "n", "NE")
 
-jump_count=0 #initialisation compteur de frame pour faire condition sur le jump
-vel=800 #vitesse pour le jump arbitraire
-g=5 #pour rendre jump plus  réaliste
-contact=False #nécessaire pour jump (pour l'instant)
+make_gros_bloc(50, 400, 1, 3, "n")
+make_gros_bloc(150, 400, 1, 3, "n")
+
+def collision():
+	global contact
+	for b in t_blocks:
+		if ((player.posy + player.h > b.posy) and (player.posx <b.posx+ b.w)) :
+			player.dy=0
+			contact=True
+			
+		else:
+			player.dy=300
+			contact= False
+			
+		
+			 	
+	
+		
 
 # Boucle de rendu
 end = False
@@ -181,16 +194,8 @@ while not end:
 	player.move_left(100)
 	
 
-
     #condition de contact test 
-	if player.posy +player.w  >= block_test.posy and player.posx<=block_test.posx+100:
-		player.dy=0
-		contact= True
-	else: 
-		player.dy= 300
-		contact=False
-		
-
+	collision()
 
 	if pressed_keys[K_UP] :
 		player.posy-=vel*dt 
@@ -217,7 +222,7 @@ while not end:
 	
 
 	# Ici se fera le dessin de la scène
-	block_test.dessine()
+	
 	player.dessine()
 
 	#test fonction fill
