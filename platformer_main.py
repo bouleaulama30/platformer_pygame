@@ -64,13 +64,20 @@ class Block:
 		self.posy= posy
 		self.w = 1*len_bloc
 		self.h = 1*len_bloc
-		self.type= type
+		self.type= type #should be 'n'(neutral), 's'(slip) or 'j'(jump)
 		self.isTriangle = triangle
 		self.orientation = orientation #le point cardinal definit le coin qui existe
 		self.image= pygame.draw.rect(display, (255,0,0), ((posx, posy), (self.w, self.h)))
 
+		if self.type == "n" : 
+			self.skin = {'rect' : blocNeutral, 'SO' : blocNeutral_SO, 'NO' : blocNeutral_NO, 'SE' : blocNeutral_SE, 'NE' : blocNeutral_NE}
+		if self.type == "s" : 
+			self.skin = {'rect' : blocSlip, 'SO' : blocSlip_SO, 'NO' : blocSlip_NO, 'SE' : blocSlip_SE, 'NE' : blocSlip_NE}
+		if self.type == "j" : 
+			self.skin = {'rect' : blocJump, 'SO' : blocJump_SO, 'NO' : blocJump_NO, 'SE' : blocJump_SE, 'NE' : blocJump_NE}
 
-	def dessine(self) :
+
+	def dessine(self) :		
 		if self.isTriangle :
 			x = self.posx
 			y = self.posy
@@ -79,6 +86,9 @@ class Block:
 			ne = (x+cote, y)
 			se = (x+cote, y+cote)
 			so = (x, y+cote)
+
+			display.blit(self.skin[self.orientation], no)
+			"""
 			if self.orientation == "SO" :
 				pygame.draw.polygon(display, (255,0,0), (no, so, se))
 
@@ -94,9 +104,11 @@ class Block:
 
 			else :
 				print ("erreur definition triangle")
+			"""
 
 		else :
-			pygame.draw.rect(display, (255,0,0), ((self.posx, self.posy), (self.w, self.h)))
+			display.blit(self.skin["rect"], (self.posx, self.posy))
+			#pygame.draw.rect(display, (255,0,0), ((self.posx, self.posy), (self.w, self.h)))
 
 
 
