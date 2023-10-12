@@ -87,7 +87,8 @@ class Block:
 			se = (x+cote, y+cote)
 			so = (x, y+cote)
 
-			display.blit(self.skin[self.orientation], no)
+			if self.orientation in ["SE", "SO", "NE", "NO"] :
+				display.blit(self.skin[self.orientation], no)
 			"""
 			if self.orientation == "SO" :
 				pygame.draw.polygon(display, (255,0,0), (no, so, se))
@@ -101,10 +102,9 @@ class Block:
 			elif self.orientation == "SE" :
 				pygame.draw.polygon(display, (255,0,0), (so, se, ne))
 				#print()
-
+			"""
 			else :
 				print ("erreur definition triangle")
-			"""
 
 		else :
 			display.blit(self.skin["rect"], (self.posx, self.posy))
