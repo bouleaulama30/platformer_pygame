@@ -20,7 +20,7 @@ class Player:
 		self.w = 1*len_bloc
 		self.h = 2*len_bloc
 		self.dy= dy
-#		self.image=  #à changer avec le sprite
+		self.image= pygame.transform.scale(pygame.image.load("SpritesPlayer/Alice/alice_run.png"), (1*len_bloc, 2*len_bloc))
 
 	def move_right(self,facteur):
 		if pressed_keys[K_RIGHT]:
@@ -31,7 +31,8 @@ class Player:
 			self.posx -= facteur*dt		
 		
 	def dessine(self) :
-		pygame.draw.rect(display, (255,0,0), ((self.posx, self.posy), (self.w, self.h)))
+		display.blit(self.image, (self.posx, self.posy))
+		#pygame.draw.rect(display, (255,0,0), ((self.posx, self.posy), (self.w, self.h)))
 
 class Block: 
 
@@ -42,7 +43,7 @@ class Block:
 		self.h = 1*len_bloc
 		self.type= type
 		self.isTriangle = triangle
-		self.orientation = orientation #le point cardinal definit le coin qui existe
+		self.orientation = orientation #le point cardinal definit le coin qui existe par exemple bloc.orientation = "NE"
 		self.image= pygame.draw.rect(display, (0,255,0), ((posx, posy), (self.w, self.h)))
 
 
@@ -57,7 +58,7 @@ last_time = pygame.time.get_ticks() # Pour le comptage du temps (get_ticks() ren
 
 
 player= Player(10,10,100) #initialisation du joueur
-block_test= Block(10,500,100,100,'n') #initialisation block test
+block_test= Block(10,500,False,"",'n') #initialisation block test
 
 
 
@@ -102,5 +103,3 @@ while not end:
 	pygame.display.update() # Mise à jour de l'affichage 
 
 pygame.quit() # important
-
-#Lyla a réussi son push
