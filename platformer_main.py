@@ -36,6 +36,13 @@ AliceRun_left = pygame.transform.scale(pygame.image.load("SpritesPlayer/Alice/al
 AliceJump_left = pygame.transform.scale(pygame.image.load("SpritesPlayer/Alice/alice_jump_left.png"), (1*len_bloc, 2*len_bloc))
 AliceJump_right = pygame.transform.scale(pygame.image.load("SpritesPlayer/Alice/alice_jump_right.png"), (1*len_bloc, 2*len_bloc))
 
+LapinStill_left = pygame.transform.scale(pygame.image.load("SpritesPlayer/Lapin/lapin_still_left.png"), (1*len_bloc, 2*len_bloc))
+LapinStill_right = pygame.transform.scale(pygame.image.load("SpritesPlayer/Lapin/lapin_still_right.png"), (1*len_bloc, 2*len_bloc))
+LapinRun_right = pygame.transform.scale(pygame.image.load("SpritesPlayer/Lapin/lapin_run_right.png"), (1*len_bloc, 2*len_bloc))
+LapinRun_left = pygame.transform.scale(pygame.image.load("SpritesPlayer/Lapin/lapin_run_left.png"), (1*len_bloc, 2*len_bloc))
+LapinJump_left = pygame.transform.scale(pygame.image.load("SpritesPlayer/Lapin/lapin_jump_left.png"), (1*len_bloc, 2*len_bloc))
+LapinJump_right = pygame.transform.scale(pygame.image.load("SpritesPlayer/Lapin/lapin_jump_right.png"), (1*len_bloc, 2*len_bloc))
+
 #1 player = 2 blocs de haut
 
 pygame.init() # important
@@ -47,24 +54,30 @@ class Player:
 		self.w = 1*len_bloc
 		self.h = 2*len_bloc
 		self.dy= dy
-		self.character = perso #"A" pour Alice
+		self.character = perso #"A" pour Alice, "L" pour Lapin
   
 		if perso == "A" :
-		self.skin = {"still_left" : AliceStill_left, "still_right":AliceStill_right, "run_right" : AliceRun_right, "run_left" : AliceRun_left, "jump_left" : AliceJump_left, "jump_right":AliceJump_right}
-		
-  		self.image= self.skin["still_left"]
+			self.skin = {"still_left" : AliceStill_left, "still_right":AliceStill_right, "run_right" : AliceRun_right, "run_left" : AliceRun_left, "jump_left" : AliceJump_left, "jump_right":AliceJump_right}
+		elif perso == "L" :
+			self.skin = {"still_left" : LapinStill_left, "still_right":LapinStill_right, "run_right" : LapinRun_right, "run_left" : LapinRun_left, "jump_left" : LapinJump_left, "jump_right":LapinJump_right}
+		else :
+			printf("character undefined")
+			exit()
+		self.image= self.skin["still_left"]
 
 	def move_right(self,facteur):
 		if pressed_keys[K_RIGHT]:
 			self.posx += facteur*dt
 			self.image = self.skin["run_right"]
-		else :
-			self.image = self.skin["still_left"]
+		elif self.image == self.skin["still_right"] or self.image == self.skin["run_right"] :
+			self.image = self.skin["still_right"]
 
 	def move_left(self,facteur):
 		if pressed_keys[K_LEFT]:
 			self.posx -= facteur*dt
 			self.image = self.skin["run_left"]
+		elif self.image == self.skin["still_left"] or self.image == self.skin["run_left"] :
+			self.image = self.skin["still_left"]
 		
 		
 	def dessine(self) :
