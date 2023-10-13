@@ -28,30 +28,43 @@ blocJump_NE = pygame.transform.scale(pygame.image.load("SpritesBlocks/bloc_jump_
 blocJump_SO = pygame.transform.scale(pygame.image.load("SpritesBlocks/bloc_jump_SO.png"), (len_bloc, len_bloc))
 blocJump_SE = pygame.transform.scale(pygame.image.load("SpritesBlocks/bloc_jump_SE.png"), (len_bloc, len_bloc))
 
+#de même, def des images persos
+AliceStill_left = pygame.transform.scale(pygame.image.load("SpritesPlayer/Alice/alice_still_left.png"), (1*len_bloc, 2*len_bloc))
+AliceStill_right = pygame.transform.scale(pygame.image.load("SpritesPlayer/Alice/alice_still_right.png"), (1*len_bloc, 2*len_bloc))
+AliceRun_right = pygame.transform.scale(pygame.image.load("SpritesPlayer/Alice/alice_run_right.png"), (1*len_bloc, 2*len_bloc))
+AliceRun_left = pygame.transform.scale(pygame.image.load("SpritesPlayer/Alice/alice_run_left.png"), (1*len_bloc, 2*len_bloc))
+AliceJump_left = pygame.transform.scale(pygame.image.load("SpritesPlayer/Alice/alice_jump_left.png"), (1*len_bloc, 2*len_bloc))
+AliceJump_right = pygame.transform.scale(pygame.image.load("SpritesPlayer/Alice/alice_jump_right.png"), (1*len_bloc, 2*len_bloc))
+
 #1 player = 2 blocs de haut
 
 pygame.init() # important
 class Player: 
 
-	def __init__(self, posx, posy,dy):
+	def __init__(self, posx, posy,dy, perso):
 		self.posx= posx
 		self.posy= posy
 		self.w = 1*len_bloc
 		self.h = 2*len_bloc
 		self.dy= dy
-		self.image= pygame.transform.scale(pygame.image.load("SpritesPlayer/Alice/alice_still.png"), (1*len_bloc, 2*len_bloc))
+		self.character = perso #"A" pour Alice
+  
+		if perso == "A" :
+		self.skin = {"still_left" : AliceStill_left, "still_right":AliceStill_right, "run_right" : AliceRun_right, "run_left" : AliceRun_left, "jump_left" : AliceJump_left, "jump_right":AliceJump_right}
+		
+  		self.image= self.skin["still_left"]
 
 	def move_right(self,facteur):
 		if pressed_keys[K_RIGHT]:
 			self.posx += facteur*dt
-			self.image = pygame.transform.scale(pygame.image.load("SpritesPlayer/Alice/alice_run_right.png"), (1*len_bloc, 2*len_bloc))
+			self.image = self.skin["run_right"]
 		else :
-			self.image = pygame.transform.scale(pygame.image.load("SpritesPlayer/Alice/alice_still.png"), (1*len_bloc, 2*len_bloc))
+			self.image = self.skin["still_left"]
 
 	def move_left(self,facteur):
 		if pressed_keys[K_LEFT]:
 			self.posx -= facteur*dt
-			self.image = pygame.transform.scale(pygame.image.load("SpritesPlayer/Alice/alice_run_left.png"), (1*len_bloc, 2*len_bloc))
+			self.image = self.skin["run_left"]
 		
 		
 	def dessine(self) :
@@ -119,7 +132,7 @@ display = pygame.display.set_mode((1366, 768)) # crée une surface pour la fenê
 last_time = pygame.time.get_ticks() # Pour le comptage du temps (get_ticks() renvoie le temps actuel en millisecondes)
 
 
-player= Player(50,10,300) #initialisation du joueur
+player= Player(50,10,300, "A") #initialisation du joueur
 jump_count=0 #initialisation compteur de frame pour faire condition sur le jump
 vel=800 #vitesse pour le jump arbitraire
 g=5 #pour rendre jump plus  réaliste
