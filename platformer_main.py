@@ -152,7 +152,7 @@ player= Player(50,10,300, "A") #initialisation du joueur
 jump_count=0 #initialisation compteur de frame pour faire condition sur le jump
 vel=800 #vitesse pour le jump arbitraire
 g=5 #pour rendre jump plus  réaliste
- #nécessaire pour jump (pour l'instant)
+facteur=100 #argument pour move_right et move_left
 
 
 ### Creation des blocs
@@ -224,17 +224,24 @@ def fill () :
 
 
 
-make_gros_bloc(50, 400, 1, 3, "n")
+make_gros_bloc(50, 400, 10, 3, "n")
 make_gros_bloc(150, 400, 1, 3, "s")
+make_gros_bloc(250,400,1,3,"j")
 
 def collision():
 	global contact
+	global facteur
 	contact= False
 	for b in t_blocks:
-		if (player.posy + player.h > b.posy) and ((b.posx <player.posx <b.posx+ b.w) or (b.posx< player.posx + player.w < b.posx+b.w)) :
-			player.dy=0
-			contact=True
-			
+		if b.type !='f':
+			if ( b.posy <player.posy + player.h <b.posy+5 ) and ((b.posx <player.posx <b.posx+ b.w) or (b.posx< player.posx + player.w < b.posx+b.w)) :
+				player.dy=0
+				contact=True
+		if b.type=='f':
+			if  (b.posx< player.posx + player.w < b.posx+b.w) and ( b.posy <player.posy + player.h <b.posy+5 ):
+				facteur =0
+		
+	
 	if not contact:
 		player.dy=300
 
@@ -260,15 +267,15 @@ while not end:
 
 	#traitement des entrées clavier
 	pressed_keys = pygame.key.get_pressed()
-	player.move_right(100)
-	player.move_left(100)
+	player.move_right(facteur)
+	player.move_left(facteur)
 	
 	player.dy = 300
 
     #condition de contact test 
 	collision()
 
-	if pressed_keys[K_UP] :
+	if pressed_keys[K_UP] or pressed_keys[K_SPACE] :
 		player.posy-=vel*dt 
 		vel-=g
 		jump_count+=1
