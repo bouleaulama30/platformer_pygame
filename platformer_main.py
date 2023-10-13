@@ -44,7 +44,7 @@ class Player:
 		self.h = 2*len_bloc
 		self.dy= dy
 		self.image= pygame.transform.scale(pygame.image.load("SpritesPlayer/Alice/alice_still.png"), (1*len_bloc, 2*len_bloc))
-		self.vel = 500 #vitesse pour le jump arbitraire
+		self.vel = 200 #vitesse pour le jump arbitraire
 		self.jump_count=0 #initialisation compteur de frame pour faire condition sur le jump
 
 	def move_right(self,facteur):
@@ -65,15 +65,15 @@ class Player:
 			self.jump_count -=1 """
 
 		
-		if (jump_count>0 or pressed_keys[K_UP] or pressed_keys[K_SPACE]) and not (self.dy < 0) :
+		if jump_count>0 or pressed_keys[K_UP] or pressed_keys[K_SPACE] :
 			self.posy -= self.vel*dt 
 			self.jump_count+=1
-			if self.jump_count>30: #condition sinon le jump est infini
+			if self.jump_count>50: #condition sinon le jump est infini
 				self.vel = -self.dy #on remet la gravité
 		else :
 			if contact :
 				self.jump_count = 0
-				self.vel = 500
+				self.vel = 200
 			player.posy += self.dy*dt
 		
 	def dessine(self) :
