@@ -1,88 +1,13 @@
 import pygame
 from pygame.locals import *
+from player import Player
+from constante import *
 
 
-##Attention, quadrillage = 40 blocs * 80 blocs
-hauteur_fenetre = 800
-largeur_fenetre = hauteur_fenetre*2
-len_bloc = hauteur_fenetre/40
-longueur_saut = 2*len_bloc
-
-#définition des images blocs, histoire que le code soit lisible...
-blocFill = pygame.transform.scale(pygame.image.load("SpritesBlocks/bloc_fill.png"), (len_bloc, len_bloc))
-
-blocSlip = pygame.transform.scale(pygame.image.load("SpritesBlocks/bloc_slip.png"), (len_bloc, len_bloc))
-blocSlip_NO = pygame.transform.scale(pygame.image.load("SpritesBlocks/bloc_slip_NO.png"), (len_bloc, len_bloc))
-blocSlip_NE = pygame.transform.scale(pygame.image.load("SpritesBlocks/bloc_slip_NE.png"), (len_bloc, len_bloc))
-blocSlip_SO = pygame.transform.scale(pygame.image.load("SpritesBlocks/bloc_slip_SO.png"), (len_bloc, len_bloc))
-blocSlip_SE = pygame.transform.scale(pygame.image.load("SpritesBlocks/bloc_slip_SE.png"), (len_bloc, len_bloc))
-
-blocNeutral = pygame.transform.scale(pygame.image.load("SpritesBlocks/bloc_neutral.png"), (len_bloc, len_bloc))
-blocNeutral_NO = pygame.transform.scale(pygame.image.load("SpritesBlocks/bloc_neutral_NO.png"), (len_bloc, len_bloc))
-blocNeutral_NE = pygame.transform.scale(pygame.image.load("SpritesBlocks/bloc_neutral_NE.png"), (len_bloc, len_bloc))
-blocNeutral_SO = pygame.transform.scale(pygame.image.load("SpritesBlocks/bloc_neutral_SO.png"), (len_bloc, len_bloc))
-blocNeutral_SE = pygame.transform.scale(pygame.image.load("SpritesBlocks/bloc_neutral_SE.png"), (len_bloc, len_bloc))
-
-blocJump = pygame.transform.scale(pygame.image.load("SpritesBlocks/bloc_jump.png"), (len_bloc, len_bloc))
-blocJump_NO = pygame.transform.scale(pygame.image.load("SpritesBlocks/bloc_jump_NO.png"), (len_bloc, len_bloc))
-blocJump_NE = pygame.transform.scale(pygame.image.load("SpritesBlocks/bloc_jump_NE.png"), (len_bloc, len_bloc))
-blocJump_SO = pygame.transform.scale(pygame.image.load("SpritesBlocks/bloc_jump_SO.png"), (len_bloc, len_bloc))
-blocJump_SE = pygame.transform.scale(pygame.image.load("SpritesBlocks/bloc_jump_SE.png"), (len_bloc, len_bloc))
-
-#de même, def des images persos
-AliceStill_left = pygame.transform.scale(pygame.image.load("SpritesPlayer/Alice/alice_still_left.png"), (1*len_bloc, 2*len_bloc))
-AliceStill_right = pygame.transform.scale(pygame.image.load("SpritesPlayer/Alice/alice_still_right.png"), (1*len_bloc, 2*len_bloc))
-AliceRun_right = pygame.transform.scale(pygame.image.load("SpritesPlayer/Alice/alice_run_right.png"), (1*len_bloc, 2*len_bloc))
-AliceRun_left = pygame.transform.scale(pygame.image.load("SpritesPlayer/Alice/alice_run_left.png"), (1*len_bloc, 2*len_bloc))
-AliceJump_left = pygame.transform.scale(pygame.image.load("SpritesPlayer/Alice/alice_jump_left.png"), (1*len_bloc, 2*len_bloc))
-AliceJump_right = pygame.transform.scale(pygame.image.load("SpritesPlayer/Alice/alice_jump_right.png"), (1*len_bloc, 2*len_bloc))
-
-LapinStill_left = pygame.transform.scale(pygame.image.load("SpritesPlayer/Lapin/lapin_still_left.png"), (1*len_bloc, 2*len_bloc))
-LapinStill_right = pygame.transform.scale(pygame.image.load("SpritesPlayer/Lapin/lapin_still_right.png"), (1*len_bloc, 2*len_bloc))
-LapinRun_right = pygame.transform.scale(pygame.image.load("SpritesPlayer/Lapin/lapin_run_right.png"), (1*len_bloc, 2*len_bloc))
-LapinRun_left = pygame.transform.scale(pygame.image.load("SpritesPlayer/Lapin/lapin_run_left.png"), (1*len_bloc, 2*len_bloc))
-LapinJump_left = pygame.transform.scale(pygame.image.load("SpritesPlayer/Lapin/lapin_jump_left.png"), (1*len_bloc, 2*len_bloc))
-LapinJump_right = pygame.transform.scale(pygame.image.load("SpritesPlayer/Lapin/lapin_jump_right.png"), (1*len_bloc, 2*len_bloc))
 
 #1 player = 2 blocs de haut
 
 pygame.init() # important
-class Player: 
-
-	def __init__(self, posx, posy,dy, perso):
-		self.posx= posx
-		self.posy= posy
-		self.w = 1*len_bloc
-		self.h = 2*len_bloc
-		self.dy= dy
-		self.character = perso #"A" pour Alice, "L" pour Lapin
-  
-		if perso == "A" :
-			self.skin = {"still_left" : AliceStill_left, "still_right":AliceStill_right, "run_right" : AliceRun_right, "run_left" : AliceRun_left, "jump_left" : AliceJump_left, "jump_right":AliceJump_right}
-		elif perso == "L" :
-			self.skin = {"still_left" : LapinStill_left, "still_right":LapinStill_right, "run_right" : LapinRun_right, "run_left" : LapinRun_left, "jump_left" : LapinJump_left, "jump_right":LapinJump_right}
-		else :
-			print("character undefined")
-			exit()
-		self.image= self.skin["still_left"]
-
-	def move_right(self,facteur):
-		if pressed_keys[K_RIGHT]:
-			self.posx += facteur*dt
-			self.image = self.skin["run_right"]
-		elif self.image == self.skin["still_right"] or self.image == self.skin["run_right"] :
-			self.image = self.skin["still_right"]
-
-	def move_left(self,facteur):
-		if pressed_keys[K_LEFT]:
-			self.posx -= facteur*dt
-			self.image = self.skin["run_left"]
-		elif self.image == self.skin["still_left"] or self.image == self.skin["run_left"] :
-			self.image = self.skin["still_left"]
-		
-		
-	def dessine(self) :
-		display.blit(self.image, (self.posx, self.posy))
 
 
 
@@ -152,7 +77,8 @@ player= Player(50,10,300, "A") #initialisation du joueur
 jump_count=0 #initialisation compteur de frame pour faire condition sur le jump
 vel=800 #vitesse pour le jump arbitraire
 g=5 #pour rendre jump plus  réaliste
-facteur=100 #argument pour move_right et move_left
+facteur_r=100 #argument pour move_right 
+facteur_l=100 #argument pour move_left
 
 
 ### Creation des blocs
@@ -224,32 +150,14 @@ def fill () :
 
 
 
-make_gros_bloc(50, 400, 10, 3, "n")
+make_gros_bloc(50, 300, 10, 3, "n")
 make_gros_bloc(150, 400, 1, 3, "s")
+make_gros_bloc(150, 0, 2, 3, "s")
 make_gros_bloc(250,400,1,3,"j")
 
-def collision():
-	global contact
-	global facteur
-	contact= False
-	for b in t_blocks:
-		if b.type !='f':
-			if ( b.posy <player.posy + player.h <b.posy+5 ) and ((b.posx <player.posx <b.posx+ b.w) or (b.posx< player.posx + player.w < b.posx+b.w)) :
-				player.dy=0
-				contact=True
-		if b.type=='f':
-			if  (b.posx< player.posx + player.w < b.posx+b.w) and ( b.posy <player.posy + player.h <b.posy+5 ):
-				facteur =0
-		
-	
-	if not contact:
-		player.dy=300
 
-			
 		
-			 	
 	
-		
 
 # Boucle de rendu
 end = False
@@ -267,28 +175,15 @@ while not end:
 
 	#traitement des entrées clavier
 	pressed_keys = pygame.key.get_pressed()
-	player.move_right(facteur)
-	player.move_left(facteur)
+	player.deplacement(200,200, dt, pressed_keys, t_blocks)
 	
 	player.dy = 300
 
     #condition de contact test 
-	collision()
+	#collision()
 
-	if pressed_keys[K_UP] or pressed_keys[K_SPACE] :
-		player.posy-=vel*dt 
-		vel-=g
-		jump_count+=1
-		if jump_count>50: #condition sinon le jump est infini
-			vel= -player.dy #on remet la gravité
-			
-	else:
-		if contact:
-			#on reset jump_count et vel pour pouvoir re jumper
-			jump_count=0 
-			vel=500
-		player.posy+= player.dy*dt #gravité		
-
+	if (pressed_keys[K_UP] or pressed_keys[K_SPACE]) and player.is_grounded :
+		player.vely= -800
 
 
 	
@@ -301,7 +196,7 @@ while not end:
 
 	# Ici se fera le dessin de la scène
 	
-	player.dessine()
+	player.dessine(display)
 
 	#test fonction fill
 	fill()
