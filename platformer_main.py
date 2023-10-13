@@ -67,9 +67,9 @@ class Block:
 			#pygame.draw.rect(display, (255,0,0), ((self.posx, self.posy), (self.w, self.h)))
 
 
-
-display = pygame.display.set_mode((1366, 768)) # crée une surface pour la fenêtre (largeur, hauteur) de la fenetre
-
+display_width, display_height = 1366, 768
+display = pygame.display.set_mode((display_width, display_height)) # crée une surface pour la fenêtre (largeur, hauteur) de la fenetre
+background = pygame.transform.scale(pygame.image.load("SpritesBackground/background_key.jpg"), (display_width, display_height))
 last_time = pygame.time.get_ticks() # Pour le comptage du temps (get_ticks() renvoie le temps actuel en millisecondes)
 
 
@@ -195,8 +195,13 @@ while not end:
 	
 
 	# Ici se fera le dessin de la scène
+<<<<<<< HEAD
 	
 	player.dessine(display)
+=======
+	display.blit(background, (0,0))
+	player.dessine()
+>>>>>>> af0e386 (Début de backgrounds)
 
 	#test fonction fill
 	fill()
