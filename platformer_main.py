@@ -2,7 +2,6 @@ import pygame
 from pygame.locals import *
 
 
-
 ##Attention, quadrillage = 40 blocs * 80 blocs
 hauteur_fenetre = 800
 largeur_fenetre = hauteur_fenetre*2
@@ -61,7 +60,7 @@ class Player:
 		elif perso == "L" :
 			self.skin = {"still_left" : LapinStill_left, "still_right":LapinStill_right, "run_right" : LapinRun_right, "run_left" : LapinRun_left, "jump_left" : LapinJump_left, "jump_right":LapinJump_right}
 		else :
-			printf("character undefined")
+			print("character undefined")
 			exit()
 		self.image= self.skin["still_left"]
 
@@ -223,14 +222,15 @@ make_gros_bloc(150, 400, 1, 3, "s")
 
 def collision():
 	global contact
+	contact= False
 	for b in t_blocks:
-		if ((player.posy + player.h > b.posy) and (player.posx <b.posx+ b.w)) :
+		if (player.posy + player.h > b.posy) and ((b.posx <player.posx <b.posx+ b.w) or (b.posx< player.posx + player.w < b.posx+b.w)) :
 			player.dy=0
 			contact=True
 			
-		else:
-			player.dy=300
-			contact= False
+	if not contact:
+		player.dy=300
+
 			
 		
 			 	
@@ -256,6 +256,7 @@ while not end:
 	player.move_right(100)
 	player.move_left(100)
 	
+	player.dy = 300
 
     #condition de contact test 
 	collision()
@@ -264,14 +265,14 @@ while not end:
 		player.posy-=vel*dt 
 		vel-=g
 		jump_count+=1
-		if jump_count>20: #condition sinon le jump est infini
+		if jump_count>50: #condition sinon le jump est infini
 			vel= -player.dy #on remet la gravité
 			
 	else:
 		if contact:
 			#on reset jump_count et vel pour pouvoir re jumper
 			jump_count=0 
-			vel=800
+			vel=500
 		player.posy+= player.dy*dt #gravité		
 
 
