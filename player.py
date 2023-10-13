@@ -55,6 +55,11 @@ class Player:
             self.is_grounded= True
             self.posy-=self.vely*dt
             self.vely*=0
+
+        if pressed_keys[K_r]:
+            self.posx, self.posy=50,10
+            self.vely=0
+            self.is_grounded=False
         
 		
     def dessine(self, display) :
