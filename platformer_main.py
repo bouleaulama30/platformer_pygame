@@ -9,6 +9,8 @@ len_bloc = hauteur_fenetre/40
 longueur_saut = 2*len_bloc
 
 #définition des images blocs, histoire que le code soit lisible...
+blocFill = pygame.transform.scale(pygame.image.load("SpritesBlocks/bloc_fill.png"), (len_bloc, len_bloc))
+
 blocSlip = pygame.transform.scale(pygame.image.load("SpritesBlocks/bloc_slip.png"), (len_bloc, len_bloc))
 blocSlip_NO = pygame.transform.scale(pygame.image.load("SpritesBlocks/bloc_slip_NO.png"), (len_bloc, len_bloc))
 blocSlip_NE = pygame.transform.scale(pygame.image.load("SpritesBlocks/bloc_slip_NE.png"), (len_bloc, len_bloc))
@@ -102,7 +104,9 @@ class Block:
 			self.skin = {'rect' : blocSlip, 'SO' : blocSlip_SO, 'NO' : blocSlip_NO, 'SE' : blocSlip_SE, 'NE' : blocSlip_NE}
 		if self.type == "j" : 
 			self.skin = {'rect' : blocJump, 'SO' : blocJump_SO, 'NO' : blocJump_NO, 'SE' : blocJump_SE, 'NE' : blocJump_NE}
-
+		if self.type == "f" :
+			self.skin = {'rect' : blocFill, 'SO' : blocFill, 'NO' : blocFill, 'SE' : blocFill, 'NE' : blocFill}
+		## todo : créer les blocs en coin pour le skin fill
 
 	def dessine(self) :		
 		if self.isTriangle :
@@ -161,7 +165,10 @@ def make_gros_bloc (x, y, nb_h, nb_w, type) :
 		for j in range (nb_w) :
 			x_b = x + j * len_bloc 
 			y_b = y + i * len_bloc
-			t_blocks.append(Block(x_b, y_b, type, False, ""))
+			t_skin = "f"
+			if i == 0 :
+				t_skin = type
+			t_blocks.append(Block(x_b, y_b, t_skin, False, ""))
 
 def make_gros_triangle (x, y, len_cote, type, orientation) :
 	if orientation == "SO" :
@@ -169,7 +176,7 @@ def make_gros_triangle (x, y, len_cote, type, orientation) :
 			for j in range (i) :
 				x_b = x + j * len_bloc
 				y_b = y + i * len_bloc
-				t_blocks.append(Block(x_b, y_b, type, False, ""))
+				t_blocks.append(Block(x_b, y_b, "f", False, ""))
 		for k in range (len_cote) :
 			x_b = x + k * len_bloc
 			y_b = y + k * len_bloc
@@ -180,7 +187,7 @@ def make_gros_triangle (x, y, len_cote, type, orientation) :
 			for j in range (len_cote - i - 1) :
 				x_b = x + j * len_bloc
 				y_b = y + i * len_bloc
-				t_blocks.append(Block(x_b, y_b, type, False, ""))
+				t_blocks.append(Block(x_b, y_b, "f", False, ""))
 		for k in range (len_cote) :
 			x_b = x + (len_cote - k - 1) * len_bloc
 			y_b = y + k * len_bloc
@@ -191,7 +198,7 @@ def make_gros_triangle (x, y, len_cote, type, orientation) :
 			for j in range (i + 1, len_cote) :
 				x_b = x + j * len_bloc
 				y_b = y + i * len_bloc
-				t_blocks.append(Block(x_b, y_b, type, False, ""))
+				t_blocks.append(Block(x_b, y_b, "f", False, ""))
 		for k in range (len_cote) :
 			x_b = x + k * len_bloc
 			y_b = y + k * len_bloc
@@ -202,7 +209,7 @@ def make_gros_triangle (x, y, len_cote, type, orientation) :
 			for j in range (len_cote - i, len_cote) :
 				x_b = x + j * len_bloc
 				y_b = y + i * len_bloc
-				t_blocks.append(Block(x_b, y_b, type, False, ""))
+				t_blocks.append(Block(x_b, y_b, "f", False, ""))
 		for k in range (len_cote) :
 			x_b = x + (len_cote - k - 1)  * len_bloc
 			y_b = y + k * len_bloc
