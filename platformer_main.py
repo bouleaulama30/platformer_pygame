@@ -23,7 +23,7 @@ background = pygame.transform.scale(pygame.image.load("SpritesBackground/backgro
 last_time = pygame.time.get_ticks() # Pour le comptage du temps (get_ticks() renvoie le temps actuel en millisecondes)
 
 
-player= Player(50,10,300, "A") #initialisation du joueur
+player= Player(50,10,300, "blocTest") #initialisation du joueur
 jump_count=0 #initialisation compteur de frame pour faire condition sur le jump
 vel=800 #vitesse pour le jump arbitraire
 g=5 #pour rendre jump plus  réaliste
@@ -34,85 +34,10 @@ facteur_l=100 #argument pour move_left
 ### Creation des blocs
 
 t_blocks = []
-
-def make_gros_bloc (x, y, nb_h, nb_w, type) :
-	# coin haut gauche, nb de bloc en hauteur, nb bloc en largeur, type
-	for i  in range (nb_h) :
-		for j in range (nb_w) :
-			x_b = x + j * len_bloc 
-			y_b = y + i * len_bloc
-			t_skin = "f"
-			if i == 0 :
-				t_skin = type
-			t_blocks.append(Block(x_b, y_b, t_skin, False, ""))
-
-def make_gros_triangle (x, y, len_cote, type, orientation) :
-	if orientation == "SO" :
-		for i in range (1, len_cote) :
-			for j in range (i) :
-				x_b = x + j * len_bloc
-				y_b = y + i * len_bloc
-				t_blocks.append(Block(x_b, y_b, "f", False, ""))
-		for k in range (len_cote) :
-			x_b = x + k * len_bloc
-			y_b = y + k * len_bloc
-			t_blocks.append(Block(x_b, y_b, type, True, orientation))
-
-	elif orientation == "NO" :
-		for i in range (len_cote - 1) :
-			for j in range (len_cote - i - 1) :
-				x_b = x + j * len_bloc
-				y_b = y + i * len_bloc
-				t_blocks.append(Block(x_b, y_b, "f", False, ""))
-		for k in range (len_cote) :
-			x_b = x + (len_cote - k - 1) * len_bloc
-			y_b = y + k * len_bloc
-			t_blocks.append(Block(x_b, y_b, type, True, orientation))
-	
-	elif orientation == "NE" :
-		for i in range (len_cote - 1) :
-			for j in range (i + 1, len_cote) :
-				x_b = x + j * len_bloc
-				y_b = y + i * len_bloc
-				t_blocks.append(Block(x_b, y_b, "f", False, ""))
-		for k in range (len_cote) :
-			x_b = x + k * len_bloc
-			y_b = y + k * len_bloc
-			t_blocks.append(Block(x_b, y_b, type, True, orientation))
-
-	elif orientation == "SE" :
-		for i in range (1, len_cote) : 
-			for j in range (len_cote - i, len_cote) :
-				x_b = x + j * len_bloc
-				y_b = y + i * len_bloc
-				t_blocks.append(Block(x_b, y_b, "f", False, ""))
-		for k in range (len_cote) :
-			x_b = x + (len_cote - k - 1)  * len_bloc
-			y_b = y + k * len_bloc
-			t_blocks.append(Block(x_b, y_b, type, True, orientation))
-
-	else :
-		print ("erreur creation gros bloc triangle")
-
-def fill () :
-	for b in t_blocks :
-		b.dessine(display)
-
-
-
-make_gros_bloc(50, 300, 2, 3, "n")
-make_gros_bloc(150, 300, 2, 6, "s")
-
-
-def ligne_de_jump(B,espace_entre_block):
-	i=1
-	t_blocks.append(B)
-	while (B.w + espace_entre_block)*i<1500:
-		t_blocks.append(Block((B.posx+espace_entre_block)*i, B.posy,B.type,B.isTriangle,B.orientation))
-		i+=1
-				  
-ligne_de_jump(Block(0,400,"j",False,None),160)
-
+make_gros_triangle(50, 300, 5, "n", "SE", t_blocks)
+make_gros_bloc(40, 400, 2, 15, "s",t_blocks)
+make_gros_bloc(150, 0, 2, 3, "s", t_blocks)
+make_gros_bloc(250,400,1,3,"j", t_blocks)
 
 
 		
