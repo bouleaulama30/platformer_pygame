@@ -195,12 +195,10 @@ while not end:
 	
 
 	# Ici se fera le dessin de la scène
-<<<<<<< HEAD
 	
 	player.dessine(display)
 =======
 	display.blit(background, (0,0))
-	player.dessine()
 >>>>>>> af0e386 (Début de backgrounds)
 
 	#test fonction fill
