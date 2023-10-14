@@ -7,37 +7,36 @@ class Block:
 		self.posy= posy
 		self.w = 1*len_bloc
 		self.h = 1*len_bloc
-		self.type= type #should be 'n'(neutral), 's'(slip) or 'j'(jump)
+		self.type= type #should be 'n'(neutral), 's'(slip),'j'(jump), 'f' (fill)
 		self.isTriangle = triangle
-		self.orientation = orientation #le point cardinal definit le coin qui existe
+		self.orientation = orientation #le point cardinal définit le coin qui existe
 
-		if self.type == "n" : 
-			self.skin = {'rect' : blocNeutral, 'SO' : blocNeutral_SO, 'NO' : blocNeutral_NO, 'SE' : blocNeutral_SE, 'NE' : blocNeutral_NE}
-		if self.type == "s" : 
-			self.skin = {'rect' : blocSlip, 'SO' : blocSlip_SO, 'NO' : blocSlip_NO, 'SE' : blocSlip_SE, 'NE' : blocSlip_NE}
-		if self.type == "j" : 
-			self.skin = {'rect' : blocJump, 'SO' : blocJump_SO, 'NO' : blocJump_NO, 'SE' : blocJump_SE, 'NE' : blocJump_NE}
-		if self.type == "f" :
-			self.skin = {'rect' : blocFill, 'SO' : blocFill, 'NO' : blocFill, 'SE' : blocFill, 'NE' : blocFill}
-		## todo : créer les blocs en coin pour le skin fill
-		self.image = self.skin["rect"]
-
-	def dessine(self, display) :		
-		if self.isTriangle :
-			x = self.posx
-			y = self.posy
-			cote = self.w 
-			no = (x, y)
-			ne = (x+cote, y)
-			se = (x+cote, y+cote)
-			so = (x, y+cote)
-
-			if self.orientation in ["SE", "SO", "NE", "NO"] :
-				display.blit(self.skin[self.orientation], no)
+		if self.type in ["n", "j", "s", "f"] :
+			if self.isTriangle :
+				if (self.orientation in ["SO", "NO", "SE", "NE"]) :
+					self.image = dicoBlocSkins[self.type][self.orientation]
+				else :
+					print("erreur def Triangle")
 			else :
-				print ("erreur definition triangle")
+				self.image = dicoBlocSkins[self.type]["rect"]
 		else :
-			display.blit(self.skin["rect"], (self.posx, self.posy))
+			print("erreur def Type bloc")
+		## todo : créer les blocs en coin pour le skin fill
+		
+	def dessine(self, display) :	
+		display.blit(self.image, (self.posx, self.posy))
+		# if self.isTriangle :
+		# 	x = self.posx
+		# 	y = self.posy
+		# 	cote = self.w 
+		# 	no = (x, y)
+		# 	ne = (x+cote, y)
+		# 	se = (x+cote, y+cote)
+		# 	so = (x, y+cote)
+
+		# 	display.blit(self.image, no)
+		# else :
+		# 	display.blit(self.image, (self.posx, self.posy))
 			#pygame.draw.rect(display, (255,0,0), ((self.posx, self.posy), (self.w, self.h)))
 
 def make_gros_bloc (x, y, nb_h, nb_w, type, t_blocks) :
