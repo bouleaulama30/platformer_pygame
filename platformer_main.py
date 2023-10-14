@@ -29,7 +29,6 @@ facteur_l=100 #argument pour move_left
 ### Creation des blocs
 
 t_blocks = []
-<<<<<<< HEAD
 
 def make_gros_bloc (x, y, nb_h, nb_w, type) :
 	# coin haut gauche, nb de bloc en hauteur, nb bloc en largeur, type
@@ -102,12 +101,6 @@ make_gros_bloc(150, 30, 2, 3, "s")
 make_gros_bloc(250,400,5,3,"j")
 make_gros_bloc(350,250,50,5,"n")
 make_gros_bloc(500,200,50,5,"s")
-=======
-make_gros_bloc(50, 300, 10, 3, "n", t_blocks)
-make_gros_bloc(150, 400, 1, 3, "s",t_blocks)
-make_gros_bloc(150, 0, 2, 3, "s", t_blocks)
-make_gros_bloc(250,400,1,3,"j", t_blocks)
->>>>>>> cf874132aaf3d71caaaa92aaf97f1c4f07acd24f
 
 
 		
