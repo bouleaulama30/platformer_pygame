@@ -69,7 +69,7 @@ class Block:
 
 display_width, display_height = 1366, 768
 display = pygame.display.set_mode((display_width, display_height)) # crée une surface pour la fenêtre (largeur, hauteur) de la fenetre
-background = pygame.transform.scale(pygame.image.load("SpritesBackground/background_key.jpg"), (display_width, display_height))
+background = pygame.transform.scale(pygame.image.load("SpritesBackground/background_circular3.jpg"), (display_width, display_height))
 last_time = pygame.time.get_ticks() # Pour le comptage du temps (get_ticks() renvoie le temps actuel en millisecondes)
 
 
