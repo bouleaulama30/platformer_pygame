@@ -3,12 +3,17 @@ from pygame.locals import *
 from player import Player
 from block import *
 from constante import *
+from sounds import *
+
 
 
 
 #1 player = 2 blocs de haut
 
 pygame.init() # important
+# definir une clock
+clock= pygame.time.Clock()
+FPS = 200
 
 
 display = pygame.display.set_mode((1366, 768)) # crée une surface pour la fenêtre (largeur, hauteur) de la fenetre
@@ -124,7 +129,7 @@ while not end:
 	
 	current_time = pygame.time.get_ticks() 
 	dt = (current_time - last_time) / 1000.0 # dt = temps écoulé depuis la dernière frame en secondes
-
+	print(dt)
 	last_time = pygame.time.get_ticks() # ne pas oublier de réinitialiser le chronomètre
 
 	#traitement des entrées clavier
@@ -138,6 +143,7 @@ while not end:
 
 	if (pressed_keys[K_UP] or pressed_keys[K_SPACE]) and player.is_grounded :
 		player.vely= -800
+		play('jump')
 	
 	
 
@@ -162,5 +168,8 @@ while not end:
 	#display.blit(player.image, (player.posx, player.posy))
 	#player= Player(player.posx,player.posy,50,50,player.dy) #maj du joueur
 	pygame.display.update() # Mise à jour de l'affichage 
+
+	# fixer le nombre de fps sur ma clock
+	clock.tick(FPS)
 
 pygame.quit() # important

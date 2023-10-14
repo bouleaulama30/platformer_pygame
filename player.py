@@ -1,4 +1,5 @@
 from constante import *
+from sounds import *
 
 
 class Player: 
@@ -12,6 +13,9 @@ class Player:
         self.character = perso #"A" pour Alice, "L" pour Lapin
         self.vely=0
         self.is_grounded=False
+        
+      
+        
 
         if perso == "A" :
             self.skin = {"still_left" : AliceStill_left, "still_right":AliceStill_right, "run_right" : AliceRun_right, "run_left" : AliceRun_left, "jump_left" : AliceJump_left, "jump_right":AliceJump_right}
@@ -83,12 +87,17 @@ class Player:
         
         self.posy+= self.vely *dt
         
-        if self.is_colliding(t_blocks)[1]: #pour le jump du champignon
+        #pour le jump du champignon
+        if self.is_colliding(t_blocks)[1]: 
             self.vely=-800
             self.vely+=2000*dt
             self.posy+=self.vely*dt
+            play('rebond')
+            
+            
 
-        if self.is_colliding(t_blocks)[2]: #pour la glace
+        #pour la glace
+        if self.is_colliding(t_blocks)[2]: 
             if self.image == self.skin["still_right"] or self.image == self.skin["run_right"] or self.image == self.skin["jump_right"]:
                 if depx!=0:
                     self.posx-=depx
@@ -97,6 +106,7 @@ class Player:
                 if depx!=0:
                     self.posx-= depx
                 self.posx-= facteur_r*dt/3
+
         
         if self.is_colliding(t_blocks)[0]:
             self.is_grounded= True
