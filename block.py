@@ -17,10 +17,12 @@ class Block:
 					self.image = dicoBlocSkins[self.type][self.orientation]
 				else :
 					print("erreur def Triangle")
+					exit()
 			else :
 				self.image = dicoBlocSkins[self.type]["rect"]
 		else :
 			print("erreur def Type bloc")
+			exit()
 		## todo : créer les blocs en coin pour le skin fill
 		
 	def dessine(self, display) :	

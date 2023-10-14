@@ -79,8 +79,20 @@ class Player:
             self.image = self.skin["still_left"]
         depx*=dt
         self.posx+=depx
+        rep = self.is_colliding(t_blocks)
+        if rep[0]:
         if self.is_colliding(t_blocks)[0]:
             self.posx-=depx
+            if rep[1] != "rect" :
+                if rep[1] == "NO" :
+                    self.posy += abs(self.vely)*dt
+                if rep[1] == "NE" :
+                    self.posy += abs(self.vely)*dt
+                if rep[1] == "SO" :
+                    self.posy -= abs(self.vely)*dt
+                if rep[1] == "SE" :
+                    self.posy -= abs(self.vely)*dt
+                    
 
         self.is_grounded=False
         
@@ -111,12 +123,20 @@ class Player:
         
         if self.is_colliding(t_blocks)[0]:
             self.is_grounded= True
-            self.posy-=(self.vely*dt)
-            self.vely*=0
-            
-
-        if pressed_keys[K_r] and not self.K_r_pressed:
-            self.K_r_pressed=True
+            self.posy-=self.vely*dt
+            if rep[1] != "rect" :
+                if rep[1] == "NO" :
+                    self.posx += abs(self.vely)*dt
+                if rep[1] == "NE" :
+                    self.posx -= abs(self.vely)*dt
+                if rep[1] == "SO" :
+                    self.posx += abs(self.vely)*dt
+                if rep[1] == "SE" :
+                    self.posx -= abs(self.vely)*dt
+            else :
+                self.vely*=0
+        
+        if pressed_keys[K_r]:
             self.posx, self.posy=50,10
             self.vely=0
             self.is_grounded=False

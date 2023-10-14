@@ -34,7 +34,7 @@ facteur_l=100 #argument pour move_left
 ### Creation des blocs
 
 t_blocks = []
-make_gros_triangle(50, 300, 5, "n", "SE", t_blocks)
+make_gros_triangle(50, 300, 5, "n", "SO", t_blocks)
 make_gros_bloc(40, 400, 2, 15, "s",t_blocks)
 make_gros_bloc(150, 0, 2, 3, "s", t_blocks)
 make_gros_bloc(250,400,1,3,"j", t_blocks)
