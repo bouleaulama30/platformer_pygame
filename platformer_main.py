@@ -12,7 +12,7 @@ pygame.init() # important
 
 
 display = pygame.display.set_mode((1366, 768)) # crée une surface pour la fenêtre (largeur, hauteur) de la fenetre
-background = pygame.transform.scale(pygame.image.load("SpritesBackground/background_sombre.jpg"), (largeur_fenetre, hauteur_fenetre))
+background = pygame.transform.scale(pygame.image.load("SpritesBackground/background_key.jpg"), (largeur_fenetre, hauteur_fenetre))
 
 
 last_time = pygame.time.get_ticks() # Pour le comptage du temps (get_ticks() renvoie le temps actuel en millisecondes)
@@ -91,16 +91,23 @@ def make_gros_triangle (x, y, len_cote, type, orientation) :
 
 def fill () :
 	for b in t_blocks :
-		b.dessine()
+		b.dessine(display)
 
 
 
-make_gros_bloc(50, 300, 10, 3, "n")
-make_gros_bloc(150, 400, 1, 3, "j")
-make_gros_bloc(150, 30, 2, 3, "s")
-make_gros_bloc(250,400,5,3,"j")
-make_gros_bloc(350,250,50,5,"n")
-make_gros_bloc(500,200,50,5,"s")
+make_gros_bloc(50, 300, 2, 3, "n")
+make_gros_bloc(150, 300, 2, 6, "s")
+
+
+def ligne_de_jump(B,espace_entre_block):
+	i=1
+	t_blocks.append(B)
+	while (B.w + espace_entre_block)*i<1500:
+		t_blocks.append(Block((B.posx+espace_entre_block)*i, B.posy,B.type,B.isTriangle,B.orientation))
+		i+=1
+				  
+ligne_de_jump(Block(0,400,"j",False,None),160)
+
 
 
 		
@@ -131,6 +138,8 @@ while not end:
 
 	if (pressed_keys[K_UP] or pressed_keys[K_SPACE]) and player.is_grounded :
 		player.vely= -800
+	
+	
 
 
 	
@@ -146,8 +155,9 @@ while not end:
 	player.dessine(display)
 	
 
+	
 	#test fonction fill
-	fill(display, t_blocks)
+	fill()
 
 	#display.blit(player.image, (player.posx, player.posy))
 	#player= Player(player.posx,player.posy,50,50,player.dy) #maj du joueur

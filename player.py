@@ -25,23 +25,36 @@ class Player:
         self.image= self.skin["still_left"]
 
     def is_colliding(self, t_blocks):
+        l=[False,False,False]
         for b in t_blocks:
             if self.posx < b.posx + b.w and self.posx + self.w > b.posx and self.posy < b.posy + b.h and self.posy + self.h > b.posy:
                 if not b.isTriangle :
-                    return True
+                    if b.type=='j':
+                        l=[True,True,False]
+                        return l
+                    if b.type=='s':
+                        l=[True,False,True]
+                    else:
+                        l=[True,False,False]
+                        return l
+                    
                 elif b.orientation == "NE" :
                     if not (self.posx + self.w < b.posx + (self.posy - b.posy)  and  (self.posy > b.posy + b.h - (self.posx + self.w - b.posx))) :
-                        return True
+                        l=[True,False,False]
+                        return l
                 elif b.orientation == "NO" :
                     if not (self.posx > b.posx + b.w - (self.posy - b.posy) and self.posy > b.posy + b.h - (self.posx - b.posx)) :
-                        return True
+                        l=[True,False,False]
+                        return l
                 elif b.orientation == "SE" :
                     if not (self.posx + self.w < b.posx + b.w - (self.posy - b.posy) and self.posy+self.h > b.posy - self.posx + self.w - b.posx) :
-                        return True
+                        l=[True,False,False]
+                        return l
                 elif b.orientation == "SO" :
                     if not (self.posx > b.posx + (b.posy + b.h  - (self.posy + self.h)) and self.posy + self.h < b.posy + self.posx - b.posx) :
-                        return True
-        return False
+                        l=[True,False,False]
+                        return l
+        return l
 
     def deplacement(self,facteur_l,facteur_r, dt, pressed_keys, t_blocks):
 
@@ -61,15 +74,35 @@ class Player:
             self.image = self.skin["still_left"]
         depx*=dt
         self.posx+=depx
-        if self.is_colliding(t_blocks):
+        if self.is_colliding(t_blocks)[1]:
             self.posx-=depx
 
         self.is_grounded=False
+        
+        
+        
         self.posy+= self.vely *dt
-        if self.is_colliding(t_blocks):
+        
+        if self.is_colliding(t_blocks)[1]: #pour le jump du champignon
+            self.vely=-800
+            self.vely+=2000*dt
+            self.posy+=self.vely*dt
+
+        if self.is_colliding(t_blocks)[2]: #pour la glace
+            if self.image == self.skin["still_right"] or self.image == self.skin["run_right"] or self.image == self.skin["jump_right"]:
+                if depx!=0:
+                    self.posx-=depx
+                self.posx+=facteur_r*dt/3  
+            else:
+                if depx!=0:
+                    self.posx-= depx
+                self.posx-= facteur_r*dt/3
+        
+        if self.is_colliding(t_blocks)[0]:
             self.is_grounded= True
-            self.posy-=self.vely*dt
+            self.posy-=(self.vely*dt)
             self.vely*=0
+            
 
         if pressed_keys[K_r]:
             self.posx, self.posy=50,10
