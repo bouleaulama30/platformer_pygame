@@ -151,9 +151,11 @@ def fill () :
 
 
 make_gros_bloc(50, 300, 10, 3, "n")
-make_gros_bloc(150, 400, 1, 3, "s")
-make_gros_bloc(150, 0, 2, 3, "s")
-make_gros_bloc(250,400,1,3,"j")
+make_gros_bloc(150, 400, 1, 3, "j")
+make_gros_bloc(150, 30, 2, 3, "s")
+make_gros_bloc(250,400,5,3,"j")
+make_gros_bloc(350,250,50,5,"n")
+make_gros_bloc(500,200,50,5,"s")
 
 
 		
