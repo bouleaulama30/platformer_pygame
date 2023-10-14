@@ -17,6 +17,8 @@ class Player:
             self.skin = {"still_left" : AliceStill_left, "still_right":AliceStill_right, "run_right" : AliceRun_right, "run_left" : AliceRun_left, "jump_left" : AliceJump_left, "jump_right":AliceJump_right}
         elif perso == "L" :
             self.skin = {"still_left" : LapinStill_left, "still_right":LapinStill_right, "run_right" : LapinRun_right, "run_left" : LapinRun_left, "jump_left" : LapinJump_left, "jump_right":LapinJump_right}
+        elif perso == "blocTest" :
+            self.skin = {"still_left" : persoTest, "still_right":persoTest, "run_right" : persoTest, "run_left" : persoTest, "jump_left" : persoTest, "jump_right":persoTest}
         else :
             print("character undefined")
             exit()
@@ -25,7 +27,20 @@ class Player:
     def is_colliding(self, t_blocks):
         for b in t_blocks:
             if self.posx < b.posx + b.w and self.posx + self.w > b.posx and self.posy < b.posy + b.h and self.posy + self.h > b.posy:
-                return True
+                if not b.isTriangle :
+                    return True
+                elif b.orientation == "NE" :
+                    if not (self.posx + self.w < b.posx + (self.posy - b.posy)  and  (self.posy > b.posy + b.h - (self.posx + self.w - b.posx))) :
+                        return True
+                elif b.orientation == "NO" :
+                    if not (self.posx > b.posx + b.w - (self.posy - b.posy) and self.posy > b.posy + b.h - (self.posx - b.posx)) :
+                        return True
+                elif b.orientation == "SE" :
+                    if not (self.posx + self.w < b.posx + b.w - (self.posy - b.posy) and self.posy+self.h > b.posy - self.posx + self.w - b.posx) :
+                        return True
+                elif b.orientation == "SO" :
+                    if not (self.posx > b.posx + (b.posy + b.h  - (self.posy + self.h)) and self.posy + self.h < b.posy + self.posx - b.posx) :
+                        return True
         return False
 
     def deplacement(self,facteur_l,facteur_r, dt, pressed_keys, t_blocks):
@@ -60,6 +75,18 @@ class Player:
             self.posx, self.posy=50,10
             self.vely=0
             self.is_grounded=False
+        
+        if not self.is_grounded :
+            if (self.image == self.skin["jump_right"] or self.image == self.skin["run_right"] or self.image == self.skin["still_right"]) :
+                self.image = self.skin["jump_right"]
+            else :
+                self.image = self.skin["jump_left"]
+        else :
+            if self.image == self.skin["jump_left"] :
+                self.image = self.skin["still_left"]
+            elif self.image == self.skin["jump_right"] :
+                self.image = self.skin["still_right"]
+        
         
 		
     def dessine(self, display) :

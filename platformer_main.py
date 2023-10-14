@@ -1,6 +1,7 @@
 import pygame
 from pygame.locals import *
 from player import Player
+from block import *
 from constante import *
 
 
@@ -10,65 +11,9 @@ from constante import *
 pygame.init() # important
 
 
-
-class Block: 
-
-	def __init__(self, posx, posy,type, triangle, orientation):
-		self.posx= posx
-		self.posy= posy
-		self.w = 1*len_bloc
-		self.h = 1*len_bloc
-		self.type= type #should be 'n'(neutral), 's'(slip) or 'j'(jump)
-		self.isTriangle = triangle
-		self.orientation = orientation #le point cardinal definit le coin qui existe
-		self.image= pygame.draw.rect(display, (255,0,0), ((posx, posy), (self.w, self.h)))
-
-		if self.type == "n" : 
-			self.skin = {'rect' : blocNeutral, 'SO' : blocNeutral_SO, 'NO' : blocNeutral_NO, 'SE' : blocNeutral_SE, 'NE' : blocNeutral_NE}
-		if self.type == "s" : 
-			self.skin = {'rect' : blocSlip, 'SO' : blocSlip_SO, 'NO' : blocSlip_NO, 'SE' : blocSlip_SE, 'NE' : blocSlip_NE}
-		if self.type == "j" : 
-			self.skin = {'rect' : blocJump, 'SO' : blocJump_SO, 'NO' : blocJump_NO, 'SE' : blocJump_SE, 'NE' : blocJump_NE}
-		if self.type == "f" :
-			self.skin = {'rect' : blocFill, 'SO' : blocFill, 'NO' : blocFill, 'SE' : blocFill, 'NE' : blocFill}
-		## todo : créer les blocs en coin pour le skin fill
-
-	def dessine(self) :		
-		if self.isTriangle :
-			x = self.posx
-			y = self.posy
-			cote = self.w 
-			no = (x, y)
-			ne = (x+cote, y)
-			se = (x+cote, y+cote)
-			so = (x, y+cote)
-
-			if self.orientation in ["SE", "SO", "NE", "NO"] :
-				display.blit(self.skin[self.orientation], no)
-			else :
-				print ("erreur definition triangle")
-			"""
-			if self.orientation == "SO" :
-				pygame.draw.polygon(display, (255,0,0), (no, so, se))
-
-			elif self.orientation == "NO" :
-				pygame.draw.polygon(display, (255,0,0), (no, so, ne))
-
-			elif self.orientation == "NE" :
-				pygame.draw.polygon(display, (255,0,0), (no, se, ne))
-
-			elif self.orientation == "SE" :
-				pygame.draw.polygon(display, (255,0,0), (so, se, ne))
-				#print()
-			"""
-
-		else :
-			display.blit(self.skin["rect"], (self.posx, self.posy))
-			#pygame.draw.rect(display, (255,0,0), ((self.posx, self.posy), (self.w, self.h)))
-
-
-
 display = pygame.display.set_mode((1366, 768)) # crée une surface pour la fenêtre (largeur, hauteur) de la fenetre
+background = pygame.transform.scale(pygame.image.load("SpritesBackground/background_sombre.jpg"), (largeur_fenetre, hauteur_fenetre))
+
 
 last_time = pygame.time.get_ticks() # Pour le comptage du temps (get_ticks() renvoie le temps actuel en millisecondes)
 
@@ -84,6 +29,7 @@ facteur_l=100 #argument pour move_left
 ### Creation des blocs
 
 t_blocks = []
+<<<<<<< HEAD
 
 def make_gros_bloc (x, y, nb_h, nb_w, type) :
 	# coin haut gauche, nb de bloc en hauteur, nb bloc en largeur, type
@@ -156,6 +102,12 @@ make_gros_bloc(150, 30, 2, 3, "s")
 make_gros_bloc(250,400,5,3,"j")
 make_gros_bloc(350,250,50,5,"n")
 make_gros_bloc(500,200,50,5,"s")
+=======
+make_gros_bloc(50, 300, 10, 3, "n", t_blocks)
+make_gros_bloc(150, 400, 1, 3, "s",t_blocks)
+make_gros_bloc(150, 0, 2, 3, "s", t_blocks)
+make_gros_bloc(250,400,1,3,"j", t_blocks)
+>>>>>>> cf874132aaf3d71caaaa92aaf97f1c4f07acd24f
 
 
 		
@@ -197,11 +149,12 @@ while not end:
 	
 
 	# Ici se fera le dessin de la scène
-	
+	display.blit(background, (0,0))
 	player.dessine(display)
+	
 
 	#test fonction fill
-	fill()
+	fill(display, t_blocks)
 
 	#display.blit(player.image, (player.posx, player.posy))
 	#player= Player(player.posx,player.posy,50,50,player.dy) #maj du joueur
