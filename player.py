@@ -25,7 +25,9 @@ class Player:
             print("character undefined")
             exit()
         self.image= self.skin["still_left"]
+        
         self.coll = [False, False, False, ""]
+        self.collisionPrecedente = [False, False, False, ""]
 
     def is_colliding(self, t_blocks):
         l=[False,False,False, ""] #l = [isColliding, isJumping, isSlipping, "shapeCollided"]
@@ -90,7 +92,8 @@ class Player:
         #teste déplacement x
         depx*=dt
         self.posx+=depx
-        collisionPrecedente = self.coll
+        collisionPenultieme = self.collisionPrecedente
+        self.collisionPrecedente = self.coll
         self.coll = self.is_colliding(t_blocks)
         if self.coll[0]:
             self.posx-=depx
@@ -104,30 +107,32 @@ class Player:
                 elif self.coll[3] == "SE" :
                     self.posy -= abs(self.vely)*dt
             #Mais s'il se tape un rectangle, c'est peut-être qu'il était sur un triangle avant et devrait continuer à glisser
-            elif collisionPrecedente[0] and collisionPrecedente[3] != "rect" :
-                if collisionPrecedente[3] == "NO" :
+            #Urgh, il y a aussi le cas où il s'est retrouvé en l'air juste pendant 1 frame
+            elif (self.collisionPrecedente[0] and self.collisionPrecedente[3] != "rect") or (not self.collisionPrecedente[0] and collisionPenultieme[0] and collisionPenultieme[3] != "rect") :
+                if self.collisionPrecedente[3] == "NO" :
                     self.posy += abs(self.vely)*dt
-                elif collisionPrecedente[3] == "NE" :
+                elif self.collisionPrecedente[3] == "NE" :
                     self.posy += abs(self.vely)*dt
-                elif collisionPrecedente[3] == "SO" :
+                elif self.collisionPrecedente[3] == "SO" :
                     self.posy -= abs(self.vely)*dt
-                elif collisionPrecedente[3] == "SE" :
+                elif self.collisionPrecedente[3] == "SE" :
                     self.posy -= abs(self.vely)*dt
+
                 
                     
         #teste déplacement y
         self.is_grounded=False
-        self.posy+= self.vely *dt
+        self.posy += self.vely*dt
         self.coll = self.is_colliding(t_blocks)
         
         #pour le jump du champignon
         if self.coll[1]: 
-            self.vely=-800
-            self.vely+=2000*dt
+            self.vely= -800
+            #self.vely+=100*dt
             self.posy+=self.vely*dt
             play('rebond')
-            
-
+        
+        self.coll = self.is_colliding(t_blocks)
         #pour la glace
         if self.coll[2]: 
             if self.image == self.skin["still_right"] or self.image == self.skin["run_right"] or self.image == self.skin["jump_right"]:
@@ -138,8 +143,8 @@ class Player:
                 if depx!=0:
                     self.posx-= depx
                 self.posx-= facteur_r*dt/3
-
         
+        self.coll = self.is_colliding(t_blocks)   
         if self.coll[0]:
             self.is_grounded= True
             self.posy-=self.vely*dt
@@ -153,15 +158,15 @@ class Player:
                 elif self.coll[3] == "SE" :
                     self.posx -= abs(self.vely)*dt
             #Mais s'il se tape un rectangle, c'est peut-être qu'il était sur un triangle avant et devrait continuer à glisser
-            elif collisionPrecedente[0] and collisionPrecedente[3] != "rect" :
-                print("2")
-                if collisionPrecedente[3] == "NO" :
+            #Urgh, il y a aussi le cas où il s'est retrouvé en l'air juste pendant 1 frame
+            elif (self.collisionPrecedente[0] and self.collisionPrecedente[3] != "rect") or (not self.collisionPrecedente[0] and collisionPenultieme[0] and collisionPenultieme[3] != "rect") :
+                if self.collisionPrecedente[3] == "NO" :
                     self.posy += abs(self.vely)*dt
-                elif collisionPrecedente[3] == "NE" :
+                elif self.collisionPrecedente[3] == "NE" :
                     self.posy += abs(self.vely)*dt
-                elif collisionPrecedente[3] == "SO" :
+                elif self.collisionPrecedente[3] == "SO" :
                     self.posy -= abs(self.vely)*dt
-                elif collisionPrecedente[3] == "SE" :
+                elif self.collisionPrecedente[3] == "SE" :
                     self.posy -= abs(self.vely)*dt
             else :
                 self.vely*=0
