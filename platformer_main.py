@@ -15,13 +15,13 @@ FPS = 200
 
 
 display = pygame.display.set_mode((largeur_fenetre, hauteur_fenetre)) # crée une surface pour la fenêtre (largeur, hauteur) de la fenetre
-background = bg_play3
+background = bg_play4
 
 
 last_time = pygame.time.get_ticks() # Pour le comptage du temps (get_ticks() renvoie le temps actuel en millisecondes)
 
 
-player= Player(50,10,300, "persoTest") #initialisation du joueur
+player= Player(50,10,300, "A") #initialisation du joueur
 
 jump_count=0 #initialisation compteur de frame pour faire condition sur le jump
 vel=800 #vitesse pour le jump arbitraire
