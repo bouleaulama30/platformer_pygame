@@ -7,6 +7,7 @@ len_bloc = hauteur_fenetre/40
 longueur_saut = 2*len_bloc
 
 
+
 #définition des images blocs, histoire que le code soit lisible...
 blocFill = pygame.transform.scale(pygame.image.load("SpritesBlocks/bloc_fill.png"), (len_bloc, len_bloc))
 

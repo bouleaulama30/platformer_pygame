@@ -129,7 +129,6 @@ while not end:
 	
 	current_time = pygame.time.get_ticks() 
 	dt = (current_time - last_time) / 1000.0 # dt = temps écoulé depuis la dernière frame en secondes
-	print(dt)
 	last_time = pygame.time.get_ticks() # ne pas oublier de réinitialiser le chronomètre
 
 	#traitement des entrées clavier

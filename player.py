@@ -13,6 +13,7 @@ class Player:
         self.character = perso #"A" pour Alice, "L" pour Lapin
         self.vely=0
         self.is_grounded=False
+        self.K_r_pressed=False
         
       
         
@@ -78,7 +79,7 @@ class Player:
             self.image = self.skin["still_left"]
         depx*=dt
         self.posx+=depx
-        if self.is_colliding(t_blocks)[1]:
+        if self.is_colliding(t_blocks)[0]:
             self.posx-=depx
 
         self.is_grounded=False
@@ -114,10 +115,12 @@ class Player:
             self.vely*=0
             
 
-        if pressed_keys[K_r]:
+        if pressed_keys[K_r] and not self.K_r_pressed:
+            self.K_r_pressed=True
             self.posx, self.posy=50,10
             self.vely=0
             self.is_grounded=False
+            play('R_is_pressed')
         
         if not self.is_grounded :
             if (self.image == self.skin["jump_right"] or self.image == self.skin["run_right"] or self.image == self.skin["still_right"]) :
