@@ -6,6 +6,8 @@ largeur_fenetre = hauteur_fenetre*2
 len_bloc = hauteur_fenetre/40
 longueur_saut = 2*len_bloc
 
+#initialisation collisions
+rep = (False, "")
 
 
 #définition des images blocs, histoire que le code soit lisible...

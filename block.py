@@ -27,19 +27,6 @@ class Block:
 		
 	def dessine(self, display) :	
 		display.blit(self.image, (self.posx, self.posy))
-		# if self.isTriangle :
-		# 	x = self.posx
-		# 	y = self.posy
-		# 	cote = self.w 
-		# 	no = (x, y)
-		# 	ne = (x+cote, y)
-		# 	se = (x+cote, y+cote)
-		# 	so = (x, y+cote)
-
-		# 	display.blit(self.image, no)
-		# else :
-		# 	display.blit(self.image, (self.posx, self.posy))
-			#pygame.draw.rect(display, (255,0,0), ((self.posx, self.posy), (self.w, self.h)))
 
 def make_gros_bloc (x, y, nb_h, nb_w, type, t_blocks) :
 	# coin haut gauche, nb de bloc en hauteur, nb bloc en largeur, type

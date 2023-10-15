@@ -22,12 +22,13 @@ class Player:
             self.skin = {"still_left" : AliceStill_left, "still_right":AliceStill_right, "run_right" : AliceRun_right, "run_left" : AliceRun_left, "jump_left" : AliceJump_left, "jump_right":AliceJump_right}
         elif perso == "L" :
             self.skin = {"still_left" : LapinStill_left, "still_right":LapinStill_right, "run_right" : LapinRun_right, "run_left" : LapinRun_left, "jump_left" : LapinJump_left, "jump_right":LapinJump_right}
-        elif perso == "blocTest" :
+        elif perso == "persoTest" :
             self.skin = {"still_left" : persoTest, "still_right":persoTest, "run_right" : persoTest, "run_left" : persoTest, "jump_left" : persoTest, "jump_right":persoTest}
         else :
             print("character undefined")
             exit()
         self.image= self.skin["still_left"]
+        self.coll = (False, "")	
 
     def is_colliding(self, t_blocks):
         l=[False,False,False]
@@ -77,21 +78,34 @@ class Player:
             self.image = self.skin["run_left"]
         elif self.image == self.skin["still_left"] or self.image == self.skin["run_left"] :
             self.image = self.skin["still_left"]
+        
         depx*=dt
         self.posx+=depx
-        rep = self.is_colliding(t_blocks)
-        if rep[0]:
-        if self.is_colliding(t_blocks)[0]:
+        
+        collisionPrecedente = self.coll
+        self.coll = self.is_colliding(t_blocks)
+        if self.coll[0]:
             self.posx-=depx
-            if rep[1] != "rect" :
-                if rep[1] == "NO" :
+            if self.coll[1] != "rect" :
+                if self.coll[1] == "NO" :
                     self.posy += abs(self.vely)*dt
-                if rep[1] == "NE" :
+                elif self.coll[1] == "NE" :
                     self.posy += abs(self.vely)*dt
-                if rep[1] == "SO" :
+                elif self.coll[1] == "SO" :
                     self.posy -= abs(self.vely)*dt
-                if rep[1] == "SE" :
+                elif self.coll[1] == "SE" :
                     self.posy -= abs(self.vely)*dt
+            #Mais s'il se tape un rectangle, c'est peut-être qu'il était sur un triangle avant et devrait continuer à glisser
+            elif collisionPrecedente[0] and collisionPrecedente[1] != "rect" :
+                if collisionPrecedente[1] == "NO" :
+                    self.posy += abs(self.vely)*dt
+                elif collisionPrecedente[1] == "NE" :
+                    self.posy += abs(self.vely)*dt
+                elif collisionPrecedente[1] == "SO" :
+                    self.posy -= abs(self.vely)*dt
+                elif collisionPrecedente[1] == "SE" :
+                    self.posy -= abs(self.vely)*dt
+                
                     
 
         self.is_grounded=False
@@ -124,15 +138,25 @@ class Player:
         if self.is_colliding(t_blocks)[0]:
             self.is_grounded= True
             self.posy-=self.vely*dt
-            if rep[1] != "rect" :
-                if rep[1] == "NO" :
+            if self.coll[1] != "rect" :
+                if self.coll[1] == "NO" :
                     self.posx += abs(self.vely)*dt
-                if rep[1] == "NE" :
+                elif self.coll[1] == "NE" :
                     self.posx -= abs(self.vely)*dt
-                if rep[1] == "SO" :
+                elif self.coll[1] == "SO" :
                     self.posx += abs(self.vely)*dt
-                if rep[1] == "SE" :
+                elif self.coll[1] == "SE" :
                     self.posx -= abs(self.vely)*dt
+            #Mais s'il se tape un rectangle, c'est peut-être qu'il était sur un triangle avant et devrait continuer à glisser
+            elif collisionPrecedente[0] and collisionPrecedente[1] != "rect" :
+                if collisionPrecedente[1] == "NO" :
+                    self.posy += abs(self.vely)*dt
+                elif collisionPrecedente[1] == "NE" :
+                    self.posy += abs(self.vely)*dt
+                elif collisionPrecedente[1] == "SO" :
+                    self.posy -= abs(self.vely)*dt
+                elif collisionPrecedente[1] == "SE" :
+                    self.posy -= abs(self.vely)*dt
             else :
                 self.vely*=0
         

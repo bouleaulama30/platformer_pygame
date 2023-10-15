@@ -23,7 +23,8 @@ background = pygame.transform.scale(pygame.image.load("SpritesBackground/backgro
 last_time = pygame.time.get_ticks() # Pour le comptage du temps (get_ticks() renvoie le temps actuel en millisecondes)
 
 
-player= Player(50,10,300, "blocTest") #initialisation du joueur
+player= Player(50,10,300, "persoTest") #initialisation du joueur
+
 jump_count=0 #initialisation compteur de frame pour faire condition sur le jump
 vel=800 #vitesse pour le jump arbitraire
 g=5 #pour rendre jump plus  réaliste
@@ -34,14 +35,13 @@ facteur_l=100 #argument pour move_left
 ### Creation des blocs
 
 t_blocks = []
-make_gros_triangle(50, 300, 5, "n", "SO", t_blocks)
+make_gros_triangle(50, 200, 5, "n", "SO", t_blocks)
 make_gros_bloc(40, 400, 2, 15, "s",t_blocks)
 make_gros_bloc(150, 0, 2, 3, "s", t_blocks)
 make_gros_bloc(250,400,1,3,"j", t_blocks)
 
 
 		
-	
 
 # Boucle de rendu
 end = False
