@@ -6,18 +6,16 @@ from constante import *
 from sounds import *
 
 
-#1 player = 2 blocs de haut
-
+#paramètres d'entrée
 pygame.init() # important
+font = pygame.font.SysFont("Z003", 70)
+display = pygame.display.set_mode((largeur_fenetre, hauteur_fenetre)) # crée une surface pour la fenêtre (largeur, hauteur) de la fenetre
+background = bg_play4
 
 # definir une clock
 clock= pygame.time.Clock()
 FPS = 200
 last_time = pygame.time.get_ticks() # Pour le comptage du temps (get_ticks() renvoie le temps actuel en millisecondes)
-
-#ecran
-display = pygame.display.set_mode((largeur_fenetre, hauteur_fenetre)) # crée une surface pour la fenêtre (largeur, hauteur) de la fenetre
-background = bg_play4
 
 #music
 musics["welcome"]
@@ -42,7 +40,7 @@ make_gros_bloc(400,400,1,3,"j", t_blocks)
 
 
 		
-etape = "play" #can be "play", "start", "end", "charging"
+etape = "start" #can be "play", "start", "end", "charging"
 state = ""
 # Boucle de rendu
 end = False
@@ -51,7 +49,7 @@ while not end:
 		if event.type == QUIT: # vrai quand l'utilisateur essaye de fermer la fenêtre
 			end = True
 
-	display.fill((250, 250, 250)) # remplit l'écran avec la couleur ((rouge, vert, bleu)) (entre 0 et 255)
+	display.fill(black) # remplit l'écran avec la couleur ((rouge, vert, bleu)) (entre 0 et 255)
 	
 	current_time = pygame.time.get_ticks() 
 	dt = (current_time - last_time) / 1000.0 # dt = temps écoulé depuis la dernière frame en secondes
@@ -60,6 +58,27 @@ while not end:
 	#traitement des entrées clavier
 	pressed_keys = pygame.key.get_pressed()
 	if etape == "start" :
+		if state == "" :
+			welcome = font.render("Welcome", True, white)
+			welcome_h = welcome.get_height()
+			welcome_posx = largeur_fenetre//2 - welcome.get_width()//2
+			welcome_posy = hauteur_fenetre//2.5 - welcome_h
+			display.blit(welcome, (welcome_posx, welcome_posy))
+		
+			in_ = font.render("in", True, white)
+			in_h = in_.get_height()
+			in_posx = largeur_fenetre//2 - in_.get_width()//2
+			in_posy = welcome_posy + 1.2*welcome_h 
+			display.blit(in_, (in_posx, in_posy))
+   
+			wonderland = font.render("Wonderland", True, pink)
+			wonderland_h = wonderland.get_height()
+			wonderland_posx = largeur_fenetre//2 - wonderland.get_width()//2
+			wonderland_posy = in_posy + 1.2*in_h
+			display.blit(wonderland, (wonderland_posx, wonderland_posy))
+			pygame.display.update()
+			pygame.time.wait(4*1000)
+   
 		state = "switch"
 		if state == "switch" :
 			etape = "charging"
