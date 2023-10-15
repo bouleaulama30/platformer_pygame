@@ -59,30 +59,13 @@ while not end:
 	player.deplacement(200,200, dt, pressed_keys, t_blocks)
 	
 	player.dy = 300
-
-    #condition de contact test 
-	#collision()
-
-	if (pressed_keys[K_UP] or pressed_keys[K_SPACE]) and player.is_grounded :
-		player.vely= -800
-		play('jump')
-	
-	
-
-
-	
+ 
 	# Ici se fera le calcul de la physique du jeu
-	
-	
-	
-	
 	
 
 	# Ici se fera le dessin de la scène
 	display.blit(background, (0,0))
 	player.dessine(display)
-	
-
 	
 	#test fonction fill
 	fill(display, t_blocks)

@@ -28,34 +28,34 @@ class Player:
         self.coll = (False, "")	
 
     def is_colliding(self, t_blocks):
-        l=[False,False,False] #l = [isColliding, isJumping, isSlipping]
+        l=[False,False,False, ""] #l = [isColliding, isJumping, isSlipping, "shapeCollided"]
         for b in t_blocks:
             if self.posx < b.posx + b.w and self.posx + self.w > b.posx and self.posy < b.posy + b.h and self.posy + self.h > b.posy:
                 if not b.isTriangle :
                     if b.type=='j':
-                        l=[True,True,False]
+                        l=[True,True,False, "rect"]
                         return l
                     if b.type=='s':
-                        l=[True,False,True]
+                        l=[True,False,True, "rect"]
                     else:
-                        l=[True,False,False]
+                        l=[True,False,False, "rect"]
                         return l
                     
                 elif b.orientation == "NE" :
                     if not (self.posx + self.w < b.posx + (self.posy - b.posy)  and  (self.posy > b.posy + b.h - (self.posx + self.w - b.posx))) :
-                        l=[True,False,False]
+                        l=[True,False,False, "NE"]
                         return l
                 elif b.orientation == "NO" :
                     if not (self.posx > b.posx + b.w - (self.posy - b.posy) and self.posy > b.posy + b.h - (self.posx - b.posx)) :
-                        l=[True,False,False]
+                        l=[True,False,False, "NO"]
                         return l
                 elif b.orientation == "SE" :
                     if not (self.posx + self.w < b.posx + b.w - (self.posy - b.posy) and self.posy+self.h > b.posy - self.posx + self.w - b.posx) :
-                        l=[True,False,False]
+                        l=[True,False,False, "SE"]
                         return l
                 elif b.orientation == "SO" :
                     if not (self.posx > b.posx + (self.posy + self.h - b.posy) and self.posy + self.h < b.posy + self.posx - b.posx) :
-                        l=[True,False,False]
+                        l=[True,False,False, "SO"]
                         return l
         return l
 
@@ -76,6 +76,16 @@ class Player:
         elif self.image == self.skin["still_left"] or self.image == self.skin["run_left"] :
             self.image = self.skin["still_left"]
         
+        if pressed_keys[K_r]:
+            self.posx, self.posy=50,10
+            self.vely=0
+            self.is_grounded=False
+            play('R_is_pressed')
+        
+        if (pressed_keys[K_UP] or pressed_keys[K_SPACE]) and self.is_grounded :
+            self.vely= -800
+            play('jump')
+        
         depx*=dt
         self.posx+=depx
         
@@ -83,24 +93,24 @@ class Player:
         self.coll = self.is_colliding(t_blocks)
         if self.coll[0]:
             self.posx-=depx
-            if self.coll[1] != "rect" :
-                if self.coll[1] == "NO" :
+            if self.coll[3] != "rect" :
+                if self.coll[3] == "NO" :
                     self.posy += abs(self.vely)*dt
-                elif self.coll[1] == "NE" :
+                elif self.coll[3] == "NE" :
                     self.posy += abs(self.vely)*dt
-                elif self.coll[1] == "SO" :
+                elif self.coll[3] == "SO" :
                     self.posy -= abs(self.vely)*dt
-                elif self.coll[1] == "SE" :
+                elif self.coll[3] == "SE" :
                     self.posy -= abs(self.vely)*dt
             #Mais s'il se tape un rectangle, c'est peut-être qu'il était sur un triangle avant et devrait continuer à glisser
-            elif collisionPrecedente[0] and collisionPrecedente[1] != "rect" :
-                if collisionPrecedente[1] == "NO" :
+            elif collisionPrecedente[0] and collisionPrecedente[3] != "rect" :
+                if collisionPrecedente[3] == "NO" :
                     self.posy += abs(self.vely)*dt
-                elif collisionPrecedente[1] == "NE" :
+                elif collisionPrecedente[3] == "NE" :
                     self.posy += abs(self.vely)*dt
-                elif collisionPrecedente[1] == "SO" :
+                elif collisionPrecedente[3] == "SO" :
                     self.posy -= abs(self.vely)*dt
-                elif collisionPrecedente[1] == "SE" :
+                elif collisionPrecedente[3] == "SE" :
                     self.posy -= abs(self.vely)*dt
                 
                     
@@ -109,7 +119,7 @@ class Player:
         self.posy+= self.vely *dt
         
         #pour le jump du champignon
-        if self.is_colliding(t_blocks)[1]: 
+        if self.coll[1]: 
             self.vely=-800
             self.vely+=2000*dt
             self.posy+=self.vely*dt
@@ -117,7 +127,7 @@ class Player:
             
 
         #pour la glace
-        if self.is_colliding(t_blocks)[2]: 
+        if self.coll[2]: 
             if self.image == self.skin["still_right"] or self.image == self.skin["run_right"] or self.image == self.skin["jump_right"]:
                 if depx!=0:
                     self.posx-=depx
@@ -128,39 +138,34 @@ class Player:
                 self.posx-= facteur_r*dt/3
 
         
-        if self.is_colliding(t_blocks)[0]:
+        if self.coll[0]:
             self.is_grounded= True
             self.posy-=self.vely*dt
-            if self.coll[1] != "rect" :
-                if self.coll[1] == "NO" :
+            if self.coll[3] != "rect" :
+                if self.coll[3] == "NO" :
                     self.posx += abs(self.vely)*dt
-                elif self.coll[1] == "NE" :
+                elif self.coll[3] == "NE" :
                     self.posx -= abs(self.vely)*dt
-                elif self.coll[1] == "SO" :
+                elif self.coll[3] == "SO" :
                     self.posx += abs(self.vely)*dt
-                elif self.coll[1] == "SE" :
+                elif self.coll[3] == "SE" :
                     self.posx -= abs(self.vely)*dt
             #Mais s'il se tape un rectangle, c'est peut-être qu'il était sur un triangle avant et devrait continuer à glisser
-            elif collisionPrecedente[0] and collisionPrecedente[1] != "rect" :
-                if collisionPrecedente[1] == "NO" :
+            elif collisionPrecedente[0] and collisionPrecedente[3] != "rect" :
+                if collisionPrecedente[3] == "NO" :
                     self.posy += abs(self.vely)*dt
-                elif collisionPrecedente[1] == "NE" :
+                elif collisionPrecedente[3] == "NE" :
                     self.posy += abs(self.vely)*dt
-                elif collisionPrecedente[1] == "SO" :
+                elif collisionPrecedente[3] == "SO" :
                     self.posy -= abs(self.vely)*dt
-                elif collisionPrecedente[1] == "SE" :
+                elif collisionPrecedente[3] == "SE" :
                     self.posy -= abs(self.vely)*dt
             else :
                 self.vely*=0
         
-        if pressed_keys[K_r]:
-            self.posx, self.posy=50,10
-            self.vely=0
-            self.is_grounded=False
-            play('R_is_pressed')
-        
+        #gère les changements de skins pendant/juste après un saut
         if not self.is_grounded :
-            if (self.image == self.skin["jump_right"] or self.image == self.skin["run_right"] or self.image == self.skin["still_right"]) :
+            if self.image == self.skin["jump_right"] or self.image == self.skin["run_right"] or self.image == self.skin["still_right"] :
                 self.image = self.skin["jump_right"]
             else :
                 self.image = self.skin["jump_left"]
@@ -176,6 +181,9 @@ class Player:
         display.blit(self.image, (self.posx, self.posy))
     
     def offlimits(self) :
+        """
+        retourne True si le player est hors de l'écran
+        """
         if self.posx < 0 or self.posy < 0 or self.posx + self.w > largeur_fenetre or self.posy + self.h > hauteur_fenetre :
             return True
         return False
