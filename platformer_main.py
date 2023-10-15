@@ -29,6 +29,8 @@ g=5 #pour rendre jump plus  réaliste
 facteur_r=100 #argument pour move_right 
 facteur_l=100 #argument pour move_left
 
+musics["welcome"]
+pygame.mixer.music.play(-1)
 
 ### Creation des blocs
 
