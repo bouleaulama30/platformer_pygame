@@ -4,13 +4,15 @@ from player import Player
 from block import *
 from constante import *
 from sounds import *
+from fonts import affiche
 
 
 #paramètres d'entrée
 pygame.init() # important
-font = pygame.font.SysFont("Z003", 70)
 display = pygame.display.set_mode((largeur_fenetre, hauteur_fenetre)) # crée une surface pour la fenêtre (largeur, hauteur) de la fenetre
 background = bg_play4
+
+#init fonts
 
 # definir une clock
 clock= pygame.time.Clock()
@@ -59,27 +61,20 @@ while not end:
 	pressed_keys = pygame.key.get_pressed()
 	if etape == "start" :
 		if state == "" :
-			welcome = font.render("Welcome", True, white)
-			welcome_h = welcome.get_height()
-			welcome_posx = largeur_fenetre//2 - welcome.get_width()//2
-			welcome_posy = hauteur_fenetre//2.5 - welcome_h
-			display.blit(welcome, (welcome_posx, welcome_posy))
+			affiche(display, "WelcomeInWonderland")
+			t = 0
+			state = "keepDisplayingFonts"
+
+		if state == "keepDisplayingFonts" :
+			if t < 5 and not pressed_keys[K_RETURN] :
+				affiche(display, "WelcomeInWonderland")
+				t += dt
+			else :
+				state = "chooseCharacter"
+
+		if state == "chooseCharacter" :
+			state = "switch"
 		
-			in_ = font.render("in", True, white)
-			in_h = in_.get_height()
-			in_posx = largeur_fenetre//2 - in_.get_width()//2
-			in_posy = welcome_posy + 1.2*welcome_h 
-			display.blit(in_, (in_posx, in_posy))
-   
-			wonderland = font.render("Wonderland", True, pink)
-			wonderland_h = wonderland.get_height()
-			wonderland_posx = largeur_fenetre//2 - wonderland.get_width()//2
-			wonderland_posy = in_posy + 1.2*in_h
-			display.blit(wonderland, (wonderland_posx, wonderland_posy))
-			pygame.display.update()
-			pygame.time.wait(4*1000)
-   
-		state = "switch"
 		if state == "switch" :
 			etape = "charging"
 			state = ""
