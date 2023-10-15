@@ -87,7 +87,7 @@ while not end:
 
 	
 	#test fonction fill
-	fill()
+	fill(display, t_blocks)
 
 	#display.blit(player.image, (player.posx, player.posy))
 	#player= Player(player.posx,player.posy,50,50,player.dy) #maj du joueur
