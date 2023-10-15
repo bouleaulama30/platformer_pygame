@@ -9,20 +9,22 @@ from sounds import *
 #1 player = 2 blocs de haut
 
 pygame.init() # important
+
 # definir une clock
 clock= pygame.time.Clock()
 FPS = 200
+last_time = pygame.time.get_ticks() # Pour le comptage du temps (get_ticks() renvoie le temps actuel en millisecondes)
 
-
+#ecran
 display = pygame.display.set_mode((largeur_fenetre, hauteur_fenetre)) # crée une surface pour la fenêtre (largeur, hauteur) de la fenetre
 background = bg_play4
 
+#music
+musics["welcome"]
+pygame.mixer.music.play(-1)
 
-last_time = pygame.time.get_ticks() # Pour le comptage du temps (get_ticks() renvoie le temps actuel en millisecondes)
-
-
+#player
 player= Player(50,10,300, "A") #initialisation du joueur
-
 jump_count=0 #initialisation compteur de frame pour faire condition sur le jump
 vel=800 #vitesse pour le jump arbitraire
 g=5 #pour rendre jump plus  réaliste
@@ -40,7 +42,8 @@ make_gros_bloc(400,400,1,3,"j", t_blocks)
 
 
 		
-
+etape = "play" #can be "play", "start", "end", "charging"
+state = ""
 # Boucle de rendu
 end = False
 while not end:
@@ -56,22 +59,36 @@ while not end:
 
 	#traitement des entrées clavier
 	pressed_keys = pygame.key.get_pressed()
-	player.deplacement(200,200, dt, pressed_keys, t_blocks)
-	
-	player.dy = 300
+	if etape == "start" :
+		state = "switch"
+		if state == "switch" :
+			etape = "charging"
+			state = ""
+			musics["quadrille"]
+			pygame.mixer.music.play(-1)
+
+	if etape == "charging" :
+		state = "switch"
+		if state == "switch" :
+			etape = "play"
+			state = ""
+			musics["explore"]
+			pygame.mixer.music.play(-1)
+   
  
-	# Ici se fera le calcul de la physique du jeu
+	if etape == "play" :
+		player.deplacement(200,200, dt, pressed_keys, t_blocks)
+		player.dy = 300
+
+		# Ici se fera le dessin de la scène
+		display.blit(background, (0,0))
+		player.dessine(display)
+	
+		#test fonction fill
+		fill(display, t_blocks)
+
 	
 
-	# Ici se fera le dessin de la scène
-	display.blit(background, (0,0))
-	player.dessine(display)
-	
-	#test fonction fill
-	fill(display, t_blocks)
-
-	#display.blit(player.image, (player.posx, player.posy))
-	#player= Player(player.posx,player.posy,50,50,player.dy) #maj du joueur
 	pygame.display.update() # Mise à jour de l'affichage 
 
 	# fixer le nombre de fps sur ma clock
