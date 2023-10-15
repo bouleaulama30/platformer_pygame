@@ -25,7 +25,7 @@ class Player:
             print("character undefined")
             exit()
         self.image= self.skin["still_left"]
-        self.coll = (False, "")	
+        self.coll = [False, False, False, ""]
 
     def is_colliding(self, t_blocks):
         l=[False,False,False, ""] #l = [isColliding, isJumping, isSlipping, "shapeCollided"]
@@ -33,29 +33,29 @@ class Player:
             if self.posx < b.posx + b.w and self.posx + self.w > b.posx and self.posy < b.posy + b.h and self.posy + self.h > b.posy:
                 if not b.isTriangle :
                     if b.type=='j':
-                        l=[True,True,False, "rect"]
+                        l=[True, True, False, "rect"]
                         return l
-                    if b.type=='s':
-                        l=[True,False,True, "rect"]
+                    elif b.type=='s':
+                        l=[True, False, True, "rect"]
                     else:
-                        l=[True,False,False, "rect"]
+                        l=[True, False, False, "rect"]
                         return l
                     
                 elif b.orientation == "NE" :
                     if not (self.posx + self.w < b.posx + (self.posy - b.posy)  and  (self.posy > b.posy + b.h - (self.posx + self.w - b.posx))) :
-                        l=[True,False,False, "NE"]
+                        l=[True, False, False, "NE"]
                         return l
                 elif b.orientation == "NO" :
                     if not (self.posx > b.posx + b.w - (self.posy - b.posy) and self.posy > b.posy + b.h - (self.posx - b.posx)) :
-                        l=[True,False,False, "NO"]
+                        l=[True, False, False, "NO"]
                         return l
                 elif b.orientation == "SE" :
                     if not (self.posx + self.w < b.posx + b.w - (self.posy - b.posy) and self.posy+self.h > b.posy - self.posx + self.w - b.posx) :
-                        l=[True,False,False, "SE"]
+                        l=[True, False, False, "SE"]
                         return l
                 elif b.orientation == "SO" :
                     if not (self.posx > b.posx + (self.posy + self.h - b.posy) and self.posy + self.h < b.posy + self.posx - b.posx) :
-                        l=[True,False,False, "SO"]
+                        l=[True, False, False, "SO"]
                         return l
         return l
 
@@ -86,9 +86,10 @@ class Player:
             self.vely= -800
             play('jump')
         
+        print(self.coll)
+        #teste déplacement x
         depx*=dt
         self.posx+=depx
-        
         collisionPrecedente = self.coll
         self.coll = self.is_colliding(t_blocks)
         if self.coll[0]:
@@ -114,9 +115,10 @@ class Player:
                     self.posy -= abs(self.vely)*dt
                 
                     
-
+        #teste déplacement y
         self.is_grounded=False
         self.posy+= self.vely *dt
+        self.coll = self.is_colliding(t_blocks)
         
         #pour le jump du champignon
         if self.coll[1]: 
@@ -152,6 +154,7 @@ class Player:
                     self.posx -= abs(self.vely)*dt
             #Mais s'il se tape un rectangle, c'est peut-être qu'il était sur un triangle avant et devrait continuer à glisser
             elif collisionPrecedente[0] and collisionPrecedente[3] != "rect" :
+                print("2")
                 if collisionPrecedente[3] == "NO" :
                     self.posy += abs(self.vely)*dt
                 elif collisionPrecedente[3] == "NE" :
