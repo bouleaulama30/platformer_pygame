@@ -14,9 +14,6 @@ class Player:
         self.vely=0
         self.is_grounded=False
         self.K_r_pressed=False
-        
-      
-        
 
         if perso == "A" :
             self.skin = {"still_left" : AliceStill_left, "still_right":AliceStill_right, "run_right" : AliceRun_right, "run_left" : AliceRun_left, "jump_left" : AliceJump_left, "jump_right":AliceJump_right}
@@ -31,7 +28,7 @@ class Player:
         self.coll = (False, "")	
 
     def is_colliding(self, t_blocks):
-        l=[False,False,False]
+        l=[False,False,False] #l = [isColliding, isJumping, isSlipping]
         for b in t_blocks:
             if self.posx < b.posx + b.w and self.posx + self.w > b.posx and self.posy < b.posy + b.h and self.posy + self.h > b.posy:
                 if not b.isTriangle :
@@ -109,9 +106,6 @@ class Player:
                     
 
         self.is_grounded=False
-        
-        
-        
         self.posy+= self.vely *dt
         
         #pour le jump du champignon
@@ -120,7 +114,6 @@ class Player:
             self.vely+=2000*dt
             self.posy+=self.vely*dt
             play('rebond')
-            
             
 
         #pour la glace
@@ -181,4 +174,9 @@ class Player:
 		
     def dessine(self, display) :
         display.blit(self.image, (self.posx, self.posy))
+    
+    def offlimits(self) :
+        if self.posx < 0 or self.posy < 0 or self.posx + self.w > largeur_fenetre or self.posy + self.h > hauteur_fenetre :
+            return True
+        return False
 		

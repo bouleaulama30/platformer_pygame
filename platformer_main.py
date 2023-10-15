@@ -6,8 +6,6 @@ from constante import *
 from sounds import *
 
 
-
-
 #1 player = 2 blocs de haut
 
 pygame.init() # important
@@ -36,9 +34,9 @@ facteur_l=100 #argument pour move_left
 
 t_blocks = []
 make_gros_triangle(50, 200, 5, "n", "SO", t_blocks)
-make_gros_bloc(40, 400, 2, 15, "s",t_blocks)
+make_gros_bloc(40, 500, 2, 15, "s",t_blocks)
 make_gros_bloc(150, 0, 2, 3, "s", t_blocks)
-make_gros_bloc(250,400,1,3,"j", t_blocks)
+make_gros_bloc(400,400,1,3,"j", t_blocks)
 
 
 		
@@ -95,5 +93,8 @@ while not end:
 
 	# fixer le nombre de fps sur ma clock
 	clock.tick(FPS)
+	if player.offlimits() :
+		print("YOU LOSE")
+		exit()
 
 pygame.quit() # important
