@@ -31,6 +31,9 @@ class Player:
 
     def is_colliding(self, t_blocks):
         l=[False,False,False, ""] #l = [isColliding, isJumping, isSlipping, "shapeCollided"]
+        if self.offlimits() :
+            return [True, False, False, "rect"]
+        
         for b in t_blocks:
             if self.posx < b.posx + b.w and self.posx + self.w > b.posx and self.posy < b.posy + b.h and self.posy + self.h > b.posy:
                 if not b.isTriangle :
@@ -88,7 +91,6 @@ class Player:
             self.vely= -800
             play('jump')
         
-        print(self.coll)
         #teste déplacement x
         depx*=dt
         self.posx+=depx
@@ -128,7 +130,7 @@ class Player:
         #pour le jump du champignon
         if self.coll[1]: 
             self.vely= -800
-            #self.vely+=100*dt
+            self.vely+=2000*dt
             self.posy+=self.vely*dt
             play('rebond')
         
@@ -159,6 +161,8 @@ class Player:
                     self.posx -= abs(self.vely)*dt
             #Mais s'il se tape un rectangle, c'est peut-être qu'il était sur un triangle avant et devrait continuer à glisser
             #Urgh, il y a aussi le cas où il s'est retrouvé en l'air juste pendant 1 frame
+            #Il y a aussi le cas triangle -> coin rectangle -> air -> coin rectangle, mais franchement flemme
+            #Faudrait s'y prendre d'une autre manière...
             elif (self.collisionPrecedente[0] and self.collisionPrecedente[3] != "rect") or (not self.collisionPrecedente[0] and collisionPenultieme[0] and collisionPenultieme[3] != "rect") :
                 if self.collisionPrecedente[3] == "NO" :
                     self.posy += abs(self.vely)*dt
@@ -170,6 +174,15 @@ class Player:
                     self.posy -= abs(self.vely)*dt
             else :
                 self.vely*=0
+        
+            #normalement, il ne devrait plus rien toucher
+            #S'il était en train de collide avec la tête, il ne faut pas qu'il soit grounded ! Testons ça
+            self.posy -= 2000*dt #on le remonte un poil
+            if self.is_colliding(t_blocks)[0] :
+                self.is_grounded = False
+            self.posy += 2000*dt #on le redescend à l'état avant-test
+        
+        
         
         #gère les changements de skins pendant/juste après un saut
         if not self.is_grounded :
@@ -192,7 +205,7 @@ class Player:
         """
         retourne True si le player est hors de l'écran
         """
-        if self.posx < 0 or self.posy < 0 or self.posx + self.w > largeur_fenetre or self.posy + self.h > hauteur_fenetre :
+        if self.posx < 0 or self.posy < 0 or self.posx + self.w > largeur_fenetre or self.posy + self.h >= hauteur_fenetre :
             return True
         return False
 		

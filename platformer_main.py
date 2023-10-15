@@ -14,7 +14,7 @@ clock= pygame.time.Clock()
 FPS = 200
 
 
-display = pygame.display.set_mode((1366, 768)) # crée une surface pour la fenêtre (largeur, hauteur) de la fenetre
+display = pygame.display.set_mode((largeur_fenetre, hauteur_fenetre)) # crée une surface pour la fenêtre (largeur, hauteur) de la fenetre
 background = pygame.transform.scale(pygame.image.load("SpritesBackground/background_key.jpg"), (largeur_fenetre, hauteur_fenetre))
 
 
@@ -76,8 +76,6 @@ while not end:
 
 	# fixer le nombre de fps sur ma clock
 	clock.tick(FPS)
-	if player.offlimits() :
-		print("YOU LOSE")
-		exit()
+
 
 pygame.quit() # important
