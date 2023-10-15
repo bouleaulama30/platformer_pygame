@@ -51,7 +51,7 @@ LapinRun_left = pygame.transform.scale(pygame.image.load("SpritesPlayer/Lapin/la
 LapinJump_left = pygame.transform.scale(pygame.image.load("SpritesPlayer/Lapin/lapin_jump_left.png"), (1*len_bloc, 2*len_bloc))
 LapinJump_right = pygame.transform.scale(pygame.image.load("SpritesPlayer/Lapin/lapin_jump_right.png"), (1*len_bloc, 2*len_bloc))
 
-persoTest = pygame.transform.scale(pygame.image.load("SpritesBackground/background_key1.jpg"), (1*len_bloc, 2*len_bloc))
+persoTest = pygame.transform.scale(pygame.image.load("SpritesBackground/background_circular.jpg"), (1*len_bloc, 2*len_bloc))
 
 #def des images background
 bg_play1 = pygame.transform.scale(pygame.image.load("SpritesBackground/background_sombre.jpg"), (largeur_fenetre, hauteur_fenetre))

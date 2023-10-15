@@ -57,7 +57,7 @@ class Player:
                         l=[True,False,False]
                         return l
                 elif b.orientation == "SO" :
-                    if not (self.posx > b.posx + (b.posy + b.h  - (self.posy + self.h)) and self.posy + self.h < b.posy + self.posx - b.posx) :
+                    if not (self.posx > b.posx + (self.posy + self.h - b.posy) and self.posy + self.h < b.posy + self.posx - b.posx) :
                         l=[True,False,False]
                         return l
         return l
