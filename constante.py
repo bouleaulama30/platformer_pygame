@@ -9,6 +9,8 @@ longueur_saut = 2*len_bloc
 #couleurs
 white = (255, 255, 255)
 black = (0,0,0)
+gris = (150,150,150)
+rouge = (255, 0,0)
 pink = (255,20,147)
 
 #initialisation collisions
