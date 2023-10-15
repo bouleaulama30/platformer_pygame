@@ -4,8 +4,8 @@ from player import Player
 from block import *
 from constante import *
 from sounds import *
-from fonts import affiche
-
+#from fonts import affiche
+from decoupageFonctionnement import *
 
 #paramètres d'entrée
 pygame.init() # important
@@ -43,7 +43,8 @@ make_gros_bloc(400,400,1,3,"j", t_blocks)
 
 		
 etape = "start" #can be "play", "start", "end", "charging"
-state = ""
+state = "init"
+t = 0
 # Boucle de rendu
 end = False
 while not end:
@@ -60,32 +61,16 @@ while not end:
 	#traitement des entrées clavier
 	pressed_keys = pygame.key.get_pressed()
 	if etape == "start" :
-		if state == "" :
-			affiche(display, "WelcomeInWonderland")
-			t = 0
-			state = "keepDisplayingFonts"
-
-		if state == "keepDisplayingFonts" :
-			if t < 5 and not pressed_keys[K_RETURN] :
-				affiche(display, "WelcomeInWonderland")
-				t += dt
-			else :
-				state = "chooseCharacter"
-
-		if state == "chooseCharacter" :
-			state = "switch"
+		etape, state,t = start(display, pressed_keys, state, t, dt)
 		
-		if state == "switch" :
-			etape = "charging"
-			state = ""
+	if etape == "charging" :
+		if state == "init" :
 			musics["quadrille"]
 			pygame.mixer.music.play(-1)
-
-	if etape == "charging" :
-		state = "switch"
+			state = "switch"
 		if state == "switch" :
 			etape = "play"
-			state = ""
+			state = "init"
 			musics["explore"]
 			pygame.mixer.music.play(-1)
    
@@ -110,3 +95,4 @@ while not end:
 
 
 pygame.quit() # important
+
