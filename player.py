@@ -209,3 +209,16 @@ class Player:
             return True
         return False
 		
+class Epouvantail:
+    def __init__(self, posx, posy, perso):
+        self.posx = posx
+        self.posy = posy
+        if perso == "A" :
+            self.image = pygame.transform.scale(pygame.image.load("SpritesPlayer/Alice/alice_still_left.png"), (largeur_fenetre//2, hauteur_fenetre//2))
+        elif perso == "L" :
+            self.image = pygame.transform.scale(pygame.image.load("SpritesPlayer/Lapin/lapin_still_left.png"), (largeur_fenetre//3, hauteur_fenetre//3))
+        else :
+            print("Epouvantail : Perso non défini")
+            exit()
+    def is_clicked(self) :
+        None
