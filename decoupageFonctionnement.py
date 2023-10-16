@@ -35,15 +35,17 @@ def start(display, pressed_keys, state) :
 		return ("start","chooseCharacter")
 	if state == "chooseCharacter" :
 		affiche(display, ["ChoixPerso"])
-		alice.agrandit( sin(2*pi*nbFrames)/2, "centré") #on modifie la taille
-		lapin.agrandit( sin(2*pi*nbFrames)/2, "centré" )
+		alice.agrandit( sin(2*pi*nbFrames)/40, "centré") #on modifie la taille (initialisée à chaque tick)
+		lapin.agrandit( sin(2*pi*nbFrames)/40, "centré" )
+
+		
+
+
 		alice.dessine(display)
 		lapin.dessine(display)
 		print(alice.taille)
 		if pressed_keys[K_UP] :
 			return ("start","switch")
-		alice.tailleInit() #on init la taille en vue du prochain tick
-		lapin.tailleInit()
 		nbFrames += 0.03
 		return ("start","chooseCharacter")
 

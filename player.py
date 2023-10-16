@@ -213,11 +213,15 @@ class Epouvantail:
     def __init__(self, posx, posy, perso):
         self.posx = posx
         self.posy = posy
+        self.posx_init = posx
+        self.posy_init = posy
         self.taille = [largeur_fenetre//6, largeur_fenetre//3]
         if perso == "A" :
             self.imagePATH = "SpritesPlayer/Alice/alice_still_left.png"
+            self.centre = [self.posx + self.taille[0]*255/564, self.posy+self.taille[1]*579/1128]
         elif perso == "L" :
             self.imagePATH = "SpritesPlayer/Lapin/lapin_still_left.png"
+            self.centre = [0,0]
         else :
             print("Epouvantail : Perso non défini")
             exit()
@@ -229,6 +233,7 @@ class Epouvantail:
         display.blit(self.image, (self.posx, self.posy))
         
     def agrandit(self, facteur, pos = "coin") :
+        self.tailleInit()
         if pos == "centré" :
             centre = (self.posx + self.taille[0]//2, self.posy + self.taille[1]//2)
             self.taille[0] *= 1+facteur
@@ -236,9 +241,19 @@ class Epouvantail:
             
             self.posx = centre[0] - self.taille[0]//2
             self.posy = centre[1] - self.taille[1]//2
-        if pos == "coin" :
+        
+        elif pos == "centrePerso" :
+            vieilleTaille = self.taille
+            self.taille[0] *= 1+facteur
+            self.taille[1] *= 1+facteur
+            self.posx = self.centre[0] - (self.centre[0]-self.posx)/vieilleTaille[0]*self.taille[0]
+            self.posy = self.centre[1] - (self.centre[1]-self.posy)/vieilleTaille[1]*self.taille[1]
+        
+        elif pos == "coin" :
             self.taille[0] *= 1+facteur
             self.taille[1] *= 1+facteur
             
     def tailleInit(self) :
         self.taille = [largeur_fenetre//6, largeur_fenetre//3]
+        self.posx = self.posx_init
+        self.posy = self.posy_init
