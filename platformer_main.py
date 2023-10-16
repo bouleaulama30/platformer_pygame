@@ -47,7 +47,8 @@ state = "init"
 # Boucle de rendu
 end = False
 while not end:
-	for event in pygame.event.get():
+	events = pygame.event.get()
+	for event in events:
 		if event.type == QUIT: # vrai quand l'utilisateur essaye de fermer la fenêtre
 			end = True
 
@@ -60,7 +61,7 @@ while not end:
 	#traitement des entrées clavier
 	pressed_keys = pygame.key.get_pressed()
 	if etape == "start" :
-		etape, state = start(display, pressed_keys, state)
+		etape, state = start(display, pressed_keys, state, events)
 		
 	if etape == "charging" :
 		if state == "init" :

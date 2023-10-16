@@ -225,8 +225,16 @@ class Epouvantail:
         else :
             print("Epouvantail : Perso non défini")
             exit()
-    def is_clicked(self) :
-        None
+    def getClicked(self) :
+        """ return [bool, self.type]"""
+        return [False, ""]
+    
+    def mouseOn(self) :
+        m_posx, m_posy = pygame.mouse.get_pos()
+        collideBox = pygame.Rect(self.posx, self.posy, self.taille[0], self.taille[1])
+        if collideBox.collidepoint(m_posx, m_posy) :
+            return True
+        return False
     
     def dessine(self, display) :
         self.image = pygame.transform.scale(pygame.image.load(self.imagePATH), self.taille)

@@ -6,7 +6,7 @@ from player import Epouvantail
 from math import sin, pi
 
 
-def start(display, pressed_keys, state) :
+def start(display, pressed_keys, state, events) :
 	if state == "init" :
 		affiche(display, "WelcomeInWonderland")
 		global nbFrames
@@ -14,6 +14,7 @@ def start(display, pressed_keys, state) :
 		global mot 
 		mot = ["WelcomeInWonderland"]
 		return ("start","keepDisplayingFonts")
+
 
 	elif state == "keepDisplayingFonts" :
 		if nbFrames>=100 :
@@ -28,25 +29,29 @@ def start(display, pressed_keys, state) :
 			return ("start","keepDisplayingFonts")
 		nbFrames = 0
 		return ("start","sw_chooseCharacter")
+
+
 	if state == "sw_chooseCharacter" :
-		global alice, lapin
+		global alice, lapin, epouvantails
 		alice = Epouvantail(3*largeur_fenetre//10, hauteur_fenetre//4, "A")
 		lapin = Epouvantail(largeur_fenetre - 4*largeur_fenetre//10, hauteur_fenetre//4, "L")
+		epouvantails = [alice, lapin]
 		return ("start","chooseCharacter")
+
+
 	if state == "chooseCharacter" :
 		affiche(display, ["ChoixPerso"])
-		alice.agrandit( sin(2*pi*nbFrames)/40, "centré") #on modifie la taille (initialisée à chaque tick)
-		lapin.agrandit( sin(2*pi*nbFrames)/40, "centré" )
-
+		for perso in epouvantails :
+			perso.agrandit( sin(2*pi*nbFrames)/40, "centré") #on modifie la taille (initialisée à chaque tick)
+			if perso.mouseOn() :
+				perso.tailleInit()
+			if perso.getClicked()[0] :
+				return("start","switch")
+			perso.dessine(display)
 		
-
-
-		alice.dessine(display)
-		lapin.dessine(display)
-		print(alice.taille)
 		if pressed_keys[K_UP] :
 			return ("start","switch")
-		nbFrames += 0.03
+		nbFrames += 0.01
 		return ("start","chooseCharacter")
 
 	
