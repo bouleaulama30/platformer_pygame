@@ -1,6 +1,6 @@
 from constante import *
 from sounds import *
-
+from math import sin
 
 class Player: 
 
@@ -263,5 +263,6 @@ class Epouvantail:
             
     def tailleInit(self) :
         self.taille = [largeur_fenetre//6, largeur_fenetre//3]
-        self.posx = self.posx_init
+        self.posx = self.posx_init 
         self.posy = self.posy_init
+        

@@ -32,26 +32,29 @@ def start(display, pressed_keys, state, events) :
 
 
 	if state == "sw_chooseCharacter" :
-		global alice, lapin, epouvantails
+		global alice, lapin, epouvantails, frame
 		alice = Epouvantail(3*largeur_fenetre//10, hauteur_fenetre//4, "A")
 		lapin = Epouvantail(largeur_fenetre - 4*largeur_fenetre//10, hauteur_fenetre//4, "L")
 		epouvantails = [alice, lapin]
+		frame = [0,0]
 		return ("start","chooseCharacter")
 
 
 	if state == "chooseCharacter" :
 		affiche(display, ["ChoixPerso"])
-		for perso in epouvantails :
-			perso.agrandit( sin(2*pi*nbFrames)/40, "centré") #on modifie la taille (initialisée à chaque tick)
+		for i in range(len(epouvantails)) :
+			perso = epouvantails[i]
+			perso.agrandit( sin(2*pi*frame[i])/75, "centré") #on modifie la taille (initialisée à chaque tick)
 			if perso.mouseOn() :
-				perso.tailleInit()
+				frame[i] -= 0.02
+				perso.agrandit(sin(2*pi*frame[i])/75, "centré")
 			if perso.getClicked()[0] :
 				return("start","switch")
 			perso.dessine(display)
+			frame[i] += 0.02
 		
 		if pressed_keys[K_UP] :
 			return ("start","switch")
-		nbFrames += 0.01
 		return ("start","chooseCharacter")
 
 	
