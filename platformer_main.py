@@ -44,7 +44,6 @@ make_gros_bloc(400,400,1,3,"j", t_blocks)
 		
 etape = "start" #can be "play", "start", "end", "charging"
 state = "init"
-t = 0
 # Boucle de rendu
 end = False
 while not end:
@@ -61,7 +60,7 @@ while not end:
 	#traitement des entrées clavier
 	pressed_keys = pygame.key.get_pressed()
 	if etape == "start" :
-		etape, state,t = start(display, pressed_keys, state, t, dt)
+		etape, state = start(display, pressed_keys, state)
 		
 	if etape == "charging" :
 		if state == "init" :

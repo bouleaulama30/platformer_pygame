@@ -10,7 +10,7 @@ def affiche(display, mot) :
     "wonder" : pygame.font.SysFont("z003", 175),
     "little_basic" : pygame.font.SysFont(None, 40)}
 	
-	if mot == "WelcomeInWonderland" :
+	if "WelcomeInWonderland" in mot:
 		font = police["basic"]
 		welcome = font.render("Welcome", True, white)
 		welcome_h = welcome.get_height()
@@ -31,6 +31,7 @@ def affiche(display, mot) :
 		wonderland_posy = in_posy + 1.2*in_h
 		display.blit(wonderland, (wonderland_posx, wonderland_posy))
 
+	if "startEnter" in mot :
 		font = police["little_basic"]
 		warn = font.render("press Enter to start", True, gris)
 		warn_posx = largeur_fenetre - warn.get_width()*1.1
