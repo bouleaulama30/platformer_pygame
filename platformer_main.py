@@ -10,7 +10,7 @@ from decoupageFonctionnement import *
 #paramètres d'entrée
 pygame.init() # important
 display = pygame.display.set_mode((largeur_fenetre, hauteur_fenetre)) # crée une surface pour la fenêtre (largeur, hauteur) de la fenetre
-background = bg_play4
+background = bg_play2
 
 #init fonts
 

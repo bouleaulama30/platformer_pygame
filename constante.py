@@ -67,3 +67,4 @@ bg_play3 = pygame.transform.scale(pygame.image.load("SpritesBackground/backgroun
 bg_play4 = pygame.transform.scale(pygame.image.load("SpritesBackground/background_cartesEtThe.jpg"), (largeur_fenetre, hauteur_fenetre))
 bg_play5 = pygame.transform.scale(pygame.image.load("SpritesBackground/background_hearts.jpg"), (largeur_fenetre, hauteur_fenetre))
 bg_fall = pygame.transform.scale(pygame.image.load("SpritesBackground/background_circular.jpg"), (largeur_fenetre, hauteur_fenetre))
+bg_choix = pygame.transform.scale(pygame.image.load("SpritesBackground/ecran_choix/ecran_choix_none.jpg"), (largeur_fenetre, hauteur_fenetre))

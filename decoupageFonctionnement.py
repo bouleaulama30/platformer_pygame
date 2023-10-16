@@ -25,10 +25,16 @@ def start(display, pressed_keys, state) :
 			affiche(display, mot)
 			return ("start","keepDisplayingFonts")
 		nbFrames = 0
+		return ("start","sw_chooseCharacter")
+	# if state == "sw_chooseCharacter" :
+	# 	alice = 
+	if state == "chooseCharacter" :
+		affiche(display, ["ChoixPerso"])
+
+		if pressed_keys[K_UP] :
+			return ("start","switch")
 		return ("start","chooseCharacter")
 
-	if state == "chooseCharacter" :
-		return ("start","switch")
 	
 	if state == "switch" :
 		return ("charging","init")
