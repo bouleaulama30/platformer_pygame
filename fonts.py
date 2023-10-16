@@ -42,5 +42,5 @@ def affiche(display, mot) :
 		font = police["basic"]
 		choix = font.render("Choose your character", True, white)
 		choix_posx = largeur_fenetre//2 - choix.get_width()//2
-		choix_posy = 0.6*choix.get_height()
+		choix_posy = 0.1*choix.get_height()
 		display.blit(choix, (choix_posx, choix_posy))

@@ -2,6 +2,8 @@ import pygame
 from pygame.locals import *
 from constante import *
 from fonts import affiche
+from player import Epouvantail
+from math import sin, pi
 
 
 def start(display, pressed_keys, state) :
@@ -26,13 +28,23 @@ def start(display, pressed_keys, state) :
 			return ("start","keepDisplayingFonts")
 		nbFrames = 0
 		return ("start","sw_chooseCharacter")
-	# if state == "sw_chooseCharacter" :
-	# 	alice = 
+	if state == "sw_chooseCharacter" :
+		global alice, lapin
+		alice = Epouvantail(3*largeur_fenetre//10, hauteur_fenetre//4, "A")
+		lapin = Epouvantail(largeur_fenetre - 4*largeur_fenetre//10, hauteur_fenetre//4, "L")
+		return ("start","chooseCharacter")
 	if state == "chooseCharacter" :
 		affiche(display, ["ChoixPerso"])
-
+		alice.agrandit( sin(2*pi*nbFrames)/2, "centré") #on modifie la taille
+		lapin.agrandit( sin(2*pi*nbFrames)/2, "centré" )
+		alice.dessine(display)
+		lapin.dessine(display)
+		print(alice.taille)
 		if pressed_keys[K_UP] :
 			return ("start","switch")
+		alice.tailleInit() #on init la taille en vue du prochain tick
+		lapin.tailleInit()
+		nbFrames += 0.03
 		return ("start","chooseCharacter")
 
 	

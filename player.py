@@ -213,12 +213,32 @@ class Epouvantail:
     def __init__(self, posx, posy, perso):
         self.posx = posx
         self.posy = posy
+        self.taille = [largeur_fenetre//6, largeur_fenetre//3]
         if perso == "A" :
-            self.image = pygame.transform.scale(pygame.image.load("SpritesPlayer/Alice/alice_still_left.png"), (largeur_fenetre//2, hauteur_fenetre//2))
+            self.imagePATH = "SpritesPlayer/Alice/alice_still_left.png"
         elif perso == "L" :
-            self.image = pygame.transform.scale(pygame.image.load("SpritesPlayer/Lapin/lapin_still_left.png"), (largeur_fenetre//3, hauteur_fenetre//3))
+            self.imagePATH = "SpritesPlayer/Lapin/lapin_still_left.png"
         else :
             print("Epouvantail : Perso non défini")
             exit()
     def is_clicked(self) :
         None
+    
+    def dessine(self, display) :
+        self.image = pygame.transform.scale(pygame.image.load(self.imagePATH), self.taille)
+        display.blit(self.image, (self.posx, self.posy))
+        
+    def agrandit(self, facteur, pos = "coin") :
+        if pos == "centré" :
+            centre = (self.posx + self.taille[0]//2, self.posy + self.taille[1]//2)
+            self.taille[0] *= 1+facteur
+            self.taille[1] *= 1+facteur
+            
+            self.posx = centre[0] - self.taille[0]//2
+            self.posy = centre[1] - self.taille[1]//2
+        if pos == "coin" :
+            self.taille[0] *= 1+facteur
+            self.taille[1] *= 1+facteur
+            
+    def tailleInit(self) :
+        self.taille = [largeur_fenetre//6, largeur_fenetre//3]
