@@ -21,13 +21,8 @@ background = bg_play4
 last_time = pygame.time.get_ticks() # Pour le comptage du temps (get_ticks() renvoie le temps actuel en millisecondes)
 
 
-player= Player(50,10,300, "A") #initialisation du joueur
+player= Player(50,10, "A") #initialisation du joueur
 
-jump_count=0 #initialisation compteur de frame pour faire condition sur le jump
-vel=800 #vitesse pour le jump arbitraire
-g=5 #pour rendre jump plus  réaliste
-facteur_r=100 #argument pour move_right 
-facteur_l=100 #argument pour move_left
 
 musics["welcome"]
 pygame.mixer.music.play(-1)
@@ -35,7 +30,7 @@ pygame.mixer.music.play(-1)
 ### Creation des blocs
 
 t_blocks = []
-make_gros_triangle(50, 200, 5, "n", "SO", t_blocks)
+make_gros_triangle(50, 200, 5, "s", "SO", t_blocks)
 make_gros_bloc(40, 500, 2, 15, "s",t_blocks)
 make_gros_bloc(150, 0, 2, 3, "s", t_blocks)
 make_gros_bloc(400,400,1,3,"j", t_blocks)
@@ -58,11 +53,10 @@ while not end:
 
 	#traitement des entrées clavier
 	pressed_keys = pygame.key.get_pressed()
-	player.deplacement(200,200, dt, pressed_keys, t_blocks)
+	player.deplacement(facteur_mvt,vel_jump, dt, pressed_keys, t_blocks,g)
 	
-	player.dy = 300
+	
  
-	# Ici se fera le calcul de la physique du jeu
 	
 
 	# Ici se fera le dessin de la scène
@@ -72,8 +66,7 @@ while not end:
 	#test fonction fill
 	fill(display, t_blocks)
 
-	#display.blit(player.image, (player.posx, player.posy))
-	#player= Player(player.posx,player.posy,50,50,player.dy) #maj du joueur
+
 	pygame.display.update() # Mise à jour de l'affichage 
 
 	# fixer le nombre de fps sur ma clock

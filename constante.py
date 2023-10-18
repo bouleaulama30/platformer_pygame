@@ -9,6 +9,12 @@ longueur_saut = 2*len_bloc
 #initialisation collisions
 rep = (False, "")
 
+#constantes qui influencent la physique du player
+g=2000 #gravité
+facteur_mvt=200 #influence vitesse déplacement
+vel_jump=-800 #influence le saut
+
+
 
 #définition des images blocs, histoire que le code soit lisible...
 blocFill = pygame.transform.scale(pygame.image.load("SpritesBlocks/bloc_fill.png"), (len_bloc, len_bloc))
