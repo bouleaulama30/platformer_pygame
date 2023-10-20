@@ -1,6 +1,5 @@
 from constante import *
 from sounds import *
-from math import sin
 
 class Player: 
 
@@ -210,24 +209,30 @@ class Player:
         return False
 		
 class Epouvantail:
-    def __init__(self, posx, posy, perso):
+    def __init__(self, posx, posy, skin):
         self.posx = posx
         self.posy = posy
         self.posx_init = posx
         self.posy_init = posy
         self.taille = [largeur_fenetre//6, largeur_fenetre//3]
-        if perso == "A" :
+        self.character = skin
+        if self.character == "A" :
             self.imagePATH = "SpritesPlayer/Alice/alice_still_left.png"
             self.centre = [self.posx + self.taille[0]*255/564, self.posy+self.taille[1]*579/1128]
-        elif perso == "L" :
+        elif self.character == "L" :
             self.imagePATH = "SpritesPlayer/Lapin/lapin_still.png"
             self.centre = [0,0]
         else :
             print("Epouvantail : Perso non défini")
             exit()
+    
     def getClicked(self) :
         """ return [bool, self.type]"""
-        return [False, ""]
+        if pygame.mouse.get_pressed()[0] :
+            collideBox = pygame.Rect(self.posx, self.posy, self.taille[0], self.taille[1])
+            if collideBox.collidepoint(pygame.mouse.get_pos()) :
+                return (True, self.character)
+        return (False, "")
     
     def mouseOn(self) :
         m_posx, m_posy = pygame.mouse.get_pos()

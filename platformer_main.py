@@ -24,7 +24,6 @@ musics["welcome"]
 pygame.mixer.music.play(-1)
 
 #player
-player= Player(50,10, "L") #initialisation du joueur
 jump_count=0 #initialisation compteur de frame pour faire condition sur le jump
 vel=800 #vitesse pour le jump arbitraire
 g=5 #pour rendre jump plus  réaliste
@@ -76,6 +75,9 @@ while not end:
    
  
 	if etape == "play" :
+		if state == "init" :
+			player= Player(50,10, perso) #initialisation du joueur
+			state = "ongoing"
 		player.deplacement(200,200, dt, pressed_keys, t_blocks)
 		player.dy = 300
 

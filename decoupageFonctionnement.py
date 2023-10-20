@@ -43,14 +43,17 @@ def start(display, pressed_keys, state, events) :
 	if state == "chooseCharacter" :
 		affiche(display, ["ChoixPerso"])
 		for i in range(len(epouvantails)) :
-			perso = epouvantails[i]
-			perso.agrandit( sin(2*pi*frame[i])/75, "centré") #on modifie la taille (initialisée à chaque tick)
-			if perso.mouseOn() :
+			scarecrow = epouvantails[i]
+			scarecrow.agrandit( sin(2*pi*frame[i])/75, "centré") #on modifie la taille (initialisée à chaque tick)
+			if scarecrow.mouseOn() :
 				frame[i] -= 0.02
-				perso.agrandit(sin(2*pi*frame[i])/75, "centré")
-			if perso.getClicked()[0] :
+				scarecrow.agrandit(sin(2*pi*frame[i])/75, "centré")
+			isClicked, nameScarecrow = scarecrow.getClicked()
+			if isClicked :
+				global perso
+				perso = nameScarecrow
 				return("start","switch")
-			perso.dessine(display)
+			scarecrow.dessine(display)
 			frame[i] += 0.02
 		
 		if pressed_keys[K_UP] :
