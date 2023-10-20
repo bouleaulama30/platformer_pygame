@@ -24,7 +24,7 @@ musics["welcome"]
 pygame.mixer.music.play(-1)
 
 #player
-player= Player(50,10,300, "A") #initialisation du joueur
+player= Player(50,10, "L") #initialisation du joueur
 jump_count=0 #initialisation compteur de frame pour faire condition sur le jump
 vel=800 #vitesse pour le jump arbitraire
 g=5 #pour rendre jump plus  réaliste

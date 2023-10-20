@@ -4,12 +4,12 @@ from math import sin
 
 class Player: 
 
-    def __init__(self, posx, posy,dy, perso):
+    def __init__(self, posx, posy, perso):
         self.posx= posx
         self.posy= posy
         self.w = 1*len_bloc
         self.h = 2*len_bloc
-        self.dy= dy
+        self.dy= 300
         self.character = perso #"A" pour Alice, "L" pour Lapin
         self.vely=0
         self.is_grounded=False
