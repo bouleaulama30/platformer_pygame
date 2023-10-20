@@ -220,7 +220,7 @@ class Epouvantail:
             self.imagePATH = "SpritesPlayer/Alice/alice_still_left.png"
             self.centre = [self.posx + self.taille[0]*255/564, self.posy+self.taille[1]*579/1128]
         elif perso == "L" :
-            self.imagePATH = "SpritesPlayer/Lapin/lapin_still_left.png"
+            self.imagePATH = "SpritesPlayer/Lapin/lapin_still.png"
             self.centre = [0,0]
         else :
             print("Epouvantail : Perso non défini")
