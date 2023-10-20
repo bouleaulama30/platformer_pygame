@@ -4,7 +4,7 @@ from pygame.locals import *
 pygame.mixer.init()
 
 musics = {
-        "welcome" : pygame.mixer.music.load("sons/welcome_to_wonderland.mp3"),
+        "welcome" : pygame.mixer.music.load("sons/mysterious_alice_theme.mp3"),
         "quadrille" : pygame.mixer.music.load("sons/welcome_to_wonderland.mp3"),
         "explore" : pygame.mixer.music.load("sons/welcome_to_wonderland.mp3"),
         "end" : pygame.mixer.music.load("sons/welcome_to_wonderland.mp3")
