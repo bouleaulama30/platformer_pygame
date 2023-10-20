@@ -9,26 +9,22 @@ from sounds import *
 #1 player = 2 blocs de haut
 
 pygame.init() # important
-# definir une clock
-clock= pygame.time.Clock()
-FPS = 200
-
-
 display = pygame.display.set_mode((largeur_fenetre, hauteur_fenetre)) # crée une surface pour la fenêtre (largeur, hauteur) de la fenetre
 background = bg_play4
 
-
+# definir une clock
+clock= pygame.time.Clock()
+FPS = 200
 last_time = pygame.time.get_ticks() # Pour le comptage du temps (get_ticks() renvoie le temps actuel en millisecondes)
+
+#musics
+musics["welcome"]
+pygame.mixer.music.play(-1)
 
 
 player= Player(50,10, "A") #initialisation du joueur
 
-
-musics["welcome"]
-pygame.mixer.music.play(-1)
-
 ### Creation des blocs
-
 t_blocks = []
 make_gros_triangle(50, 200, 5, "s", "SO", t_blocks)
 make_gros_bloc(40, 500, 2, 15, "s",t_blocks)
