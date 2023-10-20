@@ -4,16 +4,17 @@ from constante import *
 from fonts import affiche
 from player import Epouvantail
 from math import sin, pi
+from sounds import *
 
 
 def start(display, pressed_keys, state, events) :
 	if state == "init" :
+		play_bg('welcome')
 		affiche(display, "WelcomeInWonderland")
-		global nbFrames
+		global nbFrames, mot
 		nbFrames = 0
-		global mot 
 		mot = ["WelcomeInWonderland"]
-		return ("start","keepDisplayingFonts")
+		return ("start","keepDisplayingFonts", "")
 
 
 	elif state == "keepDisplayingFonts" :
@@ -26,9 +27,9 @@ def start(display, pressed_keys, state, events) :
 		if not pressed_keys[K_RETURN] :
 			nbFrames+=1
 			affiche(display, mot)
-			return ("start","keepDisplayingFonts")
+			return ("start","keepDisplayingFonts", "")
 		nbFrames = 0
-		return ("start","sw_chooseCharacter")
+		return ("start","sw_chooseCharacter", "")
 
 
 	if state == "sw_chooseCharacter" :
@@ -37,7 +38,7 @@ def start(display, pressed_keys, state, events) :
 		lapin = Epouvantail(largeur_fenetre - 4*largeur_fenetre//10, hauteur_fenetre//4, "L")
 		epouvantails = [alice, lapin]
 		frame = [0,0]
-		return ("start","chooseCharacter")
+		return ("start","chooseCharacter", "")
 
 
 	if state == "chooseCharacter" :
@@ -50,16 +51,14 @@ def start(display, pressed_keys, state, events) :
 				scarecrow.agrandit(sin(2*pi*frame[i])/75, "centré")
 			isClicked, nameScarecrow = scarecrow.getClicked()
 			if isClicked :
-				global perso
-				perso = nameScarecrow
-				return("start","switch")
+				return("start","switch", nameScarecrow)
 			scarecrow.dessine(display)
 			frame[i] += 0.02
 		
 		if pressed_keys[K_UP] :
-			return ("start","switch")
-		return ("start","chooseCharacter")
+			return ("start","switch", "")
+		return ("start","chooseCharacter", "")
 
-	
 	if state == "switch" :
-		return ("charging","init")
+		pygame.mixer.music.fadeout(5)
+		return ("charging","init", "")

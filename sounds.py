@@ -4,10 +4,11 @@ from pygame.locals import *
 pygame.mixer.init()
 
 musics = {
-        "welcome" : pygame.mixer.music.load("sons/mysterious_alice_theme.mp3"),
-        "quadrille" : pygame.mixer.music.load("sons/welcome_to_wonderland.mp3"),
-        "explore" : pygame.mixer.music.load("sons/welcome_to_wonderland.mp3"),
-        "end" : pygame.mixer.music.load("sons/welcome_to_wonderland.mp3")
+        'welcome' : "sons/mysterious_alice_theme.mp3",
+        "quadrille" : "sons/rebond_troll.mp3",
+        "explore" :"sons/welcome_to_wonderland.mp3",
+        "end" : "sons/welcome_to_wonderland.mp3",
+        'rebond': "sons/rebond_troll.mp3"
 }
 
 sounds = {
@@ -17,5 +18,9 @@ sounds = {
 }
 
 
-def play (name):
-    sounds[name].play()
+def play(name):
+        sounds[name].play()
+
+def play_bg(name) :
+        pygame.mixer.music.load(musics[name])
+        pygame.mixer.music.play(-1)

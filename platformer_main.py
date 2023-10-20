@@ -19,10 +19,6 @@ clock= pygame.time.Clock()
 FPS = 200
 last_time = pygame.time.get_ticks() # Pour le comptage du temps (get_ticks() renvoie le temps actuel en millisecondes)
 
-#music
-musics["welcome"]
-pygame.mixer.music.play(-1)
-
 #player
 jump_count=0 #initialisation compteur de frame pour faire condition sur le jump
 vel=800 #vitesse pour le jump arbitraire
@@ -60,22 +56,23 @@ while not end:
 	#traitement des entrées clavier
 	pressed_keys = pygame.key.get_pressed()
 	if etape == "start" :
-		etape, state = start(display, pressed_keys, state, events)
+		etape, state, perso = start(display, pressed_keys, state, events)
 		
 	if etape == "charging" :
 		if state == "init" :
-			musics["quadrille"]
-			pygame.mixer.music.play(-1)
+			play_bg("quadrille")
 			state = "switch"
 		if state == "switch" :
+			pygame.mixer.music.fadeout(5)
 			etape = "play"
 			state = "init"
-			musics["explore"]
-			pygame.mixer.music.play(-1)
    
  
 	if etape == "play" :
 		if state == "init" :
+			if perso == "" : #petite protection à enlever quand tout sera bien codé
+				perso = "persoTest"
+			play_bg("explore")
 			player= Player(50,10, perso) #initialisation du joueur
 			state = "ongoing"
 		player.deplacement(200,200, dt, pressed_keys, t_blocks)
