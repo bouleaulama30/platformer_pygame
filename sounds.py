@@ -32,5 +32,5 @@ def play_bg(name) :
         pygame.mixer.music.set_volume(0.3)
         pygame.mixer.music.play(-1)
 
-def arreteMusique(name) :
+def arreteMusique() :
         pygame.mixer.music.fadeout(5)
