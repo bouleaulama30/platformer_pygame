@@ -60,5 +60,5 @@ def start(display, pressed_keys, state, events) :
 		return ("start","chooseCharacter", "")
 
 	if state == "switch" :
-		pygame.mixer.music.fadeout(5)
+		arreteMusique()
 		return ("charging","init", "")

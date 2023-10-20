@@ -63,7 +63,7 @@ while not end:
 			play_bg("quadrille")
 			state = "switch"
 		if state == "switch" :
-			pygame.mixer.music.fadeout(5)
+			arreteMusique()
 			etape = "play"
 			state = "init"
    
