@@ -9,7 +9,7 @@ from sounds import *
 
 def start(display, pressed_keys, state, events) :
 	if state == "init" :
-		play_bg('welcome')
+		play_bg('mysterious_short')
 		affiche(display, "WelcomeInWonderland")
 		global nbFrames, mot
 		nbFrames = 0
