@@ -217,10 +217,12 @@ class Epouvantail:
         self.taille = [largeur_fenetre//6, largeur_fenetre//3]
         self.character = skin
         if self.character == "A" :
-            self.imagePATH = "SpritesPlayer/Alice/alice_still_left.png"
+            self.pathsToDifferentSkins = ["SpritesPlayer/Alice/alice_still.png", "SpritesPlayer/Alice/alice_still_choisie.png"]
+            self.imagePATH = self.pathsToDifferentSkins[0]
             self.centre = [self.posx + self.taille[0]*255/564, self.posy+self.taille[1]*579/1128]
         elif self.character == "L" :
-            self.imagePATH = "SpritesPlayer/Lapin/lapin_still.png"
+            self.pathsToDifferentSkins = ["SpritesPlayer/Lapin/lapin_still.png", "SpritesPlayer/Lapin/lapin_still_choisi.png"]
+            self.imagePATH = self.pathsToDifferentSkins[0]
             self.centre = [0,0]
         else :
             print("Epouvantail : Perso non défini")
@@ -238,7 +240,9 @@ class Epouvantail:
         m_posx, m_posy = pygame.mouse.get_pos()
         collideBox = pygame.Rect(self.posx, self.posy, self.taille[0], self.taille[1])
         if collideBox.collidepoint(m_posx, m_posy) :
+            self.imagePATH = self.pathsToDifferentSkins[1]
             return True
+        self.imagePATH = self.pathsToDifferentSkins[0]
         return False
     
     def dessine(self, display) :
