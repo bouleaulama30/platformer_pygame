@@ -49,9 +49,12 @@ def start(display, pressed_keys, state, events) :
 			if scarecrow.mouseOn() :
 				frame[i] -= 0.02
 				scarecrow.agrandit(sin(2*pi*frame[i])/75, "centré")
-			isClicked, nameScarecrow = scarecrow.getClicked()
-			if isClicked :
-				return("start","switch", nameScarecrow)
+				
+				isClicked, nameScarecrow = scarecrow.getClicked()
+				if isClicked :
+					global characChoisi
+					characChoisi = nameScarecrow
+					return("start","switch", characChoisi)
 			scarecrow.dessine(display)
 			frame[i] += 0.02
 		
@@ -61,4 +64,4 @@ def start(display, pressed_keys, state, events) :
 
 	if state == "switch" :
 		arreteMusique()
-		return ("charging","init", "")
+		return ("charging","init", characChoisi)
