@@ -6,6 +6,7 @@ pygame.mixer.init()
 musics = {
         'welcome' : "sons/mysterious_alice_theme.mp3",
         "quadrille" : "sons/quadrille_des_homards.mp3",
+        "tea" : "sons/mad_tea_party.mp3",
         "explore" :"sons/welcome_to_wonderland.mp3",
         "end" : "sons/welcome_to_wonderland.mp3",
         'rebond': "sons/rebond_troll.mp3"

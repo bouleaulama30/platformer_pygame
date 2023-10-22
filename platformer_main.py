@@ -72,7 +72,7 @@ while not end:
 		if state == "init" :
 			if perso == "" : #petite protection à enlever quand tout sera bien codé
 				perso = "persoTest"
-			play_bg("explore")
+			play_bg("tea")
 			player= Player(50,10, perso) #initialisation du joueur
 			state = "ongoing"
 		player.deplacement(200,200, dt, pressed_keys, t_blocks)
