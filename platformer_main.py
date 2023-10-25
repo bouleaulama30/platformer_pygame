@@ -7,28 +7,21 @@ from sounds import *
 #from fonts import affiche
 from decoupageFonctionnement import *
 
+
+#1 player = 2 blocs de haut
+
 #paramètres d'entrée
 pygame.init() # important
 display = pygame.display.set_mode((largeur_fenetre, hauteur_fenetre)) # crée une surface pour la fenêtre (largeur, hauteur) de la fenetre
-background = bg_play2
-
-#init fonts
+background = bg_play4
 
 # definir une clock
 clock= pygame.time.Clock()
 FPS = 200
 last_time = pygame.time.get_ticks() # Pour le comptage du temps (get_ticks() renvoie le temps actuel en millisecondes)
 
-#player
-jump_count=0 #initialisation compteur de frame pour faire condition sur le jump
-vel=800 #vitesse pour le jump arbitraire
-g=5 #pour rendre jump plus  réaliste
-facteur_r=100 #argument pour move_right 
-facteur_l=100 #argument pour move_left
-
 
 ### Creation des blocs
-
 t_blocks = []
 make_gros_triangle(50, 200, 5, "n", "SO", t_blocks)
 make_gros_bloc(40, 500, 2, 15, "s",t_blocks)
@@ -71,12 +64,12 @@ while not end:
 	if etape == "play" :
 		if state == "init" :
 			if perso == "" : #petite protection à enlever quand tout sera bien codé
+							 #perso == "" si rien n'a été sélectionné pendant l'étape du choix (étape start)
 				perso = "persoTest"
 			play_bg("tea")
 			player= Player(50,10, perso) #initialisation du joueur
 			state = "ongoing"
-		player.deplacement(200,200, dt, pressed_keys, t_blocks)
-		player.dy = 300
+		player.deplacement(facteur_mvt, vel_jump, dt, pressed_keys, t_blocks, g)
 
 		# Ici se fera le dessin de la scène
 		display.blit(background, (0,0))
