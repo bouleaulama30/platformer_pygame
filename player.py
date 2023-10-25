@@ -97,7 +97,7 @@ class Player:
         self.collisionPrecedente = self.coll
         self.coll = self.is_colliding(t_blocks)
         if self.coll[0]:
-            self.posx-=depx
+            self.posx-= self.velx*dt
             if self.coll[3] != "rect" :
                 if self.coll[3] == "NO" :
                     self.posy += abs(self.vely)*dt
