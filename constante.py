@@ -6,6 +6,13 @@ largeur_fenetre = hauteur_fenetre*2
 len_bloc = hauteur_fenetre/40
 longueur_saut = 2*len_bloc
 
+#couleurs
+white = (255, 255, 255)
+black = (0,0,0)
+gris = (150,150,150)
+rouge = (255, 0,0)
+pink = (255,20,147)
+
 #initialisation collisions
 rep = (False, "")
 
@@ -14,6 +21,11 @@ g=2000 #gravité
 facteur_mvt=200 #influence vitesse déplacement
 vel_jump=-800 #influence le saut
 
+
+#constantes qui influencent la physique du player
+g=2000 #gravité
+facteur_mvt=200 #influence vitesse déplacement
+vel_jump=-800 #influence le saut
 
 
 #définition des images blocs, histoire que le code soit lisible...
@@ -66,3 +78,4 @@ bg_play3 = pygame.transform.scale(pygame.image.load("SpritesBackground/backgroun
 bg_play4 = pygame.transform.scale(pygame.image.load("SpritesBackground/background_cartesEtThe.jpg"), (largeur_fenetre, hauteur_fenetre))
 bg_play5 = pygame.transform.scale(pygame.image.load("SpritesBackground/background_hearts.jpg"), (largeur_fenetre, hauteur_fenetre))
 bg_fall = pygame.transform.scale(pygame.image.load("SpritesBackground/background_circular.jpg"), (largeur_fenetre, hauteur_fenetre))
+bg_choix = pygame.transform.scale(pygame.image.load("SpritesBackground/ecran_choix/ecran_choix_none.jpg"), (largeur_fenetre, hauteur_fenetre))

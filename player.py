@@ -1,17 +1,17 @@
 from constante import *
 from sounds import *
 
-
 class Player: 
 
+    def __init__(self, posx, posy, perso):
     def __init__(self, posx, posy, perso):
         self.posx= posx
         self.posy= posy
         self.w = 1*len_bloc
         self.h = 2*len_bloc
         self.character = perso #"A" pour Alice, "L" pour Lapin
-        self.vely=0
-        self.velx=0
+        self.vely = 0
+        self.velx = 0
         self.is_grounded=False
         self.K_r_pressed=False
 
@@ -76,7 +76,7 @@ class Player:
             self.image = self.skin["still_right"]	
 
         if pressed_keys[K_LEFT]:
-            self.velx-=facteur_mvt
+            self.velx -= facteur_mvt
             self.image = self.skin["run_left"]
         elif self.image == self.skin["still_left"] or self.image == self.skin["run_left"] :
             self.image = self.skin["still_left"]
@@ -92,13 +92,12 @@ class Player:
             play('jump')
         
         #teste déplacement x
-        
-        self.posx+= self.velx*dt
+        self.posx += self.velx*dt
         collisionPenultieme = self.collisionPrecedente
         self.collisionPrecedente = self.coll
         self.coll = self.is_colliding(t_blocks)
         if self.coll[0]:
-            self.posx-=self.velx*dt
+            self.posx-= self.velx*dt
             if self.coll[3] != "rect" :
                 if self.coll[3] == "NO" :
                     self.posy += abs(self.vely)*dt
@@ -209,3 +208,70 @@ class Player:
             return True
         return False
 		
+class Epouvantail:
+    def __init__(self, posx, posy, skin):
+        self.posx = posx
+        self.posy = posy
+        self.posx_init = posx
+        self.posy_init = posy
+        self.taille = [largeur_fenetre//6, largeur_fenetre//3]
+        self.character = skin
+        if self.character == "A" :
+            self.pathsToDifferentSkins = ["SpritesPlayer/Alice/alice_still.png", "SpritesPlayer/Alice/alice_still_choisie.png"]
+            self.imagePATH = self.pathsToDifferentSkins[0]
+            self.centre = [self.posx + self.taille[0]*255/564, self.posy+self.taille[1]*579/1128]
+        elif self.character == "L" :
+            self.pathsToDifferentSkins = ["SpritesPlayer/Lapin/lapin_still.png", "SpritesPlayer/Lapin/lapin_still_choisi.png"]
+            self.imagePATH = self.pathsToDifferentSkins[0]
+            self.centre = [0,0]
+        else :
+            print("Epouvantail : Perso non défini")
+            exit()
+    
+    def getClicked(self) :
+        """ return [bool, self.type]"""
+        if pygame.mouse.get_pressed()[0] :
+            collideBox = pygame.Rect(self.posx, self.posy, self.taille[0], self.taille[1])
+            if collideBox.collidepoint(pygame.mouse.get_pos()) :
+                return (True, self.character)
+        return (False, "")
+    
+    def mouseOn(self) :
+        m_posx, m_posy = pygame.mouse.get_pos()
+        collideBox = pygame.Rect(self.posx, self.posy, self.taille[0], self.taille[1])
+        if collideBox.collidepoint(m_posx, m_posy) :
+            self.imagePATH = self.pathsToDifferentSkins[1]
+            return True
+        self.imagePATH = self.pathsToDifferentSkins[0]
+        return False
+    
+    def dessine(self, display) :
+        self.image = pygame.transform.scale(pygame.image.load(self.imagePATH), self.taille)
+        display.blit(self.image, (self.posx, self.posy))
+        
+    def agrandit(self, facteur, pos = "coin") :
+        self.tailleInit()
+        if pos == "centré" :
+            centre = (self.posx + self.taille[0]//2, self.posy + self.taille[1]//2)
+            self.taille[0] *= 1+facteur
+            self.taille[1] *= 1+facteur
+            
+            self.posx = centre[0] - self.taille[0]//2
+            self.posy = centre[1] - self.taille[1]//2
+        
+        elif pos == "centrePerso" :
+            vieilleTaille = self.taille
+            self.taille[0] *= 1+facteur
+            self.taille[1] *= 1+facteur
+            self.posx = self.centre[0] - (self.centre[0]-self.posx)/vieilleTaille[0]*self.taille[0]
+            self.posy = self.centre[1] - (self.centre[1]-self.posy)/vieilleTaille[1]*self.taille[1]
+        
+        elif pos == "coin" :
+            self.taille[0] *= 1+facteur
+            self.taille[1] *= 1+facteur
+            
+    def tailleInit(self) :
+        self.taille = [largeur_fenetre//6, largeur_fenetre//3]
+        self.posx = self.posx_init 
+        self.posy = self.posy_init
+        

@@ -4,10 +4,13 @@ from player import Player
 from block import *
 from constante import *
 from sounds import *
+#from fonts import affiche
+from decoupageFonctionnement import *
 
 
 #1 player = 2 blocs de haut
 
+#paramètres d'entrée
 pygame.init() # important
 display = pygame.display.set_mode((largeur_fenetre, hauteur_fenetre)) # crée une surface pour la fenêtre (largeur, hauteur) de la fenetre
 background = bg_play4
@@ -17,12 +20,6 @@ clock= pygame.time.Clock()
 FPS = 200
 last_time = pygame.time.get_ticks() # Pour le comptage du temps (get_ticks() renvoie le temps actuel en millisecondes)
 
-#musics
-musics["welcome"]
-pygame.mixer.music.play(-1)
-
-
-player= Player(50,10, "A") #initialisation du joueur
 
 ### Creation des blocs
 t_blocks = []
@@ -33,15 +30,17 @@ make_gros_bloc(400,400,1,3,"j", t_blocks)
 
 
 		
-
+etape = "start" #can be "play", "start", "end", "charging"
+state = "init"
 # Boucle de rendu
 end = False
 while not end:
-	for event in pygame.event.get():
+	events = pygame.event.get()
+	for event in events:
 		if event.type == QUIT: # vrai quand l'utilisateur essaye de fermer la fenêtre
 			end = True
 
-	display.fill((250, 250, 250)) # remplit l'écran avec la couleur ((rouge, vert, bleu)) (entre 0 et 255)
+	display.fill(black) # remplit l'écran avec la couleur ((rouge, vert, bleu)) (entre 0 et 255)
 	
 	current_time = pygame.time.get_ticks() 
 	dt = (current_time - last_time) / 1000.0 # dt = temps écoulé depuis la dernière frame en secondes
@@ -49,18 +48,35 @@ while not end:
 
 	#traitement des entrées clavier
 	pressed_keys = pygame.key.get_pressed()
-	player.deplacement(facteur_mvt,vel_jump, dt, pressed_keys, t_blocks,g)
-	
-	
+	if etape == "start" :
+		etape, state, perso = start(display, pressed_keys, state, events)
+		
+	if etape == "charging" :
+		if state == "init" :
+			play_bg("quadrille")
+			state = "switch"
+		if state == "switch" :
+			arreteMusique()
+			etape = "play"
+			state = "init"
+   
  
-	
+	if etape == "play" :
+		if state == "init" :
+			if perso == "" : #petite protection à enlever quand tout sera bien codé
+							 #perso == "" si rien n'a été sélectionné pendant l'étape du choix (étape start)
+				perso = "persoTest"
+			play_bg("tea")
+			player= Player(50,10, perso) #initialisation du joueur
+			state = "ongoing"
+		player.deplacement(facteur_mvt, vel_jump, dt, pressed_keys, t_blocks, g)
 
-	# Ici se fera le dessin de la scène
-	display.blit(background, (0,0))
-	player.dessine(display)
+		# Ici se fera le dessin de la scène
+		display.blit(background, (0,0))
+		player.dessine(display)
 	
-	#test fonction fill
-	fill(display, t_blocks)
+		#test fonction fill
+		fill(display, t_blocks)
 
 
 	pygame.display.update() # Mise à jour de l'affichage 
@@ -70,3 +86,4 @@ while not end:
 
 
 pygame.quit() # important
+
