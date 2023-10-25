@@ -8,9 +8,9 @@ class Player:
         self.posy= posy
         self.w = 1*len_bloc
         self.h = 2*len_bloc
-        self.dy= 300
         self.character = perso #"A" pour Alice, "L" pour Lapin
-        self.vely=0
+        self.vely = 0
+        self.velx = 0
         self.is_grounded=False
         self.K_r_pressed=False
 
@@ -63,19 +63,20 @@ class Player:
                         return l
         return l
 
-    def deplacement(self,facteur_l,facteur_r, dt, pressed_keys, t_blocks):
+    def deplacement(self,facteur_mvt, vel_jump, dt, pressed_keys, t_blocks, g):
 
-        depx= 0
-        self.vely+=2000*dt
+        assert vel_jump <= 0
+        self.velx = 0
+        self.vely+=g*dt
         
         if pressed_keys[K_RIGHT]:
-            depx += facteur_r
+            self.velx += facteur_mvt
             self.image = self.skin["run_right"]
         elif self.image == self.skin["still_right"] or self.image == self.skin["run_right"] :
             self.image = self.skin["still_right"]	
 
         if pressed_keys[K_LEFT]:
-            depx-= facteur_l
+            self.velx -= facteur_mvt
             self.image = self.skin["run_left"]
         elif self.image == self.skin["still_left"] or self.image == self.skin["run_left"] :
             self.image = self.skin["still_left"]
@@ -87,12 +88,11 @@ class Player:
             play('R_is_pressed')
         
         if (pressed_keys[K_UP] or pressed_keys[K_SPACE]) and self.is_grounded :
-            self.vely= -800
+            self.vely= vel_jump #attention vel_jump doit être négatif
             play('jump')
         
         #teste déplacement x
-        depx*=dt
-        self.posx+=depx
+        self.posx += self.velx*dt
         collisionPenultieme = self.collisionPrecedente
         self.collisionPrecedente = self.coll
         self.coll = self.is_colliding(t_blocks)
@@ -129,7 +129,7 @@ class Player:
         #pour le jump du champignon
         if self.coll[1]: 
             self.vely= -800
-            self.vely+=2000*dt
+            self.vely+=g*dt
             self.posy+=self.vely*dt
             play('rebond')
         
@@ -137,13 +137,13 @@ class Player:
         #pour la glace
         if self.coll[2]: 
             if self.image == self.skin["still_right"] or self.image == self.skin["run_right"] or self.image == self.skin["jump_right"]:
-                if depx!=0:
-                    self.posx-=depx
-                self.posx+=facteur_r*dt/3  
+                if self.velx!=0:
+                    self.posx-=self.velx*dt
+                self.posx+=facteur_mvt*dt/3  
             else:
-                if depx!=0:
-                    self.posx-= depx
-                self.posx-= facteur_r*dt/3
+                if self.velx!=0:
+                    self.posx-= self.velx*dt
+                self.posx-= facteur_mvt*dt/3
         
         self.coll = self.is_colliding(t_blocks)   
         if self.coll[0]:
@@ -176,10 +176,10 @@ class Player:
         
             #normalement, il ne devrait plus rien toucher
             #S'il était en train de collide avec la tête, il ne faut pas qu'il soit grounded ! Testons ça
-            self.posy -= 2000*dt #on le remonte un poil
+            self.posy -= 2000*dt #on le remonte un poil (c le même 2000 que la gravité (c léo) si oui mettre g)
             if self.is_colliding(t_blocks)[0] :
                 self.is_grounded = False
-            self.posy += 2000*dt #on le redescend à l'état avant-test
+            self.posy += 2000*dt #on le redescend à l'état avant-test (c le même 2000 que la gravité (c léo) si oui mettre g)
         
         
         
