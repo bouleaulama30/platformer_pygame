@@ -4,7 +4,6 @@ from sounds import *
 class Player: 
 
     def __init__(self, posx, posy, perso):
-    def __init__(self, posx, posy, perso):
         self.posx= posx
         self.posy= posy
         self.w = 1*len_bloc
