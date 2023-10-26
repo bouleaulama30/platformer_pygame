@@ -6,7 +6,7 @@ from constante import *
 from sounds import *
 #from fonts import affiche
 from decoupageFonctionnement import *
-
+csdnkn
 
 #1 player = 2 blocs de haut
 
