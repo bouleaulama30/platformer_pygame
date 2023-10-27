@@ -24,6 +24,7 @@ sounds = {
         'R_is_pressed': pygame.mixer.Sound("sons/R_is_pressed.mp3"),
         'running_grass': pygame.mixer.Sound("sons/running_grass.mp3"),
         'ice_slid': pygame.mixer.Sound("sons/ice_slid.mp3")
+
 }
 
 
