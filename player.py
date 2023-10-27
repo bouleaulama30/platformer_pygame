@@ -207,7 +207,7 @@ class Player:
             return True
         return False
 		
-class Epouvantail:
+class Epouvantail: #juste pour les personnages du choix à cliquer 
     def __init__(self, posx, posy, skin):
         self.posx = posx
         self.posy = posy
@@ -218,11 +218,11 @@ class Epouvantail:
         if self.character == "A" :
             self.pathsToDifferentSkins = ["SpritesPlayer/Alice/alice_still.png", "SpritesPlayer/Alice/alice_still_choisie.png"]
             self.imagePATH = self.pathsToDifferentSkins[0]
-            self.centre = [self.posx + self.taille[0]*255/564, self.posy+self.taille[1]*579/1128]
+            #self.centre = [self.posx + self.taille[0]*255/564, self.posy+self.taille[1]*579/1128]
         elif self.character == "L" :
             self.pathsToDifferentSkins = ["SpritesPlayer/Lapin/lapin_still.png", "SpritesPlayer/Lapin/lapin_still_choisi.png"]
             self.imagePATH = self.pathsToDifferentSkins[0]
-            self.centre = [0,0]
+            #self.centre = [0,0]
         else :
             print("Epouvantail : Perso non défini")
             exit()
@@ -258,12 +258,12 @@ class Epouvantail:
             self.posx = centre[0] - self.taille[0]//2
             self.posy = centre[1] - self.taille[1]//2
         
-        elif pos == "centrePerso" :
-            vieilleTaille = self.taille
-            self.taille[0] *= 1+facteur
-            self.taille[1] *= 1+facteur
-            self.posx = self.centre[0] - (self.centre[0]-self.posx)/vieilleTaille[0]*self.taille[0]
-            self.posy = self.centre[1] - (self.centre[1]-self.posy)/vieilleTaille[1]*self.taille[1]
+        # elif pos == "centrePerso" :
+        #     vieilleTaille = self.taille
+        #     self.taille[0] *= 1+facteur
+        #     self.taille[1] *= 1+facteur
+        #     self.posx = self.centre[0] - (self.centre[0]-self.posx)/vieilleTaille[0]*self.taille[0]
+        #     self.posy = self.centre[1] - (self.centre[1]-self.posy)/vieilleTaille[1]*self.taille[1]
         
         elif pos == "coin" :
             self.taille[0] *= 1+facteur
