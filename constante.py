@@ -19,6 +19,7 @@ rep = (False, "")
 #constantes qui influencent la physique du player
 g=2000 #gravité
 facteur_mvt=200 #influence vitesse déplacement
+facteur_mvt_mini_jeu=200 
 vel_jump=-800 #influence le saut
 
 
@@ -77,5 +78,5 @@ bg_play2 = pygame.transform.scale(pygame.image.load("SpritesBackground/backgroun
 bg_play3 = pygame.transform.scale(pygame.image.load("SpritesBackground/background_tiles.jpg"), (largeur_fenetre, hauteur_fenetre))
 bg_play4 = pygame.transform.scale(pygame.image.load("SpritesBackground/background_cartesEtThe.jpg"), (largeur_fenetre, hauteur_fenetre))
 bg_play5 = pygame.transform.scale(pygame.image.load("SpritesBackground/background_hearts.jpg"), (largeur_fenetre, hauteur_fenetre))
-bg_fall = pygame.transform.scale(pygame.image.load("SpritesBackground/background_circular.jpg"), (largeur_fenetre, hauteur_fenetre))
+bg_fall = pygame.transform.scale(pygame.image.load("SpritesBackground/bg_mini_jeu.png"), (largeur_fenetre, hauteur_fenetre))
 bg_choix = pygame.transform.scale(pygame.image.load("SpritesBackground/ecran_choix/ecran_choix_none.jpg"), (largeur_fenetre, hauteur_fenetre))

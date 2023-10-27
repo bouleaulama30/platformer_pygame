@@ -12,7 +12,8 @@ from decoupageFonctionnement import *
 #paramètres d'entrée
 pygame.init() # important
 display = pygame.display.set_mode((largeur_fenetre, hauteur_fenetre)) # crée une surface pour la fenêtre (largeur, hauteur) de la fenetre
-background = bg_play4
+background_game = bg_play4
+background_mini_game= bg_fall
 
 # definir une clock
 clock= pygame.time.Clock()
@@ -62,11 +63,13 @@ while not end:
 
 	if etape == "mini_jeu":
 		if state == "init" :
-			play_bg("tea")
-			player= Player(50,10,perso)
+			play_bg("bg_mini_jeu")
+			player= Player(largeur_fenetre/2,(hauteur_fenetre/2)-50,perso)
+			display.blit(background_mini_game, (0,0)) 
+			player.dessine_deplacement_mini_jeu(display,pressed_keys,facteur_mvt_mini_jeu,dt,state)
 			state="ongoing"
-		display.blit(background, (0,0))
-		player.dessine(display)
+		display.blit(background_mini_game, (0,0))
+		player.dessine_deplacement_mini_jeu(display,pressed_keys,facteur_mvt_mini_jeu,dt,state)
 		if pressed_keys[K_b]:
 			etape="play"
 			state="init"
@@ -85,7 +88,7 @@ while not end:
 		player.deplacement(facteur_mvt, vel_jump, dt, pressed_keys, t_blocks, g)
 
 		# Ici se fera le dessin de la scène
-		display.blit(background, (0,0))
+		display.blit(background_game, (0,0))
 		player.dessine(display)
 	
 		#test fonction fill

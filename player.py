@@ -199,7 +199,20 @@ class Player:
             elif self.image == self.skin["jump_right"] :
                 self.image = self.skin["still_right"]
         
-        
+    
+    
+    def dessine_deplacement_mini_jeu(self,display,pressed_keys,facteur_mvt_mini_jeu,dt,state) :
+        self.velx=0
+        if state == "init":
+            self.image=self.skin["jump_right"]
+        if pressed_keys[K_LEFT]:
+            self.velx-= facteur_mvt_mini_jeu
+            self.image = self.skin["jump_left"] 
+        if pressed_keys[K_RIGHT]:
+            self.image = self.skin["jump_right"]
+            self.velx += facteur_mvt_mini_jeu
+        self.posx+= self.velx*dt
+        display.blit(self.image, (self.posx,self.posy))
 		
     def dessine(self, display) :
         display.blit(self.image, (self.posx, self.posy))

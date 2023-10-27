@@ -10,7 +10,8 @@ musics = {
         "tea" : "sons/mad_tea_party.mp3",
         "explore" :"sons/welcome_to_wonderland.mp3",
         "end" : "sons/welcome_to_wonderland.mp3",
-        'rebond': "sons/rebond_troll.mp3"
+        'rebond': "sons/rebond_troll.mp3",
+        "bg_mini_jeu": "sons/bg_mini_jeu.mp3"
 }
 
 """
