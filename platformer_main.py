@@ -29,8 +29,22 @@ make_gros_bloc(150, 0, 2, 3, "s", t_blocks)
 make_gros_bloc(400,400,1,3,"j", t_blocks)
 
 
-		
-etape = "start" #can be "play", "start", "end", "charging"
+"""
+Hey Margot, ptit message pour tenter d'expliquer ce que j'ai amené avec mon merge (souffre)
+
+la variable etape peut être "play", "start", "end", "charging", ... : permet de découper le jeu (et le code !) en morceaux distincts, indépendants et quasi autonomes 
+par exemple le choix des personnages, l'écran de chargement avec quadrille du homard, le niveau de jeu, les crédits de fin...
+Concrètement, à chaque itération du while, on teste si on est en train de faire telle ou telle étape, et on continue en conséquence
+
+la variable state permet de définir des étapes dans les étapes : basiquement, on n'a besoin d'initialiser le Player qu'une seule fois, de démarrer la musique uniquement lors de la première itération
+de l'étape, et d'éteindre la musique lors de la dernière itération... Mais on doit aussi afficher un texte pendant plusieurs frames, garder un suivi sur le player...
+Le premier state d'une étape doit toujours être "init" (bah, parce que c'est là qu'on init les variables utilisées pendant l'étape), et son dernier state est défini comme "switch" (lors de ce dernier state par 
+exemple on éteint la musique, mais surtout on change la valeur des variables etape et state pour enchainer sur le début d'une nouvelle étape). Y'aura besoin d'autres states,
+mais ceux-là ont forcément des noms particuliers à chaque étape ^^
+
+Je suppose que c'est pas très clair, je te réfère à la fonction start() dans decoupageFonctionnement.py pour voir comment c'est implémenté, et sinon n'hésite pas à m'appeler...
+"""
+etape = "start" 
 state = "init"
 # Boucle de rendu
 end = False
