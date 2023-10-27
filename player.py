@@ -84,7 +84,8 @@ class Player:
             self.posx, self.posy=50,10
             self.vely=0
             self.is_grounded=False
-            play('R_is_pressed')
+            if not is_playing(0):
+                play('R_is_pressed',0)
         
         if (pressed_keys[K_UP] or pressed_keys[K_SPACE]) and self.is_grounded :
             self.vely= vel_jump #attention vel_jump doit être negatif
@@ -135,6 +136,8 @@ class Player:
         self.coll = self.is_colliding(t_blocks)
         #pour la glace
         if self.coll[2]: 
+            if not is_playing(2):
+                play('ice_slid',2)
             if self.image == self.skin["still_right"] or self.image == self.skin["run_right"] or self.image == self.skin["jump_right"]:
                 if self.velx!=0:
                     self.posx-=self.velx*dt
@@ -144,8 +147,10 @@ class Player:
                     self.posx-= self.velx*dt
                 self.posx-= facteur_mvt*dt/3
         
-        self.coll = self.is_colliding(t_blocks)   
+          
         if self.coll[0]:
+            if not is_playing(2) and (pressed_keys[K_RIGHT] or pressed_keys[K_LEFT]):
+                play('running_grass',2)
             self.is_grounded= True
             self.posy-=self.vely*dt
             if self.coll[3] != "rect" :

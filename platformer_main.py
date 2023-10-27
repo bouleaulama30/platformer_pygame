@@ -6,7 +6,6 @@ from constante import *
 from sounds import *
 #from fonts import affiche
 from decoupageFonctionnement import *
-csdnkn
 
 #1 player = 2 blocs de haut
 
@@ -23,14 +22,15 @@ last_time = pygame.time.get_ticks() # Pour le comptage du temps (get_ticks() ren
 
 ### Creation des blocs
 t_blocks = []
-make_gros_triangle(50, 200, 5, "s", "SO", t_blocks)
-make_gros_bloc(40, 500, 2, 15, "s",t_blocks)
-make_gros_bloc(150, 0, 2, 3, "s", t_blocks)
+make_gros_triangle(50, 200, 5, "n", "SO", t_blocks)
+make_gros_bloc(40, 500, 2, 15, "n",t_blocks)
+make_gros_bloc(500, 500, 2, 15, "s",t_blocks)
+make_gros_bloc(150, 0, 2, 3, "n", t_blocks)
 make_gros_bloc(400,400,1,3,"j", t_blocks)
 
 
 		
-etape = "start" #can be "play", "start", "end", "charging"
+etape = "start" #can be "play", "start", "end", "charging" , "mini_jeu"
 state = "init"
 # Boucle de rendu
 end = False
@@ -57,9 +57,22 @@ while not end:
 			state = "switch"
 		if state == "switch" :
 			arreteMusique()
-			etape = "play"
+			etape = "mini_jeu"
 			state = "init"
-   
+
+	if etape == "mini_jeu":
+		if state == "init" :
+			play_bg("tea")
+			player= Player(50,10,perso)
+			state="ongoing"
+		display.blit(background, (0,0))
+		player.dessine(display)
+		if pressed_keys[K_b]:
+			etape="play"
+			state="init"
+			arreteMusique()
+
+	
  
 	if etape == "play" :
 		if state == "init" :
