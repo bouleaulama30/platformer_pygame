@@ -212,6 +212,8 @@ class Player:
             self.image = self.skin["jump_right"]
             self.velx += facteur_mvt_mini_jeu
         self.posx+= self.velx*dt
+        if not  ((1/3)*largeur_fenetre <= self.posx and (self.posx+len_bloc) <= (2/3)*largeur_fenetre):
+            self.posx-= self.velx*dt
         display.blit(self.image, (self.posx,self.posy))
 		
     def dessine(self, display) :

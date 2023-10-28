@@ -28,6 +28,9 @@ g=2000 #gravité
 facteur_mvt=200 #influence vitesse déplacement
 vel_jump=-800 #influence le saut
 
+#pour compter les frames
+count=0
+
 
 #définition des images blocs, histoire que le code soit lisible...
 blocFill = pygame.transform.scale(pygame.image.load("SpritesBlocks/bloc_fill.png"), (len_bloc, len_bloc))
@@ -80,3 +83,7 @@ bg_play4 = pygame.transform.scale(pygame.image.load("SpritesBackground/backgroun
 bg_play5 = pygame.transform.scale(pygame.image.load("SpritesBackground/background_hearts.jpg"), (largeur_fenetre, hauteur_fenetre))
 bg_fall = pygame.transform.scale(pygame.image.load("SpritesBackground/bg_mini_jeu.png"), (largeur_fenetre, hauteur_fenetre))
 bg_choix = pygame.transform.scale(pygame.image.load("SpritesBackground/ecran_choix/ecran_choix_none.jpg"), (largeur_fenetre, hauteur_fenetre))
+
+#def image clé
+
+key = pygame.transform.scale(pygame.image.load("SpritesKeys/sprite_key.png"), (1* len_bloc, 2*len_bloc))

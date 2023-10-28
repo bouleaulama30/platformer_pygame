@@ -4,8 +4,10 @@ from player import Player
 from block import *
 from constante import *
 from sounds import *
+from mini_jeu import *
 #from fonts import affiche
 from decoupageFonctionnement import *
+
 
 #1 player = 2 blocs de haut
 
@@ -30,6 +32,7 @@ make_gros_bloc(150, 0, 2, 3, "n", t_blocks)
 make_gros_bloc(400,400,1,3,"j", t_blocks)
 
 
+update_mini_game= Update_mini_game()
 		
 etape = "start" #can be "play", "start", "end", "charging" , "mini_jeu"
 state = "init"
@@ -65,12 +68,18 @@ while not end:
 		if state == "init" :
 			play_bg("bg_mini_jeu")
 			player= Player(largeur_fenetre/2,(hauteur_fenetre/2)-50,perso)
+			key1= Key((largeur_fenetre/2)+20,(hauteur_fenetre/2)-50)
 			display.blit(background_mini_game, (0,0)) 
 			player.dessine_deplacement_mini_jeu(display,pressed_keys,facteur_mvt_mini_jeu,dt,state)
 			state="ongoing"
+		
 		display.blit(background_mini_game, (0,0))
+		key1.dessine_key(display)
+		update_mini_game.update_score(display)
+		update_mini_game.update_loading(display)
+
 		player.dessine_deplacement_mini_jeu(display,pressed_keys,facteur_mvt_mini_jeu,dt,state)
-		if pressed_keys[K_b]:
+		if pressed_keys[K_b] or update_mini_game.get_loading()>=100:
 			etape="play"
 			state="init"
 			arreteMusique()
@@ -86,10 +95,11 @@ while not end:
 			player= Player(50,10, perso) #initialisation du joueur
 			state = "ongoing"
 		player.deplacement(facteur_mvt, vel_jump, dt, pressed_keys, t_blocks, g)
-
 		# Ici se fera le dessin de la scène
 		display.blit(background_game, (0,0))
 		player.dessine(display)
+		update_mini_game.update_score(display)
+		
 	
 		#test fonction fill
 		fill(display, t_blocks)
