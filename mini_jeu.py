@@ -1,4 +1,5 @@
 from constante import*
+from sounds import *
 
 
 class Key:
@@ -26,6 +27,7 @@ class Key:
             display.blit(self.image, (self.posx, self.posy))
         else:
             if self.touched == False:
+                play("keys_sound")
                 update.add_score(self.score_increment)
             self.touched=True
     

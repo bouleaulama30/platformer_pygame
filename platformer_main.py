@@ -25,10 +25,9 @@ last_time = pygame.time.get_ticks() # Pour le comptage du temps (get_ticks() ren
 
 ### Creation des blocs
 t_blocks = []
-make_gros_triangle(50, 200, 5, "n", "SO", t_blocks)
-make_gros_bloc(40, 500, 2, 15, "n",t_blocks)
+make_gros_triangle(0, 200, 5, "n", "SO", t_blocks)
+make_gros_bloc(0, 500, 2, 15, "n",t_blocks)
 make_gros_bloc(500, 500, 2, 15, "s",t_blocks)
-make_gros_bloc(150, 0, 2, 3, "n", t_blocks)
 make_gros_bloc(400,400,1,3,"j", t_blocks)
 
 
@@ -84,6 +83,7 @@ while not end:
 	if etape == "mini_jeu":
 		if state == "init" :
 			play_bg("bg_mini_jeu")
+			play("wind_for_falling")
 			player= Player(largeur_fenetre/2,(hauteur_fenetre/2)-50,perso)
 			display.blit(background_mini_game, (0,0)) 
 			player.dessine_deplacement_mini_jeu(display,pressed_keys,facteur_mvt_mini_jeu,dt,state)
@@ -98,6 +98,7 @@ while not end:
 		if pressed_keys[K_b] or update_mini_game.get_loading()>=100:
 			etape="play"
 			state="init"
+			stop_sound("wind_for_falling")
 			arreteMusique()
 
 	
