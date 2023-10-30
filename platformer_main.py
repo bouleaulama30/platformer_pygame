@@ -4,6 +4,7 @@ from player import Player
 from block import *
 from constante import *
 from sounds import *
+from mini_jeu import *
 #from fonts import affiche
 from decoupageFonctionnement import *
 
@@ -13,7 +14,8 @@ from decoupageFonctionnement import *
 #paramètres d'entrée
 pygame.init() # important
 display = pygame.display.set_mode((largeur_fenetre, hauteur_fenetre)) # crée une surface pour la fenêtre (largeur, hauteur) de la fenetre
-background = bg_play4
+background_game = bg_play4
+background_mini_game= bg_fall
 
 # definir une clock
 clock= pygame.time.Clock()
@@ -23,12 +25,17 @@ last_time = pygame.time.get_ticks() # Pour le comptage du temps (get_ticks() ren
 
 ### Creation des blocs
 t_blocks = []
-make_gros_triangle(50, 200, 5, "s", "SO", t_blocks)
-make_gros_bloc(40, 500, 2, 15, "s",t_blocks)
-make_gros_bloc(150, 0, 2, 3, "s", t_blocks)
+make_gros_triangle(50, 200, 5, "n", "SO", t_blocks)
+make_gros_bloc(40, 500, 2, 15, "n",t_blocks)
+make_gros_bloc(500, 500, 2, 15, "s",t_blocks)
+make_gros_bloc(150, 0, 2, 3, "n", t_blocks)
 make_gros_bloc(400,400,1,3,"j", t_blocks)
 
 
+update_mini_game= Update_mini_game()
+keys_list=[]
+		
+etape = "start" #can be "play", "start", "end", "charging" , "mini_jeu"
 """
 Hey Margot, ptit message pour tenter d'expliquer ce que j'ai amené avec mon merge (souffre)
 
@@ -71,9 +78,29 @@ while not end:
 			state = "switch"
 		if state == "switch" :
 			arreteMusique()
-			etape = "play"
+			etape = "mini_jeu"
 			state = "init"
-   
+
+	if etape == "mini_jeu":
+		if state == "init" :
+			play_bg("bg_mini_jeu")
+			player= Player(largeur_fenetre/2,(hauteur_fenetre/2)-50,perso)
+			display.blit(background_mini_game, (0,0)) 
+			player.dessine_deplacement_mini_jeu(display,pressed_keys,facteur_mvt_mini_jeu,dt,state)
+			state="ongoing"
+		
+		display.blit(background_mini_game, (0,0))
+		fill_keys(display,player,update_mini_game,keys_list,dt)
+		update_mini_game.update_score(display)
+		update_mini_game.update_loading(display)
+
+		player.dessine_deplacement_mini_jeu(display,pressed_keys,facteur_mvt_mini_jeu,dt,state)
+		if pressed_keys[K_b] or update_mini_game.get_loading()>=100:
+			etape="play"
+			state="init"
+			arreteMusique()
+
+	
  
 	if etape == "play" :
 		if state == "init" :
@@ -84,10 +111,11 @@ while not end:
 			player= Player(50,10, perso) #initialisation du joueur
 			state = "ongoing"
 		player.deplacement(facteur_mvt, vel_jump, dt, pressed_keys, t_blocks, g)
-
 		# Ici se fera le dessin de la scène
-		display.blit(background, (0,0))
+		display.blit(background_game, (0,0))
 		player.dessine(display)
+		update_mini_game.update_score(display)
+		
 	
 		#test fonction fill
 		fill(display, t_blocks)

@@ -1,5 +1,6 @@
 import pygame
 from pygame.locals import *
+import random as rd
 ##Attention, quadrillage = 40 blocs * 80 blocs
 hauteur_fenetre = 800
 largeur_fenetre = hauteur_fenetre*2
@@ -19,6 +20,7 @@ rep = (False, "")
 #constantes qui influencent la physique du player
 g=2000 #gravité
 facteur_mvt=200 #influence vitesse déplacement
+facteur_mvt_mini_jeu=200 
 vel_jump=-800 #influence le saut
 
 
@@ -26,6 +28,15 @@ vel_jump=-800 #influence le saut
 g=2000 #gravité
 facteur_mvt=200 #influence vitesse déplacement
 vel_jump=-800 #influence le saut
+
+#pour compter les frames pour le chargement
+count=0
+influence_vitesse_chargement=5
+
+#compteur de frames pour la générations auto de clés
+count_rd_keys=0
+#influence la fréquence de géneration des clés
+influence_vitesse_creation=75
 
 
 #définition des images blocs, histoire que le code soit lisible...
@@ -77,5 +88,9 @@ bg_play2 = pygame.transform.scale(pygame.image.load("SpritesBackground/backgroun
 bg_play3 = pygame.transform.scale(pygame.image.load("SpritesBackground/background_tiles.jpg"), (largeur_fenetre, hauteur_fenetre))
 bg_play4 = pygame.transform.scale(pygame.image.load("SpritesBackground/background_cartesEtThe.jpg"), (largeur_fenetre, hauteur_fenetre))
 bg_play5 = pygame.transform.scale(pygame.image.load("SpritesBackground/background_hearts.jpg"), (largeur_fenetre, hauteur_fenetre))
-bg_fall = pygame.transform.scale(pygame.image.load("SpritesBackground/background_circular.jpg"), (largeur_fenetre, hauteur_fenetre))
+bg_fall = pygame.transform.scale(pygame.image.load("SpritesBackground/bg_mini_jeu.png"), (largeur_fenetre, hauteur_fenetre))
 bg_choix = pygame.transform.scale(pygame.image.load("SpritesBackground/ecran_choix/ecran_choix_none.jpg"), (largeur_fenetre, hauteur_fenetre))
+
+#def image clé
+
+key = pygame.transform.scale(pygame.image.load("SpritesKeys/sprite_key.png"), (1* len_bloc, 2*len_bloc))
