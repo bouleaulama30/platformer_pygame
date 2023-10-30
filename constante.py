@@ -1,5 +1,6 @@
 import pygame
 from pygame.locals import *
+import random as rd
 ##Attention, quadrillage = 40 blocs * 80 blocs
 hauteur_fenetre = 800
 largeur_fenetre = hauteur_fenetre*2
@@ -28,8 +29,14 @@ g=2000 #gravité
 facteur_mvt=200 #influence vitesse déplacement
 vel_jump=-800 #influence le saut
 
-#pour compter les frames
+#pour compter les frames pour le chargement
 count=0
+influence_vitesse_chargement=5
+
+#compteur de frames pour la générations auto de clés
+count_rd_keys=0
+#influence la fréquence de géneration des clés
+influence_vitesse_creation=75
 
 
 #définition des images blocs, histoire que le code soit lisible...

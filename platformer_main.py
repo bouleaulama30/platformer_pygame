@@ -33,6 +33,7 @@ make_gros_bloc(400,400,1,3,"j", t_blocks)
 
 
 update_mini_game= Update_mini_game()
+keys_list=[]
 		
 etape = "start" #can be "play", "start", "end", "charging" , "mini_jeu"
 state = "init"
@@ -68,13 +69,12 @@ while not end:
 		if state == "init" :
 			play_bg("bg_mini_jeu")
 			player= Player(largeur_fenetre/2,(hauteur_fenetre/2)-50,perso)
-			key1= Key((largeur_fenetre/2)+20,(hauteur_fenetre/2)-50)
 			display.blit(background_mini_game, (0,0)) 
 			player.dessine_deplacement_mini_jeu(display,pressed_keys,facteur_mvt_mini_jeu,dt,state)
 			state="ongoing"
 		
 		display.blit(background_mini_game, (0,0))
-		key1.dessine_key(display)
+		fill_keys(display,player,update_mini_game,keys_list,dt)
 		update_mini_game.update_score(display)
 		update_mini_game.update_loading(display)
 
