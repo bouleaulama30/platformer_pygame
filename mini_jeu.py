@@ -62,7 +62,7 @@ class Update_mini_game:
         self.score+=point
 
     def add_loading(self):
-        self.loading+=1
+        self.loading+=0.3
 
     def update_score(self,display):
         
@@ -73,7 +73,7 @@ class Update_mini_game:
     def update_loading(self, display):
         global count
         global influence_vitesse_chargement
-        loading_text=self.font.render(f"chargement {self.loading}%", True, (255,255,255))
+        loading_text=self.font.render(f"chargement {int(self.loading)}%", True, (255,255,255))
         display.blit(loading_text, ((2.2/3)*largeur_fenetre,(7/8)*hauteur_fenetre))
         count = count + 1
         if count >influence_vitesse_chargement:
