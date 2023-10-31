@@ -37,7 +37,7 @@ def create_random_key(keys_list):
     global influence_vitesse_creation
     count_rd_keys = count_rd_keys + 1
     if count_rd_keys >influence_vitesse_creation:
-        rd_pox=rd.randint(int((1/3)*largeur_fenetre),int((2/3)*largeur_fenetre))
+        rd_pox=rd.randint(int((1/3)*largeur_fenetre),int((2/3)*largeur_fenetre)-len_bloc)
         rd_posy=hauteur_fenetre
         keys_list.append(Key(rd_pox,rd_posy))
         count_rd_keys=0
