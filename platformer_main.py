@@ -92,11 +92,11 @@ while not end:
 		
 		display.blit(background_mini_game, (0,0))
 		if state == "ongoing" :
-			player.posy += 0.1
+			player.posy += 0.1 #tombe leeentement
 			fill_keys(display,player,update_mini_game,keys_list,dt)
 
 		if update_mini_game.get_loading()>=100:
-			player.posy += 0.7
+			player.posy += 0.7 #accélère la chute quand il faut finir le chargement...
 			fill_keys_fin(display,player,update_mini_game,keys_list,dt) #arrête de générer des clés
 			state = "finishing"
 

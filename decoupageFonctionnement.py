@@ -59,8 +59,11 @@ def start(display, pressed_keys, state, events) :
 			frame[i] += 0.02
 		
 		if pressed_keys[K_UP] :
+			characChoisi = "A"
 			return ("start","switch", "")
+
 		return ("start","chooseCharacter", "")
+	
 
 	if state == "switch" :
 		arreteMusique()
