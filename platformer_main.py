@@ -84,18 +84,28 @@ while not end:
 		if state == "init" :
 			play_bg("bg_mini_jeu")
 			play("wind_for_falling")
-			player= Player(largeur_fenetre/2,(hauteur_fenetre/2)-50,perso)
+			player= Player(largeur_fenetre/2,(hauteur_fenetre/3)-2*len_bloc,perso)
 			display.blit(background_mini_game, (0,0)) 
 			player.dessine_deplacement_mini_jeu(display,pressed_keys,facteur_mvt_mini_jeu,dt,state)
 			state="ongoing"
+			vel_fall = 0
 		
 		display.blit(background_mini_game, (0,0))
-		fill_keys(display,player,update_mini_game,keys_list,dt)
-		update_mini_game.update_score(display)
-		update_mini_game.update_loading(display)
+		if state == "ongoing" :
+			player.posy += 0.1
+			fill_keys(display,player,update_mini_game,keys_list,dt)
 
+		if update_mini_game.get_loading()>=100:
+			player.posy += 0.7
+			fill_keys_fin(display,player,update_mini_game,keys_list,dt) #arrête de générer des clés
+			state = "finishing"
+
+		if player.posy >= hauteur_fenetre :
+			state = "switch"
+		update_mini_game.update_score(display)
+		update_mini_game.update_loading(state,display)
 		player.dessine_deplacement_mini_jeu(display,pressed_keys,facteur_mvt_mini_jeu,dt,state)
-		if pressed_keys[K_b] or update_mini_game.get_loading()>=100:
+		if pressed_keys[K_b] or state == "switch" :
 			etape="play"
 			state="init"
 			stop_sound("wind_for_falling")

@@ -22,11 +22,11 @@ class Key:
 
     
     def dessine_and_move_key(self, display,player, update,dt):
-        if (not self.is_colliding_key(player)) and self.touched==False  :
+        if (not self.is_colliding_key(player)) and not self.touched  :
             self.posy-= self.vel*dt
             display.blit(self.image, (self.posx, self.posy))
         else:
-            if self.touched == False:
+            if not self.touched:
                 play("keys_sound")
                 update.add_score(self.score_increment)
             self.touched=True
@@ -46,7 +46,13 @@ def fill_keys(display,player,update,keys_list,dt):
     create_random_key(keys_list)
     for k in keys_list:
         k.dessine_and_move_key(display,player,update,dt)
-    
+
+def fill_keys_fin(display, player, update, keys_list,dt) :
+    for k in keys_list:
+        if k.posy <= 0 or k.touched: 
+            keys_list.remove(k) #on enlève la clé si elle sort de l'écran
+        else :
+            k.dessine_and_move_key(display,player,update,dt)
 
 
 
@@ -70,13 +76,13 @@ class Update_mini_game:
         display.blit(score_text, (20,20))
       
         
-    def update_loading(self, display):
+    def update_loading(self, state, display):
         global count
         global influence_vitesse_chargement
         loading_text=self.font.render(f"chargement {int(self.loading)}%", True, (255,255,255))
         display.blit(loading_text, ((2.2/3)*largeur_fenetre,(7/8)*hauteur_fenetre))
         count = count + 1
-        if count >influence_vitesse_chargement:
+        if count >influence_vitesse_chargement and state == "ongoing":
             self.add_loading()
             count=0
     
