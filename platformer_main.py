@@ -31,6 +31,9 @@ make_gros_bloc(500, 500, 2, 15, "s",t_blocks)
 make_gros_bloc(400,400,1,3,"j", t_blocks)
 
 
+read_file_map("test.txt",t_blocks)
+
+
 update_mini_game= Update_mini_game()
 key_list_ingame=[Key(700,400),Key(430,200)]
 keys_list=[]
@@ -132,6 +135,7 @@ while not end:
 	
 		#test fonction fill
 		fill(display, t_blocks)
+
 
 
 	pygame.display.update() # Mise à jour de l'affichage 
