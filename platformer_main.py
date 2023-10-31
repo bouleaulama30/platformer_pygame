@@ -32,6 +32,7 @@ make_gros_bloc(400,400,1,3,"j", t_blocks)
 
 
 update_mini_game= Update_mini_game()
+key_list_ingame=[Key(700,400),Key(430,200)]
 keys_list=[]
 		
 etape = "start" #can be "play", "start", "end", "charging" , "mini_jeu"
@@ -93,11 +94,11 @@ while not end:
 		display.blit(background_mini_game, (0,0))
 		if state == "ongoing" :
 			player.posy += 0.1 #tombe leeentement
-			fill_keys(display,player,update_mini_game,keys_list,dt)
+			fill_keys(display,player,update_mini_game,keys_list,dt,etape)
 
 		if update_mini_game.get_loading()>=100:
 			player.posy += 0.7 #accélère la chute quand il faut finir le chargement...
-			fill_keys_fin(display,player,update_mini_game,keys_list,dt) #arrête de générer des clés
+			fill_keys_fin(display,player,update_mini_game,keys_list,dt,etape) #arrête de générer des clés
 			state = "finishing"
 
 		if player.posy >= hauteur_fenetre :
@@ -125,6 +126,7 @@ while not end:
 		# Ici se fera le dessin de la scène
 		display.blit(background_game, (0,0))
 		player.dessine(display)
+		fill_keys(display,player,update_mini_game,key_list_ingame,dt,etape)
 		update_mini_game.update_score(display)
 		
 	

@@ -20,10 +20,12 @@ class Key:
             return True
     
 
+
     
-    def dessine_and_move_key(self, display,player, update,dt):
+    def dessine_and_move_key(self, display,player, update,dt,etape): #ajout condition étape pour avoir clés statiques dans le jeu
         if (not self.is_colliding_key(player)) and not self.touched  :
-            self.posy-= self.vel*dt
+            if etape != "play":
+                self.posy-= self.vel*dt
             display.blit(self.image, (self.posx, self.posy))
         else:
             if not self.touched:
@@ -42,17 +44,18 @@ def create_random_key(keys_list):
         keys_list.append(Key(rd_pox,rd_posy))
         count_rd_keys=0
 
-def fill_keys(display,player,update,keys_list,dt):
-    create_random_key(keys_list)
+def fill_keys(display,player,update,keys_list,dt,etape):
+    if etape!= "play":
+        create_random_key(keys_list)
     for k in keys_list:
-        k.dessine_and_move_key(display,player,update,dt)
+        k.dessine_and_move_key(display,player,update,dt,etape)
 
-def fill_keys_fin(display, player, update, keys_list,dt) :
+def fill_keys_fin(display, player, update, keys_list,dt,etape) :
     for k in keys_list:
         if k.posy <= 0 or k.touched: 
             keys_list.remove(k) #on enlève la clé si elle sort de l'écran
         else :
-            k.dessine_and_move_key(display,player,update,dt)
+            k.dessine_and_move_key(display,player,update,dt,etape)
 
 
 
