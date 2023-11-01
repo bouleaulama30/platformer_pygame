@@ -87,20 +87,6 @@ def make_gros_triangle (x, y, len_cote, type, orientation, t_blocks) :
 	else :
 		print ("erreur creation gros bloc triangle")
 
-def read_file_map(filename,t_blocks):
-	f=open(filename,'r')
-	list=[]
-	lines=f.readlines()
-	for elm in lines:
-		list.append(elm.split(","))
-	print(list)
-	for blocks in list:
-		blocks[-1]=blocks[-1][0:2] #pour enlever le '\n' génant dans le cas du triangle
-		print(blocks)
-		t_blocks.append(Block(int(blocks[0]),int(blocks[1]),blocks[2],int(blocks[3]),blocks[4]))
-	f.close()
-
-
 
 
 def fill(display, t_blocks) :

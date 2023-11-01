@@ -18,10 +18,10 @@ pink = (255,20,147)
 rep = (False, "")
 
 #constantes qui influencent la physique du player
-g=2000 #gravité
-facteur_mvt=200 #influence vitesse déplacement
+g=2100 #gravité
+facteur_mvt=300 #influence vitesse déplacement
 facteur_mvt_mini_jeu=250 
-vel_jump=-800 #influence le saut
+vel_jump=-700 #influence le saut
 
 #pour compter les frames pour le chargement
 count=0
@@ -31,6 +31,11 @@ influence_vitesse_chargement=5
 count_rd_keys=0
 #influence la fréquence de géneration des clés
 influence_vitesse_creation=75
+
+#compteur pour limiter activation des touches dans le mode édition
+editor_count=0
+editor_count_read_file_map=0
+list_map_file=[]
 
 
 #définition des images blocs, histoire que le code soit lisible...
