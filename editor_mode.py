@@ -39,11 +39,19 @@ def delete_line_file_map(filename,t_blocks):
 			f.write(line)
 			
 		else:
-			# blocks=line.split(",") #ne fonctionne pas
-			# blocks[-1]=blocks[-1][0:2] #ne fonctionne pas
-			# t_blocks.remove(Block(int(blocks[0]),int(blocks[1]),blocks[2],int(blocks[3]),blocks[4])) #ne fonctionne pas
-			print(True)
+			blocks=line.split(",") #ne fonctionne pas
+			blocks[-1]=blocks[-1][0:2] #ne fonctionne pas
+			B1=Block(int(blocks[0]),int(blocks[1]),blocks[2],int(blocks[3]),blocks[4]) #ne fonctionne pas
+			for block in t_blocks:
+				if compare_blocks(B1,block):
+					t_blocks.remove(block)
+					print("ok")
 	f.close()
+
+def compare_blocks(block1,block2):
+	if block1.posx==block2.posx and block1.posy==block2.posy:
+		return True
+	return False
 
 def index_second_coma(string):
     i=0
