@@ -4,15 +4,14 @@ from pygame.locals import *
 pygame.mixer.init()
 
 musics = {
-        "mysterious" : "sons/mysterious_alice_theme.mp3",
-        "mysterious_short" : "sons/mysterious_alice_theme_SHORTENED.mp3",
-        "quadrille" : "sons/quadrille_des_homards.mp3",
-        "tea" : "sons/mad_tea_party.mp3",
-        "explore" :"sons/welcome_to_wonderland.mp3",
-        "end" : "sons/welcome_to_wonderland.mp3",
-        'rebond': "sons/rebond_troll.mp3",
-        "bg_mini_jeu": "sons/bg_mini_jeu.mp3",
-        "wind_for_falling": "sons/wind_for_falling.mp3"
+        "mysterious" : "sons/musiques/mysterious_alice_theme.mp3",
+        "mysterious_short" : "sons/musiques/mysterious_alice_theme_SHORTENED.mp3",
+        "quadrille" : "sons/musiques/quadrille_des_homards.mp3",
+        "tea" : "sons/musiques/mad_tea_party.mp3",
+        "explore" :"sons/musiques/welcome_to_wonderland.mp3",
+        "end" : "sons/musiques/welcome_to_wonderland.mp3",
+        "bg_mini_jeu": "sons/musiques/bg_mini_jeu.mp3",
+        "wind_for_falling": "sons/musiques/wind_for_falling.mp3"
 }
 
 """
@@ -27,7 +26,7 @@ sounds = {
         'running_grass': pygame.mixer.Sound("sons/running_grass.mp3"),
         'ice_slid': pygame.mixer.Sound("sons/ice_slid.mp3"),
         'keys_sound':pygame.mixer.Sound("sons/keys_sound2.mp3"),
-        "wind_for_falling": pygame.mixer.Sound("sons/wind_for_falling.mp3")
+        "wind_for_falling": pygame.mixer.Sound("sons/musiques/wind_for_falling.mp3")
 
 }
 
