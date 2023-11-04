@@ -18,8 +18,6 @@ class Key:
     def is_colliding_key(self, player):
         if self.posx < player.posx + player.w and self.posx + self.w > player.posx and self.posy < player.posy + player.h and self.posy + self.h > player.posy:  
             return True
-    
-
 
     
     def dessine_and_move_key(self, display,player, update,dt,etape): #ajout condition étape pour avoir clés statiques dans le jeu
