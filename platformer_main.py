@@ -97,7 +97,8 @@ while not end:
 			fill_keys(display,player,update_mini_game,keys_list,dt,etape)
 
 		if update_mini_game.get_loading()>=100:
-			player.posy += 0.7 #accélère la chute quand il faut finir le chargement...
+			vel_fall += g*dt/30
+			player.posy += 0.1 + vel_fall*dt #accélère la chute quand il faut finir le chargement...
 			fill_keys_fin(display,player,update_mini_game,keys_list,dt,etape) #arrête de générer des clés
 			state = "finishing"
 
