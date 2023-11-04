@@ -24,6 +24,41 @@ def write_file_map(filename,state):
 	f.write(f"{x_mouse},{y_mouse},{state},0,\n")
 	f.close()
 
+
+# on supprime bien la ligne du fichier mais il faut arriver à supprimer le block correspondant dans t_blocks
+# le problème c'est que l'objet Block n'a pas de méthode pour comparer deux blocks entre eux
+# donc je ne sais pas comment faire pour supprimer le block correspondant dans t_blocks
+def delete_line_file_map(filename,t_blocks):
+	x_mouse,y_mouse= pygame.mouse.get_pos()
+	f=open(filename,'r')
+	lines=f.readlines()
+	f=open(filename,'w')
+	for line in lines:
+		i= index_second_coma(line)
+		if (f'{x_mouse},{y_mouse}')!=line[:i]:
+			f.write(line)
+			
+		else:
+			# blocks=line.split(",") #ne fonctionne pas
+			# blocks[-1]=blocks[-1][0:2] #ne fonctionne pas
+			# t_blocks.remove(Block(int(blocks[0]),int(blocks[1]),blocks[2],int(blocks[3]),blocks[4])) #ne fonctionne pas
+			print(True)
+	f.close()
+
+def index_second_coma(string):
+    i=0
+    count=0
+    for elm in string:
+        if elm==",":
+            count+=1
+        if count==2:
+            return i
+        i+=1
+    return -1
+
+
+
+
 def move_right_mouse(nbr_pixels):
 	x_mouse,y_mouse= pygame.mouse.get_pos()
 	pygame.mouse.set_pos(x_mouse+nbr_pixels,y_mouse)

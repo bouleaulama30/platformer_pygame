@@ -19,7 +19,7 @@ rep = (False, "")
 
 #constantes qui influencent la physique du player
 g=2100 #gravité
-facteur_mvt=300 #influence vitesse déplacement
+facteur_mvt=200 #influence vitesse déplacement
 facteur_mvt_mini_jeu=250 
 vel_jump=-700 #influence le saut
 

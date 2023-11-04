@@ -68,7 +68,7 @@ while not end:
 	display.fill(black) # remplit l'écran avec la couleur ((rouge, vert, bleu)) (entre 0 et 255)
 	
 	current_time = pygame.time.get_ticks() 
-	dt = (current_time - last_time) / 1500.0 # dt = temps écoulé depuis la dernière frame en secondes
+	dt = (current_time - last_time) / 1000.0 # dt = temps écoulé depuis la dernière frame en secondes
 	last_time = pygame.time.get_ticks() # ne pas oublier de réinitialiser le chronomètre
 
 	#traitement des entrées clavier
@@ -100,7 +100,7 @@ while not end:
 			player.posy += 0.1 #tombe leeentement
 			fill_keys(display,player,update_mini_game,keys_list,dt,etape)
 
-		if update_mini_game.get_loading()>=150:
+		if update_mini_game.get_loading()>=100:
 			player.posy += 0.7 #accélère la chute quand il faut finir le chargement...
 			fill_keys_fin(display,player,update_mini_game,keys_list,dt,etape) #arrête de générer des clés
 			state = "finishing"
@@ -187,7 +187,9 @@ while not end:
 			reset_mouse()
 			editor_count=0
 
-		
+		if pressed_keys[K_d] and editor_count>15:
+			delete_line_file_map("test.txt",t_blocks)
+			editor_count=0
 
 
 		if pressed_keys[K_p]:
