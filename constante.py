@@ -37,6 +37,8 @@ editor_count=0
 editor_count_read_file_map=0
 list_map_file=[]
 
+list_key_map_file=[]
+
 
 #définition des images blocs, histoire que le code soit lisible...
 blocFill = pygame.transform.scale(pygame.image.load("SpritesBlocks/bloc_fill.png"), (len_bloc, len_bloc))

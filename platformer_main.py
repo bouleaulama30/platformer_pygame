@@ -32,12 +32,14 @@ make_gros_bloc(500, 500, 2, 15, "s",t_blocks)
 make_gros_bloc(400,400,1,3,"j", t_blocks)
 
 
-read_file_map("test.txt",t_blocks,list_map_file)
+read_file_map("blocks.txt",t_blocks,list_map_file)
 
 
 update_mini_game= Update_mini_game()
-key_list_ingame=[Key(700,400),Key(430,100)]
+key_list_ingame=[]
 keys_list=[]
+
+read_file_keys("keys.txt",key_list_ingame,list_key_map_file)
 		
 etape = "start" #can be "play", "start", "end", "charging" , "mini_jeu"
 """
@@ -150,24 +152,29 @@ while not end:
 
 		if pressed_keys[K_n] and editor_count>20:
 			state='n'
-			write_file_map("test.txt",state)
+			write_file_map("blocks.txt",state)
 			state='ongoing'
 			editor_count=0
 		if pressed_keys[K_j] and editor_count>20:
 			state='j'
-			write_file_map("test.txt",state)
+			write_file_map("blocks.txt",state)
 			state='ongoing'
 			editor_count=0
 		if pressed_keys[K_s] and editor_count>20:
 			state='s'
-			write_file_map("test.txt",state)
+			write_file_map("blocks.txt",state)
 			state='ongoing'
 			editor_count=0
 		if pressed_keys[K_f] and editor_count>20:
 			state='f'
-			write_file_map("test.txt",state)
+			write_file_map("blocks.txt",state)
 			state='ongoing'
 			editor_count=0
+
+		if pressed_keys[K_k] and editor_count>20:
+			write_file_keys("keys.txt")
+			editor_count=0
+			
 
 
 		#pour le déplacement de la souris avec les flèches directionnelles
@@ -188,7 +195,11 @@ while not end:
 			editor_count=0
 
 		if pressed_keys[K_d] and editor_count>15:
-			delete_line_file_map("test.txt",t_blocks,list_map_file)
+			delete_line_file_map("blocks.txt",t_blocks,list_map_file)
+			editor_count=0
+		
+		if pressed_keys[K_y] and editor_count>15:
+			delete_line_file_keys("keys.txt",key_list_ingame,list_key_map_file)
 			editor_count=0
 
 
@@ -197,10 +208,12 @@ while not end:
 			state= "ongoing"
 		
 		
-		read_file_map("test.txt",t_blocks,list_map_file)
+		read_file_keys("keys.txt",key_list_ingame,list_key_map_file)
+		read_file_map("blocks.txt",t_blocks,list_map_file)
 			
 		
 		display.blit(background_game, (0,0))
+		fill_keys(display,player,update_mini_game,key_list_ingame,dt,etape)
 		fill(display, t_blocks)
 		editor_count+=1
 		editor_count_read_file_map+=1
