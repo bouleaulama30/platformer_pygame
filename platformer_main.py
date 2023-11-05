@@ -7,6 +7,7 @@ from sounds import *
 from mini_jeu import *
 #from fonts import affiche
 from decoupageFonctionnement import *
+from editor_mode import *
 
 
 #1 player = 2 blocs de haut
@@ -31,9 +32,14 @@ make_gros_bloc(500, 500, 2, 15, "s",t_blocks)
 make_gros_bloc(400,400,1,3,"j", t_blocks)
 
 
+read_file_map("blocks.txt",t_blocks,list_map_file)
+
+
 update_mini_game= Update_mini_game()
-key_list_ingame=[Key(700,400),Key(430,200)]
+key_list_ingame=[]
 keys_list=[]
+
+read_file_keys("keys.txt",key_list_ingame,list_key_map_file)
 		
 etape = "start" #can be "play", "start", "end", "charging" , "mini_jeu"
 """
@@ -116,12 +122,14 @@ while not end:
 	
  
 	if etape == "play" :
+
+		
 		if state == "init" :
 			if perso == "" : #petite protection à enlever quand tout sera bien codé
 							 #perso == "" si rien n'a été sélectionné pendant l'étape du choix (étape start)
 				perso = "persoTest"
 			play_bg("tea")
-			player= Player(50,10, perso) #initialisation du joueur
+			player= Player(50,15, perso) #initialisation du joueur
 			state = "ongoing"
 		player.deplacement(facteur_mvt, vel_jump, dt, pressed_keys, t_blocks, g)
 		# Ici se fera le dessin de la scène
@@ -129,10 +137,93 @@ while not end:
 		player.dessine(display)
 		fill_keys(display,player,update_mini_game,key_list_ingame,dt,etape)
 		update_mini_game.update_score(display)
-		
-	
-		#test fonction fill
 		fill(display, t_blocks)
+		if pressed_keys[K_e]:
+			etape= "editor_mode"
+			state= "init"
+			
+			
+		
+
+
+
+	if etape == "editor_mode":
+		if state=='init':
+			state='ongoing'
+
+		if pressed_keys[K_n] and editor_count>20:
+			state='n'
+			write_file_map("blocks.txt",state)
+			state='ongoing'
+			editor_count=0
+		if pressed_keys[K_j] and editor_count>20:
+			state='j'
+			write_file_map("blocks.txt",state)
+			state='ongoing'
+			editor_count=0
+		if pressed_keys[K_s] and editor_count>20:
+			state='s'
+			write_file_map("blocks.txt",state)
+			state='ongoing'
+			editor_count=0
+		if pressed_keys[K_f] and editor_count>20:
+			state='f'
+			write_file_map("blocks.txt",state)
+			state='ongoing'
+			editor_count=0
+
+		if pressed_keys[K_k] and editor_count>20:
+			write_file_keys("keys.txt")
+			editor_count=0
+			
+
+
+		#pour le déplacement de la souris avec les flèches directionnelles
+		if pressed_keys[K_RIGHT] and editor_count>15:
+			move_right_mouse(len_bloc)
+			editor_count=0
+		if pressed_keys[K_LEFT] and editor_count>15:
+			move_left_mouse(len_bloc)
+			editor_count=0
+		if pressed_keys[K_UP] and editor_count>15:
+			move_up_mouse(len_bloc)
+			editor_count=0
+		if pressed_keys[K_DOWN] and editor_count>15:
+			move_down_mouse(len_bloc)
+			editor_count=0
+		if pressed_keys[K_r] and editor_count>15:
+			reset_mouse()
+			editor_count=0
+
+		if pressed_keys[K_d] and editor_count>15:
+			delete_line_file_map("blocks.txt",t_blocks,list_map_file)
+			editor_count=0
+		
+		if pressed_keys[K_y] and editor_count>15:
+			delete_line_file_keys("keys.txt",key_list_ingame,list_key_map_file)
+			editor_count=0
+
+
+		if pressed_keys[K_p]:
+			etape = "play"
+			state= "ongoing"
+		
+		
+		read_file_keys("keys.txt",key_list_ingame,list_key_map_file)
+		read_file_map("blocks.txt",t_blocks,list_map_file)
+			
+		
+		display.blit(background_game, (0,0))
+		fill_keys(display,player,update_mini_game,key_list_ingame,dt,etape)
+		fill(display, t_blocks)
+		editor_count+=1
+		editor_count_read_file_map+=1
+
+
+
+
+	
+
 
 
 	pygame.display.update() # Mise à jour de l'affichage 

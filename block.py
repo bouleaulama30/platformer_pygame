@@ -87,6 +87,8 @@ def make_gros_triangle (x, y, len_cote, type, orientation, t_blocks) :
 	else :
 		print ("erreur creation gros bloc triangle")
 
+
+
 def fill(display, t_blocks) :
 	for b in t_blocks :
 		b.dessine(display)

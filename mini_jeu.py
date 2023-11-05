@@ -22,7 +22,7 @@ class Key:
     
     def dessine_and_move_key(self, display,player, update,dt,etape): #ajout condition étape pour avoir clés statiques dans le jeu
         if (not self.is_colliding_key(player)) and not self.touched  :
-            if etape != "play":
+            if etape != "play" and etape!="editor_mode":
                 self.posy-= self.vel*dt
             display.blit(self.image, (self.posx, self.posy))
         else:
@@ -43,7 +43,7 @@ def create_random_key(keys_list):
         count_rd_keys=0
 
 def fill_keys(display,player,update,keys_list,dt,etape):
-    if etape!= "play":
+    if etape!= "play" and etape!="editor_mode":
         create_random_key(keys_list)
     for k in keys_list:
         k.dessine_and_move_key(display,player,update,dt,etape)
