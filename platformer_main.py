@@ -188,7 +188,7 @@ while not end:
 			editor_count=0
 
 		if pressed_keys[K_d] and editor_count>15:
-			delete_line_file_map("test.txt",t_blocks)
+			delete_line_file_map("test.txt",t_blocks,list_map_file)
 			editor_count=0
 
 

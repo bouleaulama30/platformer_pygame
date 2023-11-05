@@ -28,7 +28,7 @@ def write_file_map(filename,state):
 # on supprime bien la ligne du fichier mais il faut arriver à supprimer le block correspondant dans t_blocks
 # le problème c'est que l'objet Block n'a pas de méthode pour comparer deux blocks entre eux
 # donc je ne sais pas comment faire pour supprimer le block correspondant dans t_blocks
-def delete_line_file_map(filename,t_blocks):
+def delete_line_file_map(filename,t_blocks,list):
 	x_mouse,y_mouse= pygame.mouse.get_pos()
 	f=open(filename,'r')
 	lines=f.readlines()
@@ -40,6 +40,8 @@ def delete_line_file_map(filename,t_blocks):
 			
 		else:
 			blocks=line.split(",") #ne fonctionne pas
+			if blocks in list:
+				list.remove(blocks)
 			blocks[-1]=blocks[-1][0:2] #ne fonctionne pas
 			B1=Block(int(blocks[0]),int(blocks[1]),blocks[2],int(blocks[3]),blocks[4]) #ne fonctionne pas
 			for block in t_blocks:
@@ -85,5 +87,5 @@ def move_down_mouse(nbr_pixels):
 
 def reset_mouse():
 	pygame.mouse.set_pos(0,0)
-	print("hey")
+	
 	
