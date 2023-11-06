@@ -166,11 +166,91 @@ while not end:
 			write_file_map("blocks.txt",state)
 			state='ongoing'
 			editor_count=0
+
 		if pressed_keys[K_f] and editor_count>20:
 			state='f'
 			write_file_map("blocks.txt",state)
 			state='ongoing'
 			editor_count=0
+		
+		#pour les blocks triangles (oui c'est moche)
+		#pour les triangles 'n'
+		if pressed_keys[K_0] and editor_count>20:
+			state='n'
+			write_file_map("blocks.txt",state,True,"SO")
+			state='ongoing'
+			editor_count=0
+			
+		if pressed_keys[K_1] and editor_count>20:
+			state='n'
+			write_file_map("blocks.txt",state,True,"NO")
+			state='ongoing'
+			editor_count=0
+			
+		if pressed_keys[K_2] and editor_count>20:
+			state='n'
+			write_file_map("blocks.txt",state,True,"NE")
+			state='ongoing'
+			editor_count=0
+
+		if pressed_keys[K_3] and editor_count>20:
+			state='n'
+			write_file_map("blocks.txt",state,True,"SE")
+			state='ongoing'
+			editor_count=0
+
+		#pour les triangles 's'
+		if pressed_keys[K_4] and editor_count>20:
+			state='s'
+			write_file_map("blocks.txt",state,True,"SO")
+			state='ongoing'
+			editor_count=0
+			
+		if pressed_keys[K_5] and editor_count>20:
+			state='s'
+			write_file_map("blocks.txt",state,True,"NO")
+			state='ongoing'
+			editor_count=0
+			
+		if pressed_keys[K_6] and editor_count>20:
+			state='s'
+			write_file_map("blocks.txt",state,True,"NE")
+			state='ongoing'
+			editor_count=0
+
+		if pressed_keys[K_7] and editor_count>20:
+			state='s'
+			write_file_map("blocks.txt",state,True,"SE")
+			state='ongoing'
+			editor_count=0
+
+
+		#pour les triangles 'j'
+		if pressed_keys[K_8] and editor_count>20:
+			state='j'
+			write_file_map("blocks.txt",state,True,"SO")
+			state='ongoing'
+			editor_count=0
+			
+		if pressed_keys[K_9] and editor_count>20:
+			state='j'
+			write_file_map("blocks.txt",state,True,"NO")
+			state='ongoing'
+			editor_count=0
+			
+		if pressed_keys[K_a] and editor_count>20:
+			state='j'
+			write_file_map("blocks.txt",state,True,"NE")
+			state='ongoing'
+			editor_count=0
+
+		if pressed_keys[K_z] and editor_count>20:
+			state='j'
+			write_file_map("blocks.txt",state,True,"SE")
+			state='ongoing'
+			editor_count=0
+
+
 
 		if pressed_keys[K_k] and editor_count>20:
 			write_file_keys("keys.txt")

@@ -8,8 +8,8 @@ def read_file_map(filename,t_blocks,list):
 	tmp_l=[] #contient que les nouvelles ligne du fichier
 	for elm in lines:
 		new=elm.split(",")
-		if new not in list:
-			list.append(new)
+		if new[0:3] not in list:
+			list.append(new[0:3])
 			tmp_l.append(new)
 	if len(tmp_l)!=0:
 		for blocks in tmp_l:
@@ -18,11 +18,16 @@ def read_file_map(filename,t_blocks,list):
 	f.close()
 
 
-def write_file_map(filename,state):
+def write_file_map(filename,state,triangle=False,orientation=""):
 	f=open(filename,'a')
-	x_mouse,y_mouse=pygame.mouse.get_pos()
-	f.write(f"{x_mouse},{y_mouse},{state},0,\n")
-	f.close()
+	if triangle:
+		x_mouse,y_mouse=pygame.mouse.get_pos()
+		f.write(f"{x_mouse},{y_mouse},{state},1,{orientation}\n")
+
+	else:
+		x_mouse,y_mouse=pygame.mouse.get_pos()
+		f.write(f"{x_mouse},{y_mouse},{state},0,\n")
+		f.close()
 
 
 # on supprime bien la ligne du fichier mais il faut arriver à supprimer le block correspondant dans t_blocks
@@ -39,11 +44,11 @@ def delete_line_file_map(filename,t_blocks,list):
 			f.write(line)
 			
 		else:
-			blocks=line.split(",") #ne fonctionne pas
-			if blocks in list:
-				list.remove(blocks)
-			blocks[-1]=blocks[-1][0:2] #ne fonctionne pas
-			B1=Block(int(blocks[0]),int(blocks[1]),blocks[2],int(blocks[3]),blocks[4]) #ne fonctionne pas
+			blocks=line.split(",") 
+			if blocks[0:3] in list:
+				list.remove(blocks[0:3])
+			blocks[-1]=blocks[-1][0:2] 
+			B1=Block(int(blocks[0]),int(blocks[1]),blocks[2],int(blocks[3]),blocks[4]) 
 			for block in t_blocks:
 				if compare_blocks(B1,block):
 					t_blocks.remove(block)

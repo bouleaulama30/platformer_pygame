@@ -4,6 +4,8 @@
 
 # - 'p' : quand on est dans le mode édition permet de revenir au joue
 
+
+
 # - 'n' : permet de générer un block de type 'n'
 
 # - 's' : permet de générer un block de type 's'
@@ -12,11 +14,38 @@
 
 # - 'f' : permet de générer un block de type 'f'
 
+# - '0' : permet de générer un block triangle de type 'n' avec une orientation 'SO'
+
+# - '1' : permet de générer un block triangle de type 'n' avec une orientation 'NO'
+
+# - '2' : permet de générer un block triangle de type 'n' avec une orientation 'NE'
+
+# - '3' : permet de générer un block triangle de type 'n' avec une orientation 'SE'
+
+# - '4' : permet de générer un block triangle de type 's' avec une orientation 'SO'
+
+# - '5' : permet de générer un block triangle de type 's' avec une orientation 'NO'
+
+# - '6' : permet de générer un block triangle de type 's' avec une orientation 'NE'
+
+# - '7' : permet de générer un block triangle de type 's' avec une orientation 'SE'
+
+# - '8' : permet de générer un block triangle de type 'j' avec une orientation 'SO'
+
+# - '9' : permet de générer un block triangle de type 'j' avec une orientation 'NO'
+
+# - 'a' : permet de générer un block triangle de type 'j' avec une orientation 'NE'
+
+# - 'z' : permet de générer un block triangle de type 'j' avec une orientation 'SE'
+
 # - 'd' : permet de supprimer le block sur lequel pointe le curseur
+
+
 
 # - 'k' : permet de générer une clé 
 
 # - 'y' : permet de supprimer une clé pointé par le curseur
+
 
 # - 'r' : permet de placer le curseur en (0,0) ce qu'il faudra faire pour placer les blocks des niveaux (sinon c relou pour supprimer)
 
