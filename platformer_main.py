@@ -37,9 +37,11 @@ read_file_map("blocks.txt",t_blocks,list_map_file)
 
 update_mini_game= Update_mini_game()
 key_list_ingame=[]
+door_list_ingame =[]
 keys_list=[]
 
 read_file_keys("keys.txt",key_list_ingame,list_key_map_file)
+read_file_door("door.txt",door_list_ingame,list_door_map_file)
 		
 etape = "start" #can be "play", "start", "end", "charging" , "mini_jeu"
 """
@@ -136,6 +138,7 @@ while not end:
 		display.blit(background_game, (0,0))
 		player.dessine(display)
 		fill_keys(display,player,update_mini_game,key_list_ingame,dt,etape)
+		fill_door(display,door_list_ingame)
 		update_mini_game.update_score(display)
 		fill(display, t_blocks)
 		if pressed_keys[K_e]:
@@ -255,6 +258,10 @@ while not end:
 		if pressed_keys[K_k] and editor_count>20:
 			write_file_keys("keys.txt")
 			editor_count=0
+		if pressed_keys[K_SPACE] and editor_count>20:
+			write_file_door("door.txt")
+			print("ok")
+			editor_count=0
 			
 
 
@@ -282,6 +289,10 @@ while not end:
 		if pressed_keys[K_y] and editor_count>15:
 			delete_line_file_keys("keys.txt",key_list_ingame,list_key_map_file)
 			editor_count=0
+		
+		if pressed_keys[K_RETURN] and editor_count>15:
+			delete_line_file_door("door.txt",door_list_ingame,list_door_map_file)
+			editor_count=0
 
 
 		if pressed_keys[K_p]:
@@ -291,10 +302,11 @@ while not end:
 		
 		read_file_keys("keys.txt",key_list_ingame,list_key_map_file)
 		read_file_map("blocks.txt",t_blocks,list_map_file)
-			
+		read_file_door("door.txt", door_list_ingame,list_door_map_file)
 		
 		display.blit(bg_edition, (0,0))
 		fill_keys(display,player,update_mini_game,key_list_ingame,dt,etape)
+		fill_door(display, door_list_ingame)
 		fill(display, t_blocks)
 		editor_count+=1
 		editor_count_read_file_map+=1

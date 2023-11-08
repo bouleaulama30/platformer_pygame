@@ -47,6 +47,12 @@
 # - 'y' : permet de supprimer une clé pointé par le curseur
 
 
+# - *espace* : permet de générer une porte 
+
+# - *Entrée* : permet de supprimer une porte pointée par le curseur
+
+
+
 # - 'r' : permet de placer le curseur en (0,0) ce qu'il faudra faire pour placer les blocks des niveaux (sinon c relou pour supprimer)
 
 # - 'flèches directionnelles' : permettent de déplacer le cursor de la taille des blocks

@@ -79,7 +79,29 @@ def write_file_keys(filename):
 	x_mouse,y_mouse=pygame.mouse.get_pos()
 	f.write(f"{x_mouse},{y_mouse},\n")
 	f.close()
-	
+
+
+def read_file_door(filename, door_list, listReadDoor):
+	f=open(filename,'r')
+	lines=f.readlines()
+	tmp_l=[] #ne contient que les nouvelles lignes du fichier
+	for elm in lines:
+		new=elm.split(",")
+		if new not in listReadDoor:
+			listReadDoor.append(new)
+			tmp_l.append(new)
+	if len(tmp_l)!=0:
+		for door in tmp_l:
+			door_list.append(Door(int(door[0]),int(door[1]), 0))
+	f.close()
+
+
+def write_file_door(filename) :
+    f=open(filename,'a')
+    x_mouse,y_mouse=pygame.mouse.get_pos()
+    f.write(f"{x_mouse},{y_mouse},\n")
+    f.close()
+
 
 def delete_line_file_keys(filename,key_list,list):
 	x_mouse,y_mouse= pygame.mouse.get_pos()
@@ -100,7 +122,25 @@ def delete_line_file_keys(filename,key_list,list):
 				if compare_keys(k1,key):
 					key_list.remove(key)
 	f.close()
-
+def delete_line_file_door(filename,key_list,list):
+	x_mouse,y_mouse= pygame.mouse.get_pos()
+	f=open(filename,'r')
+	lines=f.readlines()
+	f=open(filename,'w')
+	for line in lines:
+		i= index_second_coma(line)
+		if (f'{x_mouse},{y_mouse}')!=line[:i]:
+			f.write(line)
+			
+		else:
+			keys=line.split(",") 
+			if keys in list:
+				list.remove(keys) #on l'enlève aussi de la liste global car sinon on ne peut pas ajouter une nouvelle clé au même endroit
+			k1=Door(int(keys[0]),int(keys[1]), 0)
+			for key in key_list:
+				if compare_keys(k1,key):
+					key_list.remove(key)
+	f.close()
 
 def compare_keys(key1,key2):
 	if key1.posx==key2.posx and key1.posy==key2.posy:
