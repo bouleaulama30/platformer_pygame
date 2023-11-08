@@ -21,7 +21,7 @@ rep = (False, "")
 g=2100 #gravité
 facteur_mvt=200 #influence vitesse déplacement
 facteur_mvt_mini_jeu=250 
-vel_jump=-700 #influence le saut
+vel_jump=-580 #influence le saut
 
 #pour compter les frames pour le chargement
 count=0
