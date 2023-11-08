@@ -26,10 +26,10 @@ last_time = pygame.time.get_ticks() # Pour le comptage du temps (get_ticks() ren
 
 ### Creation des blocs
 t_blocks = []
-make_gros_triangle(0, 200, 5, "n", "SO", t_blocks)
-make_gros_bloc(0, 500, 2, 15, "n",t_blocks)
-make_gros_bloc(500, 500, 2, 15, "s",t_blocks)
-make_gros_bloc(400,400,1,3,"j", t_blocks)
+# make_gros_triangle(0, 200, 5, "n", "SO", t_blocks)
+# make_gros_bloc(0, 500, 2, 15, "n",t_blocks)
+# make_gros_bloc(500, 500, 2, 15, "s",t_blocks)
+# make_gros_bloc(400,400,1,3,"j", t_blocks)
 
 
 read_file_map("blocks.txt",t_blocks,list_map_file)
