@@ -272,16 +272,17 @@ while not end:
 
 
 		#pour le déplacement de la souris avec les flèches directionnelles
-		if pressed_keys[K_RIGHT] and editor_count>15:
+		const_mvt_souris = 20
+		if pressed_keys[K_RIGHT] and editor_count>const_mvt_souris:
 			move_right_mouse(len_bloc)
 			editor_count=0
-		if pressed_keys[K_LEFT] and editor_count>15:
+		if pressed_keys[K_LEFT] and editor_count>const_mvt_souris:
 			move_left_mouse(len_bloc)
 			editor_count=0
-		if pressed_keys[K_UP] and editor_count>15:
+		if pressed_keys[K_UP] and editor_count>const_mvt_souris:
 			move_up_mouse(len_bloc)
 			editor_count=0
-		if pressed_keys[K_DOWN] and editor_count>15:
+		if pressed_keys[K_DOWN] and editor_count>const_mvt_souris:
 			move_down_mouse(len_bloc)
 			editor_count=0
 		if pressed_keys[K_r] and editor_count>15:
