@@ -293,7 +293,7 @@ while not end:
 		read_file_map("blocks.txt",t_blocks,list_map_file)
 			
 		
-		display.blit(background_game, (0,0))
+		display.blit(bg_edition, (0,0))
 		fill_keys(display,player,update_mini_game,key_list_ingame,dt,etape)
 		fill(display, t_blocks)
 		editor_count+=1
