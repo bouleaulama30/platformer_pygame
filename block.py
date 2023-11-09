@@ -93,3 +93,17 @@ def fill(display, t_blocks) :
 	for b in t_blocks :
 		b.dessine(display)
 
+
+class Door:
+	def __init__(self, posx, posy, level):
+		self.posx = posx
+		self.posy = posy
+		self.image = listePorteSkins[level]
+    
+	def dessine(self, display) :	
+		display.blit(self.image, (self.posx, self.posy))
+
+
+def fill_door(display,door_list):
+    for d in door_list:
+        d.dessine(display)

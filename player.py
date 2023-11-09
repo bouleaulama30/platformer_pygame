@@ -87,7 +87,7 @@ class Player:
             if not is_playing(0):
                 play('R_is_pressed',0)
         
-        if (pressed_keys[K_UP] or pressed_keys[K_SPACE]) and self.is_grounded :
+        if (pressed_keys[K_UP] or pressed_keys[K_SPACE]) and self.is_grounded :   #voir saut Céleste/Holo Knight
             self.vely= vel_jump #attention vel_jump doit être negatif
             play('jump')
         

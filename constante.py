@@ -39,6 +39,7 @@ editor_count_read_file_map=0
 list_map_file=[]
 
 list_key_map_file=[]
+list_door_map_file =[]
 
 
 #définition des images blocs, histoire que le code soit lisible...
@@ -92,7 +93,11 @@ bg_play4 = pygame.transform.scale(pygame.image.load("SpritesBackground/backgroun
 bg_play5 = pygame.transform.scale(pygame.image.load("SpritesBackground/background_hearts.jpg"), (largeur_fenetre, hauteur_fenetre))
 bg_fall = pygame.transform.scale(pygame.image.load("SpritesBackground/background_terrier.jpg"), (largeur_fenetre, hauteur_fenetre))
 bg_choix = pygame.transform.scale(pygame.image.load("SpritesBackground/ecran_choix/ecran_choix_none.jpg"), (largeur_fenetre, hauteur_fenetre))
+bg_edition = pygame.transform.scale(pygame.image.load("SpritesBackground/ecran_choix/fond_edition.jpg"), (largeur_fenetre, hauteur_fenetre))
 
 #def image clé
-
 key = pygame.transform.scale(pygame.image.load("SpritesKeys/sprite_key.png"), (1* len_bloc, 2*len_bloc))
+
+#def image porte
+porteTest = pygame.transform.scale(pygame.image.load("SpritesBackground/background_circular.jpg"), (2*len_bloc, 2*len_bloc))
+listePorteSkins = [porteTest]
