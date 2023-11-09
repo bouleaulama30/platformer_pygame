@@ -12,7 +12,7 @@ class Key:
         self.vel=200
         self.image= key
         self.touched=False
-        self.score_increment=10
+        self.score_increment=1
 
         
     def is_colliding_key(self, player):
@@ -73,7 +73,7 @@ class Update_mini_game:
 
     def update_score(self,display):
         
-        score_text=self.font.render(f"Score: {self.score}", True, (255,255,255))
+        score_text=self.font.render(f"Clés: {self.score}/20", True, (255,255,255))
         display.blit(score_text, (20,20))
       
         
