@@ -21,7 +21,8 @@ rep = (False, "")
 g=2100 #gravité
 facteur_mvt=200 #influence vitesse déplacement
 facteur_mvt_mini_jeu=250 
-vel_jump=-700 #influence le saut
+vel_jump=-600 #influence le saut
+vel_jump_mushroom=-700 #influence le saut sur le champignon
 
 #pour compter les frames pour le chargement
 count=0
@@ -30,7 +31,7 @@ influence_vitesse_chargement=5
 #compteur de frames pour la générations auto de clés
 count_rd_keys=0
 #influence la fréquence de géneration des clés
-influence_vitesse_creation=75
+influence_vitesse_creation=150
 
 #compteur pour limiter activation des touches dans le mode édition
 editor_count=0

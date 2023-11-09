@@ -128,7 +128,7 @@ class Player:
         
         #pour le jump du champignon
         if self.coll[1]: 
-            self.vely= -800
+            self.vely= vel_jump_mushroom
             self.vely+=g*dt
             self.posy+=self.vely*dt
             play('rebond')
