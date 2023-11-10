@@ -246,22 +246,26 @@ class Epouvantail: #juste pour les personnages du choix à cliquer
         self.posy = posy
         self.posx_init = posx
         self.posy_init = posy
-        self.taille = [largeur_fenetre//6, largeur_fenetre//3]
+        self.taillex_init = largeur_fenetre//6
+        self.tailley_init = largeur_fenetre//3
         self.character = skin
         if self.character == "A" :
             self.pathsToDifferentSkins = ["SpritesPlayer/Alice/alice_still.png", "SpritesPlayer/Alice/alice_still_choisie.png"]
-            self.imagePATH = self.pathsToDifferentSkins[0]
             #self.centre = [self.posx + self.taille[0]*255/564, self.posy+self.taille[1]*579/1128]
         elif self.character == "L" :
             self.pathsToDifferentSkins = ["SpritesPlayer/Lapin/lapin_still.png", "SpritesPlayer/Lapin/lapin_still_choisi.png"]
-            self.imagePATH = self.pathsToDifferentSkins[0]
             #self.centre = [0,0]
         elif self.character == "C" :
             self.pathsToDifferentSkins = ["SpritesPlayer/Chat/cheshire_still.png", "SpritesPlayer/Chat/cheshire_still_choisi.png"]
-            self.imagePATH = self.pathsToDifferentSkins[0]
+            self.tailley_init *= 0.77
+            self.taillex_init = self.tailley_init*507/677
+            self.posy_init += (largeur_fenetre//3 - self.tailley_init)//2
+            
         else :
             print("Epouvantail : Perso non défini")
             exit()
+        self.taille = [self.taillex_init, self.tailley_init]
+        self.imagePATH = self.pathsToDifferentSkins[0]
     
     def getClicked(self) :
         """ return [bool, self.type]"""
@@ -306,7 +310,7 @@ class Epouvantail: #juste pour les personnages du choix à cliquer
             self.taille[1] *= 1+facteur
             
     def tailleInit(self) :
-        self.taille = [largeur_fenetre//6, largeur_fenetre//3]
+        self.taille = [self.taillex_init, self.tailley_init]
         self.posx = self.posx_init 
         self.posy = self.posy_init
         
