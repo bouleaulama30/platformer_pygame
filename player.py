@@ -8,7 +8,7 @@ class Player:
         self.posy= posy
         self.w = 1*len_bloc
         self.h = 2*len_bloc
-        self.character = perso #"A" pour Alice, "L" pour Lapin
+        self.character = perso #"A" pour Alice, "L" pour Lapin, "C" pour Cheshire
         self.vely = 0
         self.velx = 0
         self.is_grounded=False
@@ -18,6 +18,8 @@ class Player:
             self.skin = {"still_left" : AliceStill_left, "still_right":AliceStill_right, "run_right" : AliceRun_right, "run_left" : AliceRun_left, "jump_left" : AliceJump_left, "jump_right":AliceJump_right}
         elif perso == "L" :
             self.skin = {"still_left" : LapinStill_left, "still_right":LapinStill_right, "run_right" : LapinRun_right, "run_left" : LapinRun_left, "jump_left" : LapinJump_left, "jump_right":LapinJump_right}
+        elif perso == "C" :
+            self.skin = {"still_left" : ChatStill_left, "still_right":ChatStill_right, "run_right" : ChatRun_right, "run_left" : ChatRun_left, "jump_left" : ChatJump_left, "jump_right":ChatJump_right}
         elif perso == "persoTest" :
             self.skin = {"still_left" : persoTest, "still_right":persoTest, "run_right" : persoTest, "run_left" : persoTest, "jump_left" : persoTest, "jump_right":persoTest}
         else :
@@ -254,6 +256,9 @@ class Epouvantail: #juste pour les personnages du choix à cliquer
             self.pathsToDifferentSkins = ["SpritesPlayer/Lapin/lapin_still.png", "SpritesPlayer/Lapin/lapin_still_choisi.png"]
             self.imagePATH = self.pathsToDifferentSkins[0]
             #self.centre = [0,0]
+        elif self.character == "C" :
+            self.pathsToDifferentSkins = ["SpritesPlayer/Chat/cheshire_still.png", "SpritesPlayer/Chat/cheshire_still_choisi.png"]
+            self.imagePATH = self.pathsToDifferentSkins[0]
         else :
             print("Epouvantail : Perso non défini")
             exit()
