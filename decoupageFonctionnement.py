@@ -40,7 +40,7 @@ def start(display, pressed_keys, state, events) :
 		lapin = Epouvantail(largeur_fenetre//2-largeur_fenetre//12, hauteur_fenetre//4, "L")
 		chat = Epouvantail(3*largeur_fenetre//4-largeur_fenetre//12, hauteur_fenetre//4, "C")
 		epouvantails = [alice, lapin, chat]
-		frame = [0,0]
+		frame = [0,0,0]
 		return ("start","chooseCharacter", "")
 
 

@@ -82,6 +82,13 @@ LapinRun_left = pygame.transform.scale(pygame.image.load("SpritesPlayer/Lapin/la
 LapinJump_left = pygame.transform.scale(pygame.image.load("SpritesPlayer/Lapin/lapin_jump_left.png"), (1*len_bloc, 2*len_bloc))
 LapinJump_right = pygame.transform.scale(pygame.image.load("SpritesPlayer/Lapin/lapin_jump_right.png"), (1*len_bloc, 2*len_bloc))
 
+ChatStill_left = pygame.transform.scale(pygame.image.load("SpritesPlayer/Chat/cheshire_still_left.png"), (1*len_bloc, 2*len_bloc))
+ChatStill_right = pygame.transform.scale(pygame.image.load("SpritesPlayer/Chat/cheshire_still_right.png"), (1*len_bloc, 2*len_bloc))
+ChatRun_right = pygame.transform.scale(pygame.image.load("SpritesPlayer/Chat/cheshire_run_right.png"), (1*len_bloc, 2*len_bloc))
+ChatRun_left = pygame.transform.scale(pygame.image.load("SpritesPlayer/Chat/cheshire_run_left.png"), (1*len_bloc, 2*len_bloc))
+ChatJump_left = pygame.transform.scale(pygame.image.load("SpritesPlayer/Chat/cheshire_jump_left.png"), (1*len_bloc, 2*len_bloc))
+ChatJump_right = pygame.transform.scale(pygame.image.load("SpritesPlayer/Chat/cheshire_jump_right.png"), (1*len_bloc, 2*len_bloc))
+
 persoTest = pygame.transform.scale(pygame.image.load("SpritesBackground/background_circular.jpg"), (1*len_bloc, 2*len_bloc))
 
 #def des images background
