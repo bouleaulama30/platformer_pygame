@@ -33,10 +33,13 @@ def start(display, pressed_keys, state, events) :
 
 
 	if state == "sw_chooseCharacter" :
-		global alice, lapin, epouvantails, frame
-		alice = Epouvantail(3*largeur_fenetre//10, hauteur_fenetre//4, "A")
-		lapin = Epouvantail(largeur_fenetre - 4*largeur_fenetre//10, hauteur_fenetre//4, "L")
-		epouvantails = [alice, lapin]
+		len_x = largeur_fenetre//6
+		len_y = largeur_fenetre//3
+		global alice, lapin, chat, epouvantails, frame
+		alice = Epouvantail(largeur_fenetre//4-largeur_fenetre//12, hauteur_fenetre//4, "A")
+		lapin = Epouvantail(largeur_fenetre//2-largeur_fenetre//12, hauteur_fenetre//4, "L")
+		chat = Epouvantail(3*largeur_fenetre//4-largeur_fenetre//12, hauteur_fenetre//4, "C")
+		epouvantails = [alice, lapin, chat]
 		frame = [0,0]
 		return ("start","chooseCharacter", "")
 
