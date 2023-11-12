@@ -24,7 +24,7 @@ class Block:
 			print("erreur def Type bloc")
 			exit()
 		
-		#nécessaire pour condition de contact
+		#nécessaire pour condition de contact triangle
 		if self.orientation == "SO" :
 			self.pts = ((self.posx, self.posy), (self.posx + self.w, self.posy + self.h), (self.posx, self.posy + self.h))
 			self.pts_rec = [(0,1), (0,0), (1,0), (1,0)]

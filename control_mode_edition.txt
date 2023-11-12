@@ -2,7 +2,7 @@
 
 # - 'e' : quand on joue permet de passer au mode édition
 
-# - 'p' : quand on est dans le mode édition permet de revenir au joue
+# - 'p' : quand on est dans le mode édition permet de revenir au jeu
 
 
 

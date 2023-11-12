@@ -283,14 +283,13 @@ class Epouvantail: #juste pour les personnages du choix à cliquer
     def __init__(self, posx, posy, skin):
         self.posx = posx
         self.posy = posy
-        self.posx_init = posx
-        self.posy_init = posy
         self.taillex_init = largeur_fenetre//6
         self.tailley_init = largeur_fenetre//3
         self.character = skin
         if self.character == "A" :
             self.pathsToDifferentSkins = ["SpritesPlayer/Alice/alice_still.png", "SpritesPlayer/Alice/alice_still_choisie.png"]
-            #self.centre = [self.posx + self.taille[0]*255/564, self.posy+self.taille[1]*579/1128]
+            self.tailley_init *= 0.90
+            self.taillex_init = self.tailley_init*586/959
         elif self.character == "L" :
             self.pathsToDifferentSkins = ["SpritesPlayer/Lapin/lapin_still.png", "SpritesPlayer/Lapin/lapin_still_choisi.png"]
             #self.centre = [0,0]
@@ -298,11 +297,14 @@ class Epouvantail: #juste pour les personnages du choix à cliquer
             self.pathsToDifferentSkins = ["SpritesPlayer/Chat/cheshire_still.png", "SpritesPlayer/Chat/cheshire_still_choisi.png"]
             self.tailley_init *= 0.77
             self.taillex_init = self.tailley_init*507/677
-            self.posy_init += (largeur_fenetre//3 - self.tailley_init)//2
-            
         else :
             print("Epouvantail : Perso non défini")
             exit()
+        
+        #on centre l'image autour de l'abscisse voulue
+        self.posy_init = posy - self.tailley_init//2
+        self.posx_init = posx - self.taillex_init//2 
+        
         self.taille = [self.taillex_init, self.tailley_init]
         self.imagePATH = self.pathsToDifferentSkins[0]
     

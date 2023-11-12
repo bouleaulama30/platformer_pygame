@@ -35,12 +35,13 @@ def start(display, pressed_keys, state, events) :
 	if state == "sw_chooseCharacter" :
 		len_x = largeur_fenetre//6
 		len_y = largeur_fenetre//3
-		global alice, lapin, chat, epouvantails, frame
-		alice = Epouvantail(largeur_fenetre//4-largeur_fenetre//12, hauteur_fenetre//4, "A")
-		lapin = Epouvantail(largeur_fenetre//2-largeur_fenetre//12, hauteur_fenetre//4, "L")
-		chat = Epouvantail(3*largeur_fenetre//4-largeur_fenetre//12, hauteur_fenetre//4, "C")
+		global alice, lapin, chat, epouvantails, frame, frameTot
+		alice = Epouvantail(largeur_fenetre//4, hauteur_fenetre//2 + 75, "A")
+		lapin = Epouvantail(largeur_fenetre//2, hauteur_fenetre//2 + 75, "L")
+		chat = Epouvantail(3*largeur_fenetre//4, hauteur_fenetre//2 + 75, "C")
 		epouvantails = [alice, lapin, chat]
 		frame = [0,0,0]
+		frameTot = 0
 		return ("start","chooseCharacter", "")
 
 
@@ -58,9 +59,12 @@ def start(display, pressed_keys, state, events) :
 					global characChoisi
 					characChoisi = nameScarecrow
 					return("start","switch", characChoisi)
+			elif frame[i] != frameTot :
+				frame[i] =frameTot
 			scarecrow.dessine(display)
 			frame[i] += 0.02
-		
+		frameTot += 0.02
+  
 		if pressed_keys[K_UP] :
 			characChoisi = "A"
 			return ("start","switch", "")
