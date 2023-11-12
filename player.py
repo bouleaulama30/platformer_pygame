@@ -27,8 +27,7 @@ class Player:
             exit()
         self.image= self.skin["still_left"]
         
-        self.coll = [False, False, False, ""]
-        self.collisionPrecedente = [False, False, False, ""]
+        self.coll = [True, False, False, "rect"]
 
 
     def condPente(self, tri, i) :
@@ -156,8 +155,8 @@ class Player:
         
         #teste déplacement x
         self.posx += self.velx*dt
-        collisionPenultieme = self.collisionPrecedente
-        self.collisionPrecedente = self.coll
+        if self.coll[0] and self.coll[-1] != "potion" : #ne retient coll que s'il y avait vraiment collision
+            self.collisionPrecedente = self.coll
         self.coll = self.is_colliding(t_blocks, dt)
         if self.coll[0]:
             self.posx-= self.velx*dt
@@ -171,8 +170,7 @@ class Player:
                 elif self.coll[3] == "SE" :
                     self.posy -= abs(self.vely)*dt
             #Mais s'il se tape un rectangle, c'est peut-être qu'il était sur un triangle avant et devrait continuer à glisser
-            #Urgh, il y a aussi le cas où il s'est retrouvé en l'air juste pendant 1 frame
-            elif (self.collisionPrecedente[0] and self.collisionPrecedente[3] != "rect") or (not self.collisionPrecedente[0] and collisionPenultieme[0] and collisionPenultieme[3] != "rect") :
+            elif self.collisionPrecedente[3] != "rect" :
                 if self.collisionPrecedente[3] == "NO" :
                     self.posy += abs(self.vely)*dt
                 elif self.collisionPrecedente[3] == "NE" :
