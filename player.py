@@ -30,8 +30,64 @@ class Player:
         self.coll = [False, False, False, ""]
         self.collisionPrecedente = [False, False, False, ""]
 
+
+    def condPente(self, tri, i) :
+        """
+        Teste le i-ème coin décrit dans tri.pts_rec
+        Renvoie True si ce coin (repéré par x,y) est en-dehors de la pente de tri
+        
+        Fonctionne pour un bloc triangle isocèle de côté = tri.w
+        """
+        x = self.posx + tri.pts_rec[i][0]*self.w
+        y = self.posy + tri.pts_rec[i][1]*self.h
+        if tri.orientation == "SE" :
+            return y < -x + tri.posx + tri.posy + tri.w
+        if tri.orientation == "NO" :
+            return y > -x + tri.posx + tri.posy + tri.w
+        if tri.orientation == "SO" :
+            return y < x + tri.posy - tri.posx
+        if tri.orientation == "NE" :
+            return y > x + tri.posy - tri.posx
+        return False
+
+    def condInt(self, tri) :
+        """ 
+        Teste si rec est à l'intérieur de l'angle droit du triangle
+        Sachant qu'il n'y a que 2 tests à faire parmi 4 possibles, les combinaisons de tests à faire pour 
+        chaque type de triangle ont été définies dans block.condInt
+        """
+        matrice = [False, False]
+        if tri.condInt[0] :
+            matrice[0] = (self.posx >= tri.posx)
+        else :
+            matrice[0] = (self.posx+self.w <= tri.posx+tri.w)
+        
+        if tri.condInt[1] :
+            matrice[1] = (self.posy >= tri.posy)
+        else :
+            matrice[1] = (self.posy+self.h <= tri.posy+tri.w)
+        
+        return matrice[0] and matrice[1]
+
+    def is_colliding_triangle(self, tri) :
+        #on considère que les côtés de l'angle droit du triangle sont isocèles de longueur tri.w
+        #test de player à côté de tri
+        if (self.posy > tri.posy + tri.h) or (self.posy + self.h < tri.posy) or (self.posx + self.w < tri.posx) or (self.posx > tri.posx + tri.w):
+            return (False, "")
+        #test du coin du rec qui assure que tous les coins sont à l'extérieur de la pente
+        if self.condPente(tri, 0) :
+            return (False, "")
+        
+        #test des autres trois coins hors de la pente et le coin de tt à l'heure dans triangle pour définir si le contact vient du côté "pente"
+        if self.condPente(tri, 1) and self.condPente(tri, 2) and self.condPente(tri, 3) and self.condInt(tri) :
+            return (True, "pente")
+        
+        return (True, "")
+    
+    
     def is_colliding(self, t_blocks):
-        l=[False,False,False, ""] #l = [isColliding, isJumping, isSlipping,"shapeCollided"]
+        #return tab de booléens sous la forme [isColliding, isJumping, isSlipping,"shapeCollided"]
+        
         if self.offlimits() :
             return [True, False, False, "rect"]
         
@@ -39,34 +95,22 @@ class Player:
             if self.posx < b.posx + b.w and self.posx + self.w > b.posx and self.posy < b.posy + b.h and self.posy + self.h > b.posy:
                 if not b.isTriangle :
                     if b.type=='j':
-                        l=[True, True, False, "rect"]
-                        return l
+                        return [True, True, False, "rect"]
                     elif b.type=='s':
-                        l=[True, False, True, "rect"]
+                        return [True, False, True, "rect"]
                     elif b.type=='p':
-                        l=[True, False, False, "potion"]
-                        return l
+                        return [True, False, False, "potion"]
                     else:
-                        l=[True, False, False, "rect"]
-                        return l
+                        return [True, False, False, "rect"]
+                else : #nouveau test de collision triangle :)
+                    rep = self.is_colliding_triangle(b)
+                    if rep[0] : #s'il y a collision
+                        if rep[1] == "pente" : #si la collision se fait sur la pente
+                            return [True, b.type == "j", b.type == "s", b.orientation]
+                        else :
+                            return [True, b.type == "j", b.type == "s", "rect"]
                     
-                elif b.orientation == "NE" :
-                    if not (self.posx + self.w < b.posx + (self.posy - b.posy)  and  (self.posy > b.posy + b.h - (self.posx + self.w - b.posx))) :
-                        l=[True, False, False, "NE"]
-                        return l
-                elif b.orientation == "NO" :
-                    if not (self.posx > b.posx + b.w - (self.posy - b.posy) and self.posy > b.posy + b.h - (self.posx - b.posx)) :
-                        l=[True, False, False, "NO"]
-                        return l
-                elif b.orientation == "SE" :
-                    if not (self.posx + self.w < b.posx + b.w - (self.posy - b.posy) and self.posy+self.h > b.posy - self.posx + self.w - b.posx) :
-                        l=[True, False, False, "SE"]
-                        return l
-                elif b.orientation == "SO" :
-                    if not (self.posx > b.posx + (self.posy + self.h - b.posy) and self.posy + self.h < b.posy + self.posx - b.posx) :
-                        l=[True, False, False, "SO"]
-                        return l
-        return l
+        return [False,False,False, ""]
 
     def deplacement(self,facteur_mvt,vel_jump, dt, pressed_keys, t_blocks,g):
         assert vel_jump<=0

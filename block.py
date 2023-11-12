@@ -23,7 +23,30 @@ class Block:
 		else :
 			print("erreur def Type bloc")
 			exit()
-		## todo : créer les blocs en coin pour le skin fill
+		
+		#nécessaire pour condition de contact
+		if self.orientation == "SO" :
+			self.pts = ((self.posx, self.posy), (self.posx + self.w, self.posy + self.h), (self.posx, self.posy + self.h))
+			self.pts_rec = [(0,1), (0,0), (1,0), (1,0)]
+			self.condInt = [True, False]
+		elif self.orientation == "NE" :
+			self.pts = ((self.posx, self.posy), (self.posx + self.w, self.posy + self.h), (self.posx+ self.w, self.posy))
+			self.pts_rec = [(1,0), (0,1), (0,0), (1,1)]
+			self.condInt = [False, True]
+		elif self.orientation == "SE" :
+			self.pts = ((self.posx + self.w, self.posy), (self.posx + self.w, self.posy+self.h), (self.posx, self.posy+self.h))
+			self.pts_rec = [(1,1), (0,1), (0,0), (1,0)]
+			self.condInt = [False, False]
+		elif self.orientation == "NO" :
+			self.pts = ((self.posx + self.w, self.posy), (self.posx, self.posy), (self.posx, self.posy+self.h))
+			self.pts_rec = [(0,0), (0,1), (1,1), (1,0)]
+			self.condInt = [True, True]
+		#self.pts contient les points du triangle, nécessaire à son dessin
+		#self.pts_rec réfère aux points du rectangle : (0,1) signifie le point (rec.posx + 0*rec.w, rec.posy + 1*rec.h)
+		#	de plus, le premier point de pts_rec correspond au point que l'on veut en-dehors de la pente du triangle pour être sûr qu'il n'y a pas contact
+		#self.condInt réfère à des conditions dans le cas où on veut tester le contact par la pente : voir fonction condInt dans player.py
+  
+  
 		
 	def dessine(self, display) :	
 		display.blit(self.image, (self.posx, self.posy))
