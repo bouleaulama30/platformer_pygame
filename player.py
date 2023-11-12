@@ -94,14 +94,9 @@ class Player:
         for b in t_blocks:
             if self.posx < b.posx + b.w and self.posx + self.w > b.posx and self.posy < b.posy + b.h and self.posy + self.h > b.posy:
                 if not b.isTriangle :
-                    if b.type=='j':
-                        return [True, True, False, "rect"]
-                    elif b.type=='s':
-                        return [True, False, True, "rect"]
-                    elif b.type=='p':
+                    if b.type=='p':
                         return [True, False, False, "potion"]
-                    else:
-                        return [True, False, False, "rect"]
+                    return [True, b.type=='j', b.type=='s', "rect" ]
                 else : #nouveau test de collision triangle :)
                     rep = self.is_colliding_triangle(b)
                     if rep[0] : #s'il y a collision
