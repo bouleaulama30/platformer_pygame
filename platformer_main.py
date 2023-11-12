@@ -131,7 +131,7 @@ while not end:
 							 #perso == "" si rien n'a été sélectionné pendant l'étape du choix (étape start)
 				perso = "persoTest"
 			play_bg("tea")
-			player= Player(50,15, perso) #initialisation du joueur
+			player= Player(780, len_bloc, perso) #initialisation du joueur
 			state = "ongoing"
 		player.deplacement(facteur_mvt, vel_jump, dt, pressed_keys, t_blocks, g)
 		# Ici se fera le dessin de la scène

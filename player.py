@@ -71,9 +71,11 @@ class Player:
 
     def is_colliding_triangle(self, tri) :
         #on considère que les côtés de l'angle droit du triangle sont isocèles de longueur tri.w
-        #test de player à côté de tri
-        if (self.posy > tri.posy + tri.h) or (self.posy + self.h < tri.posy) or (self.posx + self.w < tri.posx) or (self.posx > tri.posx + tri.w):
-            return (False, "")
+        
+        #test de player à côté de tri (inutile, déjà appelé avant test fonction)
+        #if (self.posy >= tri.posy + tri.h) or (self.posy + self.h <= tri.posy) or (self.posx + self.w <= tri.posx) or (self.posx >= tri.posx + tri.w):
+        #    return (False, "")
+        
         #test du coin du rec qui assure que tous les coins sont à l'extérieur de la pente
         if self.condPente(tri, 0) :
             return (False, "")
@@ -85,18 +87,25 @@ class Player:
         return (True, "")
     
     
-    def is_colliding(self, t_blocks):
+    def is_colliding(self, t_blocks, dt):
         #return tab de booléens sous la forme [isColliding, isJumping, isSlipping,"shapeCollided"]
         
         if self.offlimits() :
             return [True, False, False, "rect"]
         
         for b in t_blocks:
-            if self.posx < b.posx + b.w and self.posx + self.w > b.posx and self.posy < b.posy + b.h and self.posy + self.h > b.posy:
+            if self.posx <= b.posx + b.w and self.posx + self.w >= b.posx and self.posy <= b.posy + b.h and self.posy + self.h >= b.posy:
                 if not b.isTriangle :
                     if b.type=='p':
                         return [True, False, False, "potion"]
-                    return [True, b.type=='j', b.type=='s', "rect" ]
+                    
+                    y = self.posy - 2*g*dt #on pose y un peu au-dessus de posy
+                    if y + self.h < b.posy : #if contact par le haut
+                        return [True, b.type=='j', b.type=='s', "rect" ]
+                    
+                    return [True, False, False, "rect"] #on ignore le type du rect si le contact est sur le côté
+                
+                
                 else : #nouveau test de collision triangle :)
                     rep = self.is_colliding_triangle(b)
                     if rep[0] : #s'il y a collision
@@ -125,7 +134,9 @@ class Player:
             self.image = self.skin["still_left"]
         
         if pressed_keys[K_r]:
-            self.posx, self.posy=50,10
+            self.posx, self.posy=780, len_bloc
+            if pressed_keys[K_LSHIFT] :
+                self.posx, self.posy=80, len_bloc #shortcut pour réapparaître à gauche
             self.vely=0
             self.is_grounded=False
             if not is_playing(0):
@@ -137,7 +148,7 @@ class Player:
 
         #cas où il y a une potion (pour le moment c'est la même que l'effet de la touche que R) à changer pour faire un game over
         if self.coll[3]=="potion":
-            self.posx, self.posy=50,10
+            self.posx, self.posy=780, len_bloc
             self.vely=0
             self.is_grounded=False
             play('potion')
@@ -147,7 +158,7 @@ class Player:
         self.posx += self.velx*dt
         collisionPenultieme = self.collisionPrecedente
         self.collisionPrecedente = self.coll
-        self.coll = self.is_colliding(t_blocks)
+        self.coll = self.is_colliding(t_blocks, dt)
         if self.coll[0]:
             self.posx-= self.velx*dt
             if self.coll[3] != "rect" :
@@ -176,7 +187,7 @@ class Player:
         #teste déplacement y
         self.is_grounded=False
         self.posy += self.vely*dt
-        self.coll = self.is_colliding(t_blocks)
+        self.coll = self.is_colliding(t_blocks, dt)
         
         #pour le jump du champignon
         if self.coll[1]: 
@@ -185,19 +196,31 @@ class Player:
             self.posy+=self.vely*dt
             play('rebond')
         
-        self.coll = self.is_colliding(t_blocks)
+        self.coll = self.is_colliding(t_blocks, dt)
         #pour la glace
         if self.coll[2]: 
+            dx = 0
             if not is_playing(2):
                 play('ice_slid',2)
             if self.image == self.skin["still_right"] or self.image == self.skin["run_right"] or self.image == self.skin["jump_right"]:
                 if self.velx!=0:
-                    self.posx-=self.velx*dt
-                self.posx+=facteur_mvt*dt/3  
+                    dx -= self.velx*dt
+                dx += facteur_mvt*dt/3  
             else:
                 if self.velx!=0:
-                    self.posx-= self.velx*dt
-                self.posx-= facteur_mvt*dt/3
+                    dx -= self.velx*dt
+                dx -= facteur_mvt*dt/3
+            
+            #le player ne doit pas avancer si ça le fait rentrer dans un bloc
+            for b in t_blocks :
+                if not( b.type == "p" or b.type == "s"):
+                    #if bloc à la même hauteur que player
+                    if b.posy>self.posy and b.posy < self.posy+self.h :
+                        #if (collision sur la gauche) or (collision sur la droite) 
+                        if (b.posx+b.w >= self.posx+dx and b.posx+b.w <= self.posx+dx+self.w) or (b.posx >= self.posx+dx and b.posx <= self.posx+dx+self.w) :
+                            dx = 0
+                            break #j'en ai trouvé un qui collisionne, je peux arrêter de tester
+            self.posx += dx
         
           
         if self.coll[0]:
@@ -233,7 +256,7 @@ class Player:
             #normalement, il ne devrait plus rien toucher
             #S'il était en train de collide avec la tête, il ne faut pas qu'il soit grounded ! Testons ça
             self.posy -= 2000*dt #on le remonte un poil (c le même 2000 que la gravité (c léo) si oui mettre g)
-            if self.is_colliding(t_blocks)[0] :
+            if self.is_colliding(t_blocks, dt)[0] :
                 self.is_grounded = False
             self.posy += 2000*dt #on le redescend à l'état avant-test (c le même 2000 que la gravité (c léo) si oui mettre g)
         

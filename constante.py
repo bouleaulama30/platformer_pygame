@@ -22,7 +22,7 @@ g=2100 #gravité
 facteur_mvt=200 #influence vitesse déplacement
 facteur_mvt_mini_jeu=250 
 vel_jump=-580 #influence le saut
-vel_jump_mushroom=-700 #influence le saut sur le champipi
+vel_jump_mushroom=-750 #influence le saut sur le champipi
 
 #pour compter les frames pour le chargement
 count=0
