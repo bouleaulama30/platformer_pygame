@@ -175,6 +175,12 @@ while not end:
 			write_file_map("blocks.txt",state)
 			state='ongoing'
 			editor_count=0
+
+		if pressed_keys[K_g] and editor_count>20:
+			state='p'
+			write_file_map("blocks.txt",state)
+			state='ongoing'
+			editor_count=0	
 		
 		#pour les blocks triangles (oui c'est moche)
 		#pour les triangles 'n'

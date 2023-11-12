@@ -63,10 +63,13 @@ blocJump_NE = pygame.transform.scale(pygame.image.load("SpritesBlocks/bloc_jump_
 blocJump_SO = pygame.transform.scale(pygame.image.load("SpritesBlocks/bloc_jump_SO.png"), (len_bloc, len_bloc))
 blocJump_SE = pygame.transform.scale(pygame.image.load("SpritesBlocks/bloc_jump_SE.png"), (len_bloc, len_bloc))
 
+blocPotion = pygame.transform.scale(pygame.image.load("SpritesBlocks/bloc_potion.png"), (len_bloc, len_bloc))
+
 dicoBlocSkins = {"n" : {'rect' : blocNeutral, 'SO' : blocNeutral_SO, 'NO' : blocNeutral_NO, 'SE' : blocNeutral_SE, 'NE' : blocNeutral_NE}, 
                  "j" : {'rect' : blocJump, 'SO' : blocJump_SO, 'NO' : blocJump_NO, 'SE' : blocJump_SE, 'NE' : blocJump_NE},
                  "s" : {'rect' : blocSlip, 'SO' : blocSlip_SO, 'NO' : blocSlip_NO, 'SE' : blocSlip_SE, 'NE' : blocSlip_NE},
-                 "f" : {'rect' : blocFill, 'SO' : blocFill, 'NO' : blocFill, 'SE' : blocFill, 'NE' : blocFill}}
+                 "f" : {'rect' : blocFill, 'SO' : blocFill, 'NO' : blocFill, 'SE' : blocFill, 'NE' : blocFill},
+                 "p" : {'rect' : blocPotion, 'SO' : blocPotion, 'NO' : blocPotion, 'SE' : blocPotion, 'NE' : blocPotion}}
 
 #de même, def des images persos
 AliceStill_left = pygame.transform.scale(pygame.image.load("SpritesPlayer/Alice/alice_still_left.png"), (1*len_bloc, 2*len_bloc))

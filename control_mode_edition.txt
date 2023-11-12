@@ -14,6 +14,8 @@
 
 # - 'f' : permet de générer un block de type 'f'
 
+# - 'g' : permet de générer un block de type 'p'
+
 # - '0' : permet de générer un block triangle de type 'n' avec une orientation 'SO'
 
 # - '1' : permet de générer un block triangle de type 'n' avec une orientation 'NO'

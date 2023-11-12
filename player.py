@@ -29,7 +29,7 @@ class Player:
         self.collisionPrecedente = [False, False, False, ""]
 
     def is_colliding(self, t_blocks):
-        l=[False,False,False, ""] #l = [isColliding, isJumping, isSlipping, "shapeCollided"]
+        l=[False,False,False, ""] #l = [isColliding, isJumping, isSlipping,"shapeCollided"]
         if self.offlimits() :
             return [True, False, False, "rect"]
         
@@ -41,6 +41,9 @@ class Player:
                         return l
                     elif b.type=='s':
                         l=[True, False, True, "rect"]
+                    elif b.type=='p':
+                        l=[True, False, False, "potion"]
+                        return l
                     else:
                         l=[True, False, False, "rect"]
                         return l
@@ -90,6 +93,14 @@ class Player:
         if (pressed_keys[K_UP] or pressed_keys[K_SPACE]) and self.is_grounded :   #voir saut Céleste/Holo Knight
             self.vely= vel_jump #attention vel_jump doit être negatif
             play('jump')
+
+        #cas où il y a une potion (pour le moment c'est la même que l'effet de la touche que R) à changer pour faire un game over
+        if self.coll[3]=="potion":
+            self.posx, self.posy=50,10
+            self.vely=0
+            self.is_grounded=False
+            play('potion')
+
         
         #teste déplacement x
         self.posx += self.velx*dt

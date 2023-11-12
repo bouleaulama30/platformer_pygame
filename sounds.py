@@ -26,7 +26,8 @@ sounds = {
         'running_grass': pygame.mixer.Sound("sons/running_grass.mp3"),
         'ice_slid': pygame.mixer.Sound("sons/ice_slid.mp3"),
         'keys_sound':pygame.mixer.Sound("sons/keys_sound2.mp3"),
-        "wind_for_falling": pygame.mixer.Sound("sons/musiques/wind_for_falling.mp3")
+        "wind_for_falling": pygame.mixer.Sound("sons/musiques/wind_for_falling.mp3"),
+        'potion': pygame.mixer.Sound("sons/potion_broken.mp3"),
 
 }
 

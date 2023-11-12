@@ -11,7 +11,7 @@ class Block:
 		self.isTriangle = triangle
 		self.orientation = orientation #le point cardinal définit le coin qui existe
 
-		if self.type in ["n", "j", "s", "f"] :
+		if self.type in ["n", "j", "s", "f","p"] :
 			if self.isTriangle :
 				if (self.orientation in ["SO", "NO", "SE", "NE"]) :
 					self.image = dicoBlocSkins[self.type][self.orientation]
