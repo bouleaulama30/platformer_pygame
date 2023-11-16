@@ -31,9 +31,8 @@ t_blocks = []
 # make_gros_bloc(500, 500, 2, 15, "s",t_blocks)
 # make_gros_bloc(400,400,1,3,"j", t_blocks)
 
-
+level = 1
 read_file_map("blocks.txt",t_blocks,list_map_file)
-
 
 update_mini_game= Update_mini_game()
 key_list_ingame=[]
@@ -41,7 +40,7 @@ door_list_ingame =[]
 keys_list=[]
 
 read_file_keys("keys.txt",key_list_ingame,list_key_map_file)
-read_file_door("door.txt",door_list_ingame,list_door_map_file)
+read_file_door("door.txt",door_list_ingame,list_door_map_file, level)
 		
 etape = "start" #can be "play", "start", "end", "charging" , "mini_jeu"
 """
@@ -112,7 +111,7 @@ while not end:
 
 		if player.posy >= hauteur_fenetre :
 			state = "switch"
-		update_mini_game.update_score(display)
+		update_mini_game.update_score(level, display)
 		update_mini_game.update_loading(state,display)
 		player.dessine_deplacement_mini_jeu(display,pressed_keys,facteur_mvt_mini_jeu,dt,state)
 		if pressed_keys[K_b] or state == "switch" :
@@ -132,15 +131,44 @@ while not end:
 				perso = "persoTest"
 			play_bg("tea")
 			player= Player(780, len_bloc, perso) #initialisation du joueur
+			level = 1
 			state = "ongoing"
+
+		if state == "ongoing" :
+			state = door_contact(player.posx, player.posy, player.w, player.h, door_list_ingame, update_mini_game.score, level)
+
+
+		if state == "arrivée sortie" :
+			tics = 0
+			state = "ouverture porte"
+		if state == "ouverture porte" :
+			if tics < 20 :
+				tics += 1
+			else :
+				state = "fondu enchaîné"
+			
 		player.deplacement(facteur_mvt, vel_jump, dt, pressed_keys, t_blocks, g)
 		# Ici se fera le dessin de la scène
 		display.blit(background_game, (0,0))
-		player.dessine(display)
 		fill_keys(display,player,update_mini_game,key_list_ingame,dt,etape)
 		fill_door(display,door_list_ingame)
-		update_mini_game.update_score(display)
+		player.dessine(display)
+		update_mini_game.update_score(level, display)
 		fill(display, t_blocks)
+		
+		if state == "fondu enchaîné" :
+			if alpha == 0 :
+				s = pygame.Surface((largeur_fenetre,hauteur_fenetre))  # the size of your rect
+				s.set_alpha(alpha)                # alpha level
+				s.fill(yellow)
+			alpha += 0.5
+			s.set_alpha(alpha)
+			display.blit(s, (0,0))
+			if alpha > 255 :
+				state = "init" #en vrai faudrait changer de niveau là
+				alpha = 0
+  
+	
 		if pressed_keys[K_e]:
 			etape= "editor_mode"
 			state= "init"
@@ -309,7 +337,7 @@ while not end:
 		
 		read_file_keys("keys.txt",key_list_ingame,list_key_map_file)
 		read_file_map("blocks.txt",t_blocks,list_map_file)
-		read_file_door("door.txt", door_list_ingame,list_door_map_file)
+		read_file_door("door.txt", door_list_ingame,list_door_map_file, level)
 		
 		display.blit(bg_edition, (0,0))
 		fill_keys(display,player,update_mini_game,key_list_ingame,dt,etape)

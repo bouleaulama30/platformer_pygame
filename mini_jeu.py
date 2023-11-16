@@ -60,7 +60,7 @@ def fill_keys_fin(display, player, update, keys_list,dt,etape) :
 class Update_mini_game:
 
     def __init__(self):
-        self.score=0
+        self.score=30
         self.loading=0
         self.font= pygame.font.SysFont("z003", 50)
         
@@ -71,9 +71,9 @@ class Update_mini_game:
     def add_loading(self):
         self.loading+=0.3
 
-    def update_score(self,display):
+    def update_score(self,level, display):
         
-        score_text=self.font.render(f"Clés: {self.score}/20", True, (255,255,255))
+        score_text=self.font.render(f"Clés: {self.score}/{scoreMin[level]}", True, (255,255,255))
         display.blit(score_text, (20,20))
       
         

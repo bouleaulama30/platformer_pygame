@@ -121,7 +121,8 @@ class Door:
 	def __init__(self, posx, posy, level):
 		self.posx = posx
 		self.posy = posy
-		self.image = listePorteSkins[level]
+		self.image = dicoPorteSkins[level]["fermée"]
+		self.w, self.h = dicoPorteSkins[level]["dim"]
     
 	def dessine(self, display) :	
 		display.blit(self.image, (self.posx, self.posy))
@@ -130,3 +131,15 @@ class Door:
 def fill_door(display,door_list):
     for d in door_list:
         d.dessine(display)
+
+def door_contact(p_posx, p_posy, p_w, p_h, doors, score, level) : #fonction renvoie la valeur de state 
+    for d in doors :
+        if p_posx <= d.posx + d.w and p_posx + p_w >= d.posx and p_posy <= d.posy + d.h and p_posy + p_h >= d.posy: #si collision
+            if score >= scoreMin[level] :
+                d.image = dicoPorteSkins[level]["ouverte"]
+                d.w += len_bloc
+                return "arrivée sortie"
+            else : 
+                None #il faudrait afficher un message genre "il te manque encore *n* clefs !!"
+    return "ongoing"
+        

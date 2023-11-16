@@ -13,6 +13,8 @@ black = (0,0,0)
 gris = (150,150,150)
 rouge = (255, 0,0)
 pink = (255,20,147)
+yellow = (255,255,153)
+alpha = 0 #set transparency
 
 #initialisation collisions
 rep = (False, "")
@@ -41,6 +43,8 @@ list_map_file=[]
 list_key_map_file=[]
 list_door_map_file =[]
 
+#définition des scores min à atteindre pour chaque level
+scoreMin = [1, 20] 
 
 #définition des images blocs, histoire que le code soit lisible...
 blocFill = pygame.transform.scale(pygame.image.load("SpritesBlocks/bloc_fill.png"), (len_bloc, len_bloc))
@@ -109,5 +113,9 @@ bg_edition = pygame.transform.scale(pygame.image.load("SpritesBackground/ecran_c
 key = pygame.transform.scale(pygame.image.load("SpritesKeys/sprite_key.png"), (1* len_bloc, 2*len_bloc))
 
 #def image porte
-porteTest = pygame.transform.scale(pygame.image.load("SpritesBackground/background_circular.jpg"), (2*len_bloc, 2*len_bloc))
-listePorteSkins = [porteTest]
+porteLevel1_f = pygame.transform.scale(pygame.image.load("SpritesDoors/porte2_fermee.png"), (2*len_bloc, 2*len_bloc))
+porteLevel1_o = pygame.transform.scale(pygame.image.load("SpritesDoors/porte2_ouverte.png"), (3*len_bloc, 2*len_bloc))
+porteLevel2_f = pygame.transform.scale(pygame.image.load("SpritesDoors/porte1_fermee.png"), (1*len_bloc, 2*len_bloc))
+porteLevel2_o = pygame.transform.scale(pygame.image.load("SpritesDoors/porte1_ouverte.png"), (2*len_bloc, 2*len_bloc))
+
+dicoPorteSkins = {1:{"ouverte" : porteLevel1_o, "fermée" : porteLevel1_f, "dim" : (2*len_bloc,2*len_bloc)}, 2:{"ouverte" : porteLevel2_o, "fermée" : porteLevel2_f, "dim" : (1*len_bloc,2*len_bloc)}}

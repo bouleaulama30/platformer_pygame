@@ -81,7 +81,7 @@ def write_file_keys(filename):
 	f.close()
 
 
-def read_file_door(filename, door_list, listReadDoor):
+def read_file_door(filename, door_list, listReadDoor, level):
 	f=open(filename,'r')
 	lines=f.readlines()
 	tmp_l=[] #ne contient que les nouvelles lignes du fichier
@@ -92,7 +92,7 @@ def read_file_door(filename, door_list, listReadDoor):
 			tmp_l.append(new)
 	if len(tmp_l)!=0:
 		for door in tmp_l:
-			door_list.append(Door(int(door[0]),int(door[1]), 0))
+			door_list.append(Door(int(door[0]),int(door[1]), level))
 	f.close()
 
 
@@ -122,7 +122,7 @@ def delete_line_file_keys(filename,key_list,list):
 				if compare_keys(k1,key):
 					key_list.remove(key)
 	f.close()
-def delete_line_file_door(filename,key_list,list):
+def delete_line_file_door(filename,key_list,list, level):
 	x_mouse,y_mouse= pygame.mouse.get_pos()
 	f=open(filename,'r')
 	lines=f.readlines()
@@ -136,7 +136,7 @@ def delete_line_file_door(filename,key_list,list):
 			keys=line.split(",") 
 			if keys in list:
 				list.remove(keys) #on l'enlève aussi de la liste global car sinon on ne peut pas ajouter une nouvelle clé au même endroit
-			k1=Door(int(keys[0]),int(keys[1]), 0)
+			k1=Door(int(keys[0]),int(keys[1]), level)
 			for key in key_list:
 				if compare_keys(k1,key):
 					key_list.remove(key)
