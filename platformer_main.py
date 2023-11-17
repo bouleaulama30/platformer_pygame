@@ -36,8 +36,7 @@ key_list_ingame=[]
 door_list_ingame =[]
 keys_list=[]
 
-level = 0
-		
+level = -1	
 etape = "start" #can be "play", "start", "end", "charging" , "mini_jeu"
 """
 Hey Margot, ptit message pour tenter d'expliquer ce que j'ai amené avec mon merge (souffre)
@@ -131,6 +130,8 @@ while not end:
 			read_file_map(nomFichierLecture[level]["block"],t_blocks,list_map_file)
 			read_file_keys(nomFichierLecture[level]["key"],key_list_ingame,list_key_map_file)
 			read_file_door(nomFichierLecture[level]["door"],door_list_ingame,list_door_map_file, level)
+
+			background_game = bg_jeu[level]
 			state = "ongoing"
 
 		if state == "ongoing" :
@@ -325,7 +326,7 @@ while not end:
 			editor_count=0
 		
 		if pressed_keys[K_RETURN] and editor_count>15:
-			delete_line_file_door(nomFichierLecture[level]["door"],door_list_ingame,list_door_map_file)
+			delete_line_file_door(nomFichierLecture[level]["door"],door_list_ingame,list_door_map_file,level)
 			editor_count=0
 
 
@@ -346,9 +347,6 @@ while not end:
 		editor_count_read_file_map+=1
 
 
-
-
-	
 
 
 

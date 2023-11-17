@@ -102,13 +102,15 @@ persoTest = pygame.transform.scale(pygame.image.load("SpritesBackground/backgrou
 
 #def des images background
 bg_play1 = pygame.transform.scale(pygame.image.load("SpritesBackground/background_sombre.jpg"), (largeur_fenetre, hauteur_fenetre))
-bg_play2 = pygame.transform.scale(pygame.image.load("SpritesBackground/background_key.jpg"), (largeur_fenetre, hauteur_fenetre))
+bg_play2 = pygame.transform.scale(pygame.image.load("SpritesBackground/background_key1.jpg"), (largeur_fenetre, hauteur_fenetre))
 bg_play3 = pygame.transform.scale(pygame.image.load("SpritesBackground/background_tiles.jpg"), (largeur_fenetre, hauteur_fenetre))
 bg_play4 = pygame.transform.scale(pygame.image.load("SpritesBackground/background_cartesEtThe.jpg"), (largeur_fenetre, hauteur_fenetre))
 bg_play5 = pygame.transform.scale(pygame.image.load("SpritesBackground/background_hearts.jpg"), (largeur_fenetre, hauteur_fenetre))
 bg_fall = pygame.transform.scale(pygame.image.load("SpritesBackground/background_terrier.jpg"), (largeur_fenetre, hauteur_fenetre))
 bg_choix = pygame.transform.scale(pygame.image.load("SpritesBackground/ecran_choix/ecran_choix_none.jpg"), (largeur_fenetre, hauteur_fenetre))
 bg_edition = pygame.transform.scale(pygame.image.load("SpritesBackground/ecran_choix/fond_edition.jpg"), (largeur_fenetre, hauteur_fenetre))
+
+bg_jeu = [bg_play2, bg_play4]
 
 #def image clé
 key = pygame.transform.scale(pygame.image.load("SpritesKeys/sprite_key.png"), (1* len_bloc, 2*len_bloc))
@@ -119,4 +121,4 @@ porteLevel1_o = pygame.transform.scale(pygame.image.load("SpritesDoors/porte2_ou
 porteLevel2_f = pygame.transform.scale(pygame.image.load("SpritesDoors/porte1_fermee.png"), (1*len_bloc, 2*len_bloc))
 porteLevel2_o = pygame.transform.scale(pygame.image.load("SpritesDoors/porte1_ouverte.png"), (2*len_bloc, 2*len_bloc))
 
-dicoPorteSkins = {1:{"ouverte" : porteLevel1_o, "fermée" : porteLevel1_f, "dim" : (2*len_bloc,2*len_bloc)}, 2:{"ouverte" : porteLevel2_o, "fermée" : porteLevel2_f, "dim" : (1*len_bloc,2*len_bloc)}}
+dicoPorteSkins = {0:{"ouverte" : porteLevel2_o, "fermée" : porteLevel2_f, "dim" : (1*len_bloc,2*len_bloc)}, 1:{"ouverte" : porteLevel1_o, "fermée" : porteLevel1_f, "dim" : (2*len_bloc,2*len_bloc)}, 2:{"ouverte" : porteLevel2_o, "fermée" : porteLevel2_f, "dim" : (1*len_bloc,2*len_bloc)}}
