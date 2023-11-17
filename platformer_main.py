@@ -31,16 +31,12 @@ t_blocks = []
 # make_gros_bloc(500, 500, 2, 15, "s",t_blocks)
 # make_gros_bloc(400,400,1,3,"j", t_blocks)
 
-level = 1
-read_file_map("blocks.txt",t_blocks,list_map_file)
-
 update_mini_game= Update_mini_game()
 key_list_ingame=[]
 door_list_ingame =[]
 keys_list=[]
 
-read_file_keys("keys.txt",key_list_ingame,list_key_map_file)
-read_file_door("door.txt",door_list_ingame,list_door_map_file, level)
+level = 0
 		
 etape = "start" #can be "play", "start", "end", "charging" , "mini_jeu"
 """
@@ -107,7 +103,7 @@ while not end:
 			vel_fall += g*dt/30
 			player.posy += 0.1 + vel_fall*dt #accélère la chute quand il faut finir le chargement...
 			fill_keys_fin(display,player,update_mini_game,keys_list,dt,etape) #arrête de générer de nouvelles clés
-			state = "finishing"
+			state = "finishing" # != de "ongoing"
 
 		if player.posy >= hauteur_fenetre :
 			state = "switch"
@@ -131,12 +127,15 @@ while not end:
 				perso = "persoTest"
 			play_bg("tea")
 			player= Player(780, len_bloc, perso) #initialisation du joueur
-			level = 1
+			level += 1
+			read_file_map(nomFichierLecture[level]["block"],t_blocks,list_map_file)
+			read_file_keys(nomFichierLecture[level]["key"],key_list_ingame,list_key_map_file)
+			read_file_door(nomFichierLecture[level]["door"],door_list_ingame,list_door_map_file, level)
 			state = "ongoing"
 
 		if state == "ongoing" :
+			#teste particulièrement si le player rentre en contact avec une porte
 			state = door_contact(player.posx, player.posy, player.w, player.h, door_list_ingame, update_mini_game.score, level)
-
 
 		if state == "arrivée sortie" :
 			tics = 0
@@ -184,29 +183,29 @@ while not end:
 
 		if pressed_keys[K_n] and editor_count>20:
 			state='n'
-			write_file_map("blocks.txt",state)
+			write_file_map(nomFichierLecture[level]["block"],state)
 			state='ongoing'
 			editor_count=0
 		if pressed_keys[K_j] and editor_count>20:
 			state='j'
-			write_file_map("blocks.txt",state)
+			write_file_map(nomFichierLecture[level]["block"],state)
 			state='ongoing'
 			editor_count=0
 		if pressed_keys[K_s] and editor_count>20:
 			state='s'
-			write_file_map("blocks.txt",state)
+			write_file_map(nomFichierLecture[level]["block"],state)
 			state='ongoing'
 			editor_count=0
 
 		if pressed_keys[K_f] and editor_count>20:
 			state='f'
-			write_file_map("blocks.txt",state)
+			write_file_map(nomFichierLecture[level]["block"],state)
 			state='ongoing'
 			editor_count=0
 
 		if pressed_keys[K_g] and editor_count>20:
 			state='p'
-			write_file_map("blocks.txt",state)
+			write_file_map(nomFichierLecture[level]["block"],state)
 			state='ongoing'
 			editor_count=0	
 		
@@ -214,50 +213,50 @@ while not end:
 		#pour les triangles 'n'
 		if pressed_keys[K_0] and editor_count>20:
 			state='n'
-			write_file_map("blocks.txt",state,True,"SO")
+			write_file_map(nomFichierLecture[level]["block"],state,True,"SO")
 			state='ongoing'
 			editor_count=0
 			
 		if pressed_keys[K_1] and editor_count>20:
 			state='n'
-			write_file_map("blocks.txt",state,True,"NO")
+			write_file_map(nomFichierLecture[level]["block"],state,True,"NO")
 			state='ongoing'
 			editor_count=0
 			
 		if pressed_keys[K_2] and editor_count>20:
 			state='n'
-			write_file_map("blocks.txt",state,True,"NE")
+			write_file_map(nomFichierLecture[level]["block"],state,True,"NE")
 			state='ongoing'
 			editor_count=0
 
 		if pressed_keys[K_3] and editor_count>20:
 			state='n'
-			write_file_map("blocks.txt",state,True,"SE")
+			write_file_map(nomFichierLecture[level]["block"],state,True,"SE")
 			state='ongoing'
 			editor_count=0
 
 		#pour les triangles 's'
 		if pressed_keys[K_4] and editor_count>20:
 			state='s'
-			write_file_map("blocks.txt",state,True,"SO")
+			write_file_map(nomFichierLecture[level]["block"],state,True,"SO")
 			state='ongoing'
 			editor_count=0
 			
 		if pressed_keys[K_5] and editor_count>20:
 			state='s'
-			write_file_map("blocks.txt",state,True,"NO")
+			write_file_map(nomFichierLecture[level]["block"],state,True,"NO")
 			state='ongoing'
 			editor_count=0
 			
 		if pressed_keys[K_6] and editor_count>20:
 			state='s'
-			write_file_map("blocks.txt",state,True,"NE")
+			write_file_map(nomFichierLecture[level]["block"],state,True,"NE")
 			state='ongoing'
 			editor_count=0
 
 		if pressed_keys[K_7] and editor_count>20:
 			state='s'
-			write_file_map("blocks.txt",state,True,"SE")
+			write_file_map(nomFichierLecture[level]["block"],state,True,"SE")
 			state='ongoing'
 			editor_count=0
 
@@ -265,35 +264,35 @@ while not end:
 		#pour les triangles 'j'
 		if pressed_keys[K_8] and editor_count>20:
 			state='j'
-			write_file_map("blocks.txt",state,True,"SO")
+			write_file_map(nomFichierLecture[level]["block"],state,True,"SO")
 			state='ongoing'
 			editor_count=0
 			
 		if pressed_keys[K_9] and editor_count>20:
 			state='j'
-			write_file_map("blocks.txt",state,True,"NO")
+			write_file_map(nomFichierLecture[level]["block"],state,True,"NO")
 			state='ongoing'
 			editor_count=0
 			
 		if pressed_keys[K_a] and editor_count>20:
 			state='j'
-			write_file_map("blocks.txt",state,True,"NE")
+			write_file_map(nomFichierLecture[level]["block"],state,True,"NE")
 			state='ongoing'
 			editor_count=0
 
 		if pressed_keys[K_z] and editor_count>20:
 			state='j'
-			write_file_map("blocks.txt",state,True,"SE")
+			write_file_map(nomFichierLecture[level]["block"],state,True,"SE")
 			state='ongoing'
 			editor_count=0
 
 
 
 		if pressed_keys[K_k] and editor_count>20:
-			write_file_keys("keys.txt")
+			write_file_keys(nomFichierLecture[level]["key"])
 			editor_count=0
 		if pressed_keys[K_SPACE] and editor_count>20:
-			write_file_door("door.txt")
+			write_file_door(nomFichierLecture[level]["door"])
 			print("ok")
 			editor_count=0
 			
@@ -318,15 +317,15 @@ while not end:
 			editor_count=0
 
 		if pressed_keys[K_d] and editor_count>15:
-			delete_line_file_map("blocks.txt",t_blocks,list_map_file)
+			delete_line_file_map(nomFichierLecture[level]["block"],t_blocks,list_map_file)
 			editor_count=0
 		
 		if pressed_keys[K_y] and editor_count>15:
-			delete_line_file_keys("keys.txt",key_list_ingame,list_key_map_file)
+			delete_line_file_keys(nomFichierLecture[level]["key"],key_list_ingame,list_key_map_file)
 			editor_count=0
 		
 		if pressed_keys[K_RETURN] and editor_count>15:
-			delete_line_file_door("door.txt",door_list_ingame,list_door_map_file)
+			delete_line_file_door(nomFichierLecture[level]["door"],door_list_ingame,list_door_map_file)
 			editor_count=0
 
 
@@ -335,9 +334,9 @@ while not end:
 			state= "ongoing"
 		
 		
-		read_file_keys("keys.txt",key_list_ingame,list_key_map_file)
-		read_file_map("blocks.txt",t_blocks,list_map_file)
-		read_file_door("door.txt", door_list_ingame,list_door_map_file, level)
+		read_file_keys(nomFichierLecture[level]["key"],key_list_ingame,list_key_map_file)
+		read_file_map(nomFichierLecture[level]["block"],t_blocks,list_map_file)
+		read_file_door(nomFichierLecture[level]["door"], door_list_ingame,list_door_map_file, level)
 		
 		display.blit(bg_edition, (0,0))
 		fill_keys(display,player,update_mini_game,key_list_ingame,dt,etape)
