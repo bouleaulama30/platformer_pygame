@@ -161,7 +161,7 @@ while not end:
 				s = pygame.Surface((largeur_fenetre,hauteur_fenetre))  # the size of your rect
 				s.set_alpha(alpha)                # alpha level
 				s.fill(yellow)
-			alpha += 0.5
+			alpha += 0.7
 			s.set_alpha(alpha)
 			display.blit(s, (0,0))
 			if alpha > 255 :

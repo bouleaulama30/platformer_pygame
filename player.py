@@ -27,7 +27,8 @@ class Player:
             exit()
         self.image= self.skin["still_left"]
         
-        self.coll = [True, False, False, "rect"]
+        self.coll = [False, False, False, "rect"]
+        self.collisionPrecedente = [False, False, False, "rect"]
 
 
     def condPente(self, tri, i) :
@@ -99,7 +100,7 @@ class Player:
                         return [True, False, False, "potion"]
                     
                     y = self.posy - 2*g*dt #on pose y un peu au-dessus de posy
-                    if y + self.h < b.posy : #if contact par le haut
+                    if y + self.h < b.posy : #if contact par le haut du bloc
                         return [True, b.type=='j', b.type=='s', "rect" ]
                     
                     return [True, False, False, "rect"] #on ignore le type du rect si le contact est sur le côté
@@ -143,14 +144,7 @@ class Player:
         
         if (pressed_keys[K_UP] or pressed_keys[K_SPACE]) and self.is_grounded :   #voir saut Céleste/Holo Knight
             self.vely= vel_jump #attention vel_jump doit être negatif
-            play('jump')
-
-        #cas où il y a une potion (pour le moment c'est la même que l'effet de la touche que R) à changer pour faire un game over
-        if self.coll[3]=="potion":
-            self.posx, self.posy=780, len_bloc
-            self.vely=0
-            self.is_grounded=False
-            play('potion')
+            play('jump')        
 
         
         #teste déplacement x
@@ -160,7 +154,15 @@ class Player:
         self.coll = self.is_colliding(t_blocks, dt)
         if self.coll[0]:
             self.posx-= self.velx*dt
-            if self.coll[3] != "rect" :
+            
+            #cas où il y a une potion (pour le moment c'est la même que l'effet de la touche que R) à changer pour faire un game over
+            if self.coll[3]=="potion":
+                self.posx, self.posy=780, len_bloc
+                self.vely=0
+                self.is_grounded=False
+                play('potion')
+            
+            elif self.coll[3] != "rect" :
                 if self.coll[3] == "NO" :
                     self.posy += abs(self.vely)*dt
                 elif self.coll[3] == "NE" :
@@ -185,6 +187,8 @@ class Player:
         #teste déplacement y
         self.is_grounded=False
         self.posy += self.vely*dt
+        if self.coll[0] and self.coll[-1] != "potion" : #ne retient coll que s'il y avait vraiment collision
+            self.collisionPrecedente = self.coll
         self.coll = self.is_colliding(t_blocks, dt)
         
         #pour le jump du champignon
@@ -193,8 +197,7 @@ class Player:
             self.vely+=g*dt
             self.posy+=self.vely*dt
             play('rebond')
-        
-        self.coll = self.is_colliding(t_blocks, dt)
+            
         #pour la glace
         if self.coll[2]: 
             dx = 0
@@ -220,8 +223,14 @@ class Player:
                             break #j'en ai trouvé un qui collisionne, je peux arrêter de tester
             self.posx += dx
         
-          
-        if self.coll[0]:
+        #cas où il y a une potion 
+        if self.coll[3]=="potion":
+            self.posx, self.posy=780, len_bloc
+            self.vely=0
+            self.is_grounded=False
+            play('potion')
+        
+        if self.coll[0] and not self.coll[1]:
             if not is_playing(2) and (pressed_keys[K_RIGHT] or pressed_keys[K_LEFT]):
                 play('running_grass',2)
             self.is_grounded= True
@@ -236,27 +245,24 @@ class Player:
                 elif self.coll[3] == "SE" :
                     self.posx -= abs(self.vely)*dt
             #Mais s'il se tape un rectangle, c'est peut-être qu'il était sur un triangle avant et devrait continuer à glisser
-            #Urgh, il y a aussi le cas où il s'est retrouvé en l'air juste pendant 1 frame
-            #Il y a aussi le cas triangle -> coin rectangle -> air -> coin rectangle, mais franchement flemme
-            #Faudrait s'y prendre d'une autre manière...
-            elif (self.collisionPrecedente[0] and self.collisionPrecedente[3] != "rect") or (not self.collisionPrecedente[0] and collisionPenultieme[0] and collisionPenultieme[3] != "rect") :
+            elif self.collisionPrecedente[3] != "rect" :
                 if self.collisionPrecedente[3] == "NO" :
-                    self.posy += abs(self.vely)*dt
+                    self.posx += abs(self.vely)*dt
                 elif self.collisionPrecedente[3] == "NE" :
-                    self.posy += abs(self.vely)*dt
+                    self.posx -= abs(self.vely)*dt
                 elif self.collisionPrecedente[3] == "SO" :
-                    self.posy -= abs(self.vely)*dt
+                    self.posx += abs(self.vely)*dt
                 elif self.collisionPrecedente[3] == "SE" :
-                    self.posy -= abs(self.vely)*dt
+                    self.posx -= abs(self.vely)*dt
             else :
                 self.vely*=0
         
             #normalement, il ne devrait plus rien toucher
             #S'il était en train de collide avec la tête, il ne faut pas qu'il soit grounded ! Testons ça
-            self.posy -= 2000*dt #on le remonte un poil (c le même 2000 que la gravité (c léo) si oui mettre g)
+            self.posy -= g*dt #on le remonte un poil (c le même 2000 que la gravité (c léo) si oui mettre g)
             if self.is_colliding(t_blocks, dt)[0] :
                 self.is_grounded = False
-            self.posy += 2000*dt #on le redescend à l'état avant-test (c le même 2000 que la gravité (c léo) si oui mettre g)
+            self.posy += g*dt #on le redescend à l'état avant-test (c le même 2000 que la gravité (c léo) si oui mettre g)
         
         
         
@@ -288,7 +294,7 @@ class Player:
         if not  ((1/3)*largeur_fenetre <= self.posx and (self.posx+len_bloc) <= (2/3)*largeur_fenetre):
             self.posx-= self.velx*dt
         display.blit(self.image, (self.posx,self.posy))
-		
+        
     def dessine(self, display) :
         display.blit(self.image, (self.posx, self.posy))
     
@@ -299,7 +305,7 @@ class Player:
         if self.posx < 0 or self.posy < 0 or self.posx + self.w > largeur_fenetre or self.posy + self.h >= hauteur_fenetre :
             return True
         return False
-		
+        
 class Epouvantail: #juste pour les personnages du choix à cliquer 
     def __init__(self, posx, posy, skin):
         self.posx = posx
