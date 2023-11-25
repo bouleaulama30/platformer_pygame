@@ -60,7 +60,7 @@ def fill_keys_fin(display, player, update, keys_list,dt,etape) :
 class Update_mini_game:
 
     def __init__(self):
-        self.score=30
+        self.score=0
         self.loading=0
         self.font= pygame.font.SysFont("z003", 50)
         

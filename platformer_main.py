@@ -25,7 +25,6 @@ last_time = pygame.time.get_ticks() # Pour le comptage du temps (get_ticks() ren
 
 
 ### Creation des blocs
-t_blocks = []
 # make_gros_triangle(0, 200, 5, "n", "SO", t_blocks)
 # make_gros_bloc(0, 500, 2, 15, "n",t_blocks)
 # make_gros_bloc(500, 500, 2, 15, "s",t_blocks)
@@ -127,6 +126,7 @@ while not end:
 			play_bg("tea")
 			player= Player(780, len_bloc, perso) #initialisation du joueur
 			level += 1
+			t_blocks = []
 			read_file_map(nomFichierLecture[level]["block"],t_blocks,list_map_file)
 			read_file_keys(nomFichierLecture[level]["key"],key_list_ingame,list_key_map_file)
 			read_file_door(nomFichierLecture[level]["door"],door_list_ingame,list_door_map_file, level)
