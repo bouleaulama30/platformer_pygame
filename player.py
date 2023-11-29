@@ -97,6 +97,7 @@ class Player:
             if self.posx <= b.posx + b.w and self.posx + self.w >= b.posx and self.posy <= b.posy + b.h and self.posy + self.h >= b.posy:
                 if not b.isTriangle :
                     if b.type=='p':
+                        t_blocks.remove(b)
                         return [True, False, False, "potion"]
                     
                     y = self.posy - 2*g*dt #on pose y un peu au-dessus de posy
