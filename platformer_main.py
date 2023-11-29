@@ -79,7 +79,7 @@ while not end:
 			state = "switch"
 		if state == "switch" :
 			arreteMusique()
-			etape = "mini_jeu"
+			etape = "play"
 			state = "init"
 
 	if etape == "mini_jeu":
@@ -105,7 +105,7 @@ while not end:
 
 		if player.posy >= hauteur_fenetre :
 			state = "switch"
-		update_mini_game.update_score(level, display)
+		update_mini_game.update_score(-1, display)
 		update_mini_game.update_loading(state,display)
 		player.dessine_deplacement_mini_jeu(display,pressed_keys,facteur_mvt_mini_jeu,dt,state)
 		if pressed_keys[K_b] or state == "switch" :
@@ -115,7 +115,6 @@ while not end:
 			arreteMusique()
 
 	
- 
 	if etape == "play" :
 
 		
@@ -165,7 +164,9 @@ while not end:
 			s.set_alpha(alpha)
 			display.blit(s, (0,0))
 			if alpha > 255 :
-				state = "init" #en vrai faudrait changer de niveau là
+				if level == 0 :
+					etape = "mini_jeu"
+				state = "init"
 				alpha = 0
   
 	
@@ -174,8 +175,7 @@ while not end:
 			state= "init"
 			
 			
-		
-
+	
 
 
 	if etape == "editor_mode":

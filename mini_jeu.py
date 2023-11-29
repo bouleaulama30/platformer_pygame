@@ -72,8 +72,10 @@ class Update_mini_game:
         self.loading+=0.3
 
     def update_score(self,level, display):
-        
-        score_text=self.font.render(f"Clés: {self.score}/{scoreMin[level]}", True, (255,255,255))
+        if level < 0 :
+            score_text=self.font.render(f"Clés: {self.score}", True, (255,255,255))
+        else :
+            score_text=self.font.render(f"Clés: {self.score}/{scoreMin[level]}", True, (255,255,255))
         display.blit(score_text, (20,20))
       
         
