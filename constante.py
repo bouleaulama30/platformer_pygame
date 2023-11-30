@@ -42,7 +42,10 @@ list_map_file=[]
 
 list_key_map_file=[]
 list_door_map_file =[]
-nomFichierLecture = {0 : {"door" : "door0.txt", "key" : "keys0.txt", "block":"blocks0.txt"}, 1 : {"door" : "door1.txt", "key" : "keys1.txt", "block":"blocks1.txt"}}
+nomFichierLecture = {1 : {"door" : "door0.txt", "key" : "keys0.txt", "block":"blocks0.txt"}, 
+                     2 : {"door" : "door1.txt", "key" : "keys1.txt", "block":"blocks1.txt"},
+                     0 : {"door" : "door2.txt", "key" : "keys2.txt", "block":"blocks2.txt"},
+                     }
 
 #définition des scores min à atteindre pour chaque level
 scoreMin = [1, 20] 
