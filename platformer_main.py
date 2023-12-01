@@ -167,6 +167,8 @@ while not end:
 			if alpha > 255 :
 				if level == 0 :
 					etape = "mini_jeu"
+				if level == 2:
+					etape = "fin?"
 				state = "init"
 				alpha = 0
   
@@ -174,7 +176,11 @@ while not end:
 		if pressed_keys[K_e]:
 			etape= "editor_mode"
 			state= "init"
-			
+		if pressed_keys[K_b] :
+			etape="fin?"
+			state="init"
+			stop_sound("wind_for_falling")
+			arreteMusique()
 			
 	
 
@@ -347,8 +353,11 @@ while not end:
 		editor_count+=1
 		editor_count_read_file_map+=1
 
-
-
+	if etape == "fin?" :
+		if state == "init" :
+			pills = [Pilule("droite"), Pilule("gauche")]
+			question = Mot("Déjà l'heure de se réveiller ?")
+		fill(display, pills)
 
 
 	pygame.display.update() # Mise à jour de l'affichage 

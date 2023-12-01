@@ -125,3 +125,8 @@ porteLevel2_f = pygame.transform.scale(pygame.image.load("SpritesDoors/porte1_fe
 porteLevel2_o = pygame.transform.scale(pygame.image.load("SpritesDoors/porte1_ouverte.png"), (2*len_bloc, 2*len_bloc))
 
 dicoPorteSkins = {0:{"ouverte" : porteLevel2_o, "fermée" : porteLevel2_f, "dim" : (1*len_bloc,2*len_bloc)}, 1:{"ouverte" : porteLevel1_o, "fermée" : porteLevel1_f, "dim" : (2*len_bloc,2*len_bloc)}, 2:{"ouverte" : porteLevel2_o, "fermée" : porteLevel2_f, "dim" : (1*len_bloc,2*len_bloc)}}
+
+#def images potions de sortie
+pilBleue = pygame.transform.scale(pygame.image.load("SpritesBlocks/bloc_potion.png"), (len_bloc, len_bloc))
+pilRouge = pygame.transform.scale(pygame.image.load("SpritesBlocks/bloc_potion.png"), (len_bloc, len_bloc))
+

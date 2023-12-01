@@ -45,8 +45,8 @@ class Block:
 		#self.pts_rec réfère aux points du rectangle : (0,1) signifie le point (rec.posx + 0*rec.w, rec.posy + 1*rec.h)
 		#	de plus, le premier point de pts_rec correspond au point que l'on veut en-dehors de la pente du triangle pour être sûr qu'il n'y a pas contact
 		#self.condInt réfère à des conditions dans le cas où on veut tester le contact par la pente : voir fonction condInt dans player.py
-  
-  
+
+
 		
 	def dessine(self, display) :	
 		display.blit(self.image, (self.posx, self.posy))
@@ -123,23 +123,45 @@ class Door:
 		self.posy = posy
 		self.image = dicoPorteSkins[level]["fermée"]
 		self.w, self.h = dicoPorteSkins[level]["dim"]
-    
+	
 	def dessine(self, display) :	
 		display.blit(self.image, (self.posx, self.posy))
 
 
 def fill_door(display,door_list):
-    for d in door_list:
-        d.dessine(display)
+	for d in door_list:
+		d.dessine(display)
 
 def door_contact(p_posx, p_posy, p_w, p_h, doors, score, level) : #fonction renvoie la valeur de state 
-    for d in doors :
-        if p_posx <= d.posx + d.w and p_posx + p_w >= d.posx and p_posy <= d.posy + d.h and p_posy + p_h >= d.posy: #si collision
-            if score >= scoreMin[level] :
-                d.image = dicoPorteSkins[level]["ouverte"]
-                d.w += len_bloc
-                return "arrivée sortie"
-            else : 
-                None #il faudrait afficher un message genre "il te manque encore *n* clefs !!"
-    return "ongoing"
-        
+	for d in doors :
+		if p_posx <= d.posx + d.w and p_posx + p_w >= d.posx and p_posy <= d.posy + d.h and p_posy + p_h >= d.posy: #si collision
+			if score >= scoreMin[level] :
+				d.image = dicoPorteSkins[level]["ouverte"]
+				d.w += len_bloc
+				return "arrivée sortie"
+			else : 
+				None #il faudrait afficher un message genre "il te manque encore *n* clefs !!"
+	return "ongoing"
+
+class Pilule() :
+	def __init__(self, pos) :
+		const = 100
+		if pos == "gauche" :
+			self.posx = largeur_fenetre - const - len_bloc
+			self.id = "bleue"
+			self.image = pilBleue
+		else :
+			self.posx = largeur_fenetre + const
+			self.id = "rouge"
+			self.image = pilRouge
+		self.posy = 10
+
+	
+	def dessine(self, display) :	
+		display.blit(self.image, (self.posx, self.posy))
+
+def descendre(p1, p2) :
+	v = 50 #vitesse
+	if p1.posy < 4*len_bloc :
+		p1.posy += v
+		p2.posy += v
