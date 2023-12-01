@@ -5,7 +5,7 @@ from block import *
 from constante import *
 from sounds import *
 from mini_jeu import *
-#from fonts import affiche
+from fonts import affiche
 from decoupageFonctionnement import *
 from editor_mode import *
 
@@ -176,15 +176,12 @@ while not end:
 		if pressed_keys[K_e]:
 			etape= "editor_mode"
 			state= "init"
-		if pressed_keys[K_b] :
+		if pressed_keys[K_n] :
 			etape="fin?"
 			state="init"
 			stop_sound("wind_for_falling")
 			arreteMusique()
 			
-	
-
-
 	if etape == "editor_mode":
 		if state=='init':
 			state='ongoing'
@@ -356,9 +353,23 @@ while not end:
 	if etape == "fin?" :
 		if state == "init" :
 			pills = [Pilule("droite"), Pilule("gauche")]
-			question = Mot("Déjà l'heure de se réveiller ?")
+			question = "Déjà l'heure de se réveiller ?"
+			nbFrames = 0
+			state = "ongoing"
+	
+		player.deplacement(facteur_mvt, vel_jump, dt, pressed_keys, t_blocks, g)
+		if nbFrames < 300 :
+			nbFrames += 1
+		elif nbFrames < 500 :
+			nbFrames += 1
+			affiche(display, question)
+		else :
+			affiche(display, question)
+			affiche(display, "Oui", pills[0].posx, pills[0].posy)
+			affiche(display, "Non", pills[1].posx, pills[1].posy)
+		descendre(pills)
 		fill(display, pills)
-
+		player.dessine(display)
 
 	pygame.display.update() # Mise à jour de l'affichage 
 

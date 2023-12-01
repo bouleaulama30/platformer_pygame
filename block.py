@@ -145,13 +145,13 @@ def door_contact(p_posx, p_posy, p_w, p_h, doors, score, level) : #fonction renv
 
 class Pilule() :
 	def __init__(self, pos) :
-		const = 100
+		const = 500
 		if pos == "gauche" :
-			self.posx = largeur_fenetre - const - len_bloc
+			self.posx = largeur_fenetre//2 - const - len_bloc
 			self.id = "bleue"
 			self.image = pilBleue
 		else :
-			self.posx = largeur_fenetre + const
+			self.posx = largeur_fenetre//2 + const
 			self.id = "rouge"
 			self.image = pilRouge
 		self.posy = 10
@@ -160,8 +160,8 @@ class Pilule() :
 	def dessine(self, display) :	
 		display.blit(self.image, (self.posx, self.posy))
 
-def descendre(p1, p2) :
-	v = 50 #vitesse
-	if p1.posy < 4*len_bloc :
-		p1.posy += v
-		p2.posy += v
+def descendre(pills) :
+	v = 1 #vitesse
+	if pills[0].posy < hauteur_fenetre - 6*len_bloc :
+		pills[0].posy += v
+		pills[1].posy += v

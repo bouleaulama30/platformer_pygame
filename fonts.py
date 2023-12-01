@@ -4,7 +4,7 @@ from constante import *
 
 
 basic = "umpush"
-def affiche(display, mot) :
+def affiche(display, mot, posx=None, posy=None) :
 	police = {
     "basic" : pygame.font.SysFont(basic, 70),
     "wonder" : pygame.font.SysFont("z003", 175),
@@ -44,3 +44,22 @@ def affiche(display, mot) :
 		choix_posx = largeur_fenetre//2 - choix.get_width()//2
 		choix_posy = 0.1*choix.get_height()
 		display.blit(choix, (choix_posx, choix_posy))
+	
+	if "Déjà" in mot :
+		font = pygame.font.SysFont("z003", 125)
+		reveil = font.render(mot, True, white)
+		reveil_posx = largeur_fenetre//2 - reveil.get_width()//2
+		reveil_posy = 2.5*reveil.get_height()
+		display.blit(reveil, (reveil_posx, reveil_posy))
+	if 'Oui' in mot :
+		font = pygame.font.SysFont("z003", 40)
+		oui = font.render(mot, True, white)
+		oui_posx = posx + len_bloc//2 - oui.get_width()//2
+		oui_posy = posy - 1.5*len_bloc - oui.get_height()
+		display.blit(oui, (oui_posx, oui_posy))
+	if 'Non' in mot :
+		font = pygame.font.SysFont("z003", 40)
+		non = font.render(mot, True, white)
+		non_posx = posx + len_bloc//2 - non.get_width()//2
+		non_posy = posy - 1.5*len_bloc - non.get_height()
+		display.blit(non, (non_posx, non_posy))
