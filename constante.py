@@ -42,13 +42,13 @@ list_map_file=[]
 
 list_key_map_file=[]
 list_door_map_file =[]
-nomFichierLecture = {1 : {"door" : "door0.txt", "key" : "keys0.txt", "block":"blocks0.txt"}, 
+nomFichierLecture = {1: {"door" : "door0.txt", "key" : "keys0.txt", "block":"blocks0.txt"}, 
                      2 : {"door" : "door1.txt", "key" : "keys1.txt", "block":"blocks1.txt"},
-                     0 : {"door" : "door2.txt", "key" : "keys2.txt", "block":"blocks2.txt"},
+                     0: {"door" : "door2.txt", "key" : "keys2.txt", "block":"blocks2.txt"},
                      }
 
 #définition des scores min à atteindre pour chaque level
-scoreMin = [1, 20] 
+scoreMin = [40, 1,30] 
 
 #définition des images blocs, histoire que le code soit lisible...
 blocFill = pygame.transform.scale(pygame.image.load("SpritesBlocks/bloc_fill.png"), (len_bloc, len_bloc))
@@ -113,7 +113,7 @@ bg_fall = pygame.transform.scale(pygame.image.load("SpritesBackground/background
 bg_choix = pygame.transform.scale(pygame.image.load("SpritesBackground/ecran_choix/ecran_choix_none.jpg"), (largeur_fenetre, hauteur_fenetre))
 bg_edition = pygame.transform.scale(pygame.image.load("SpritesBackground/ecran_choix/fond_edition.jpg"), (largeur_fenetre, hauteur_fenetre))
 
-bg_jeu = [bg_play2, bg_play4]
+bg_jeu = [bg_play2, bg_play4, bg_play4]
 
 #def image clé
 key = pygame.transform.scale(pygame.image.load("SpritesKeys/sprite_key.png"), (1* len_bloc, 2*len_bloc))

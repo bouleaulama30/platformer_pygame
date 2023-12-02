@@ -178,6 +178,6 @@ def move_down_mouse(nbr_pixels):
 	pygame.mouse.set_pos(x_mouse,y_mouse+nbr_pixels)
 
 def reset_mouse():
-	pygame.mouse.set_pos(0,0)
+	pygame.mouse.set_pos(800,0)
 	
 	
