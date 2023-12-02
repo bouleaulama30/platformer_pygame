@@ -35,7 +35,7 @@ sounds = {
 def play(name, channel=-1):
         sounds[name].set_volume(1)
         if channel==-1:
-                if name =='rebond':
+                if name =='rebond' or name=='potion':
                         sounds[name].set_volume(0.2) 
                 
                 if name == "wind_for_falling":

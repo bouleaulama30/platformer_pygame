@@ -42,13 +42,13 @@ list_map_file=[]
 
 list_key_map_file=[]
 list_door_map_file =[]
-nomFichierLecture = {1: {"door" : "door0.txt", "key" : "keys0.txt", "block":"blocks0.txt"}, 
-                     2 : {"door" : "door1.txt", "key" : "keys1.txt", "block":"blocks1.txt"},
-                     0: {"door" : "door2.txt", "key" : "keys2.txt", "block":"blocks2.txt"},
+nomFichierLecture = {0: {"door" : "door0.txt", "key" : "keys0.txt", "block":"blocks0.txt"}, 
+                     1 : {"door" : "door1.txt", "key" : "keys1.txt", "block":"blocks1.txt"},
+                     2: {"door" : "door2.txt", "key" : "keys2.txt", "block":"blocks2.txt"},
                      }
 
 #définition des scores min à atteindre pour chaque level
-scoreMin = [40, 1,30] 
+scoreMin = [1,20,30] 
 
 #définition des images blocs, histoire que le code soit lisible...
 blocFill = pygame.transform.scale(pygame.image.load("SpritesBlocks/bloc_fill.png"), (len_bloc, len_bloc))
