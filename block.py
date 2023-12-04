@@ -155,13 +155,18 @@ class Pilule() :
 			self.id = "rouge"
 			self.image = pilRouge
 		self.posy = 10
+		
+		self.w = len_bloc
+		self.h = len_bloc
+		self.isTriangle = False
+		self.type = "p"
 
 	
 	def dessine(self, display) :	
 		display.blit(self.image, (self.posx, self.posy))
 
 def descendre(pills) :
-	v = 1 #vitesse
+	v = 1.5 #vitesse
 	if pills[0].posy < hauteur_fenetre - 6*len_bloc :
 		pills[0].posy += v
 		pills[1].posy += v

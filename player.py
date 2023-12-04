@@ -279,6 +279,100 @@ class Player:
             elif self.image == self.skin["jump_right"] :
                 self.image = self.skin["still_right"]
         
+    def deplacement_fin(self,facteur_mvt,vel_jump, dt, pressed_keys, t_blocks,g):
+        assert vel_jump<=0
+        self.velx= 0
+        self.vely+=g*dt
+        val_retour = None
+        
+        if pressed_keys[K_RIGHT]:
+            self.velx += facteur_mvt
+            self.image = self.skin["run_right"]
+        elif self.image == self.skin["still_right"] or self.image == self.skin["run_right"] :
+            self.image = self.skin["still_right"]	
+
+        if pressed_keys[K_LEFT]:
+            self.velx -= facteur_mvt
+            self.image = self.skin["run_left"]
+        elif self.image == self.skin["still_left"] or self.image == self.skin["run_left"] :
+            self.image = self.skin["still_left"]
+        
+        if pressed_keys[K_r]:
+            self.posx, self.posy=780, len_bloc
+            if pressed_keys[K_LSHIFT] :
+                self.posx, self.posy=80, len_bloc #shortcut pour réapparaître à gauche
+            self.vely=0
+            self.is_grounded=False
+            if not is_playing(0):
+                play('R_is_pressed',0)
+        
+        if (pressed_keys[K_UP] or pressed_keys[K_SPACE]) and self.is_grounded :   #voir saut Céleste/Holo Knight
+            self.vely= vel_jump #attention vel_jump doit être negatif
+            play('jump')        
+
+        
+        #teste déplacement x
+        self.posx += self.velx*dt
+        if self.coll[0] and self.coll[-1] != "potion" : #ne retient coll que s'il y avait vraiment collision
+            self.collisionPrecedente = self.coll
+        self.coll = self.is_colliding(t_blocks, dt)
+        if self.coll[0]:
+            self.posx-= self.velx*dt
+            
+            #cas où il y a une potion (pour le moment c'est la même que l'effet de la touche que R) à changer pour faire un game over
+            if self.coll[3]=="potion":
+                if self.posx <= largeur_fenetre//2 :
+                    val_retour = "gauche"
+                else :
+                    val_retour = "droite"
+                play('potion')
+
+                
+                    
+        #teste déplacement y
+        self.is_grounded=False
+        self.posy += self.vely*dt
+        if self.coll[0] and self.coll[-1] != "potion" : #ne retient coll que s'il y avait vraiment collision
+            self.collisionPrecedente = self.coll
+        self.coll = self.is_colliding(t_blocks, dt)
+        
+        
+        #cas où il y a une potion 
+        if self.coll[3]=="potion":
+            if self.posx <= largeur_fenetre//2 :
+                val_retour = "gauche"
+            else :
+                val_retour = "droite"
+            play('potion')
+        
+        if self.coll[0] and not self.coll[1]:
+            if not is_playing(2) and (pressed_keys[K_RIGHT] or pressed_keys[K_LEFT]):
+                play('running_grass',2)
+            self.is_grounded= True
+            self.posy-=self.vely*dt
+            self.vely*=0
+        
+            #normalement, il ne devrait plus rien toucher
+            #S'il était en train de collide avec la tête, il ne faut pas qu'il soit grounded ! Testons ça
+            self.posy -= g*dt #on le remonte un poil (c le même 2000 que la gravité (c léo) si oui mettre g)
+            if self.is_colliding(t_blocks, dt)[0] :
+                self.is_grounded = False
+            self.posy += g*dt #on le redescend à l'état avant-test (c le même 2000 que la gravité (c léo) si oui mettre g)
+        
+        
+        
+        #gère les changements de skins pendant/juste après un saut
+        if not self.is_grounded :
+            if self.image == self.skin["jump_right"] or self.image == self.skin["run_right"] or self.image == self.skin["still_right"] :
+                self.image = self.skin["jump_right"]
+            else :
+                self.image = self.skin["jump_left"]
+        else :
+            if self.image == self.skin["jump_left"] :
+                self.image = self.skin["still_left"]
+            elif self.image == self.skin["jump_right"] :
+                self.image = self.skin["still_right"]
+        return val_retour
     
     
     def dessine_deplacement_mini_jeu(self,display,pressed_keys,facteur_mvt_mini_jeu,dt,state) :

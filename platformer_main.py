@@ -356,17 +356,39 @@ while not end:
 			question = "Déjà l'heure de se réveiller ?"
 			nbFrames = 0
 			state = "ongoing"
-	
-		player.deplacement(facteur_mvt, vel_jump, dt, pressed_keys, t_blocks, g)
-		if nbFrames < 300 :
-			nbFrames += 1
-		elif nbFrames < 500 :
-			nbFrames += 1
-			affiche(display, question)
-		else :
-			affiche(display, question)
-			affiche(display, "Oui", pills[0].posx, pills[0].posy)
-			affiche(display, "Non", pills[1].posx, pills[1].posy)
+		
+		if state == "ongoing" :
+			pill_touchee = player.deplacement_fin(facteur_mvt, vel_jump, dt, pressed_keys, pills, g) #nouveau déplacement pour retourner la valeur du pill mangé
+			if pill_touchee != None :
+				state = "closing"
+				nbFrames = 0
+			elif nbFrames < 300 :
+				nbFrames += 1
+			elif nbFrames < 450 :
+				nbFrames += 1
+				affiche(display, question)
+			else :
+				affiche(display, question)
+				affiche(display, "Oui", pills[0].posx, pills[0].posy)
+				affiche(display, "Non", pills[1].posx, pills[1].posy)
+
+		if state == "closing" :
+			if alpha == 0 :
+				s = pygame.Surface((largeur_fenetre,hauteur_fenetre))  # the size of your rect
+				s.set_alpha(alpha)                # alpha level
+				s.fill(yellow)
+			alpha += 0.7
+			s.set_alpha(alpha)
+			display.blit(s, (0,0))
+			if alpha > 255 :
+				if pill_touchee == "droite" : #a répondu Non
+					etape = "scroll"
+				else: # a répondu oui
+					etape = "bienvenue en edit"
+				state = "init"
+				alpha = 0
+				
+
 		descendre(pills)
 		fill(display, pills)
 		player.dessine(display)
