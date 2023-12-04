@@ -126,11 +126,7 @@ while not end:
 			player= Player(780, len_bloc, perso) #initialisation du joueur
 			level += 1
 			t_blocks = []
-			list_door_map_file=[]
-			list_key_map_file=[]
-			list_map_file=[]
-			key_list_ingame=[]
-			door_list_ingame=[]
+			door_list_ingame = []
 			read_file_map(nomFichierLecture[level]["block"],t_blocks,list_map_file)
 			read_file_keys(nomFichierLecture[level]["key"],key_list_ingame,list_key_map_file)
 			read_file_door(nomFichierLecture[level]["door"],door_list_ingame,list_door_map_file, level)
